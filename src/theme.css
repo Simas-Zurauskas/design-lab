@@ -1,0 +1,41 @@
+/* ============================================================
+   THEME — single source of truth for all high-fidelity styling.
+   Swap this file (or its values) per project; the Theme page and
+   every hi-fi screen re-skin automatically.
+   `static` forces ALL tokens into the CSS output so the Theme
+   page can read them even before a utility uses them.
+
+   Current brand: NONE — neutral placeholder. Replace the values
+   below with the project's real palette and type; keep the token
+   NAMES (screens and the Theme page reference them).
+   ============================================================ */
+@theme static {
+  /* brand */
+  --color-primary: #3b5bdb;
+  --color-primary-strong: #2f49ae;
+  --color-on-primary: #ffffff;
+  --color-accent: #64748b;
+  --color-on-accent: #ffffff;
+
+  /* surfaces — surface is the app background, raised is for cards */
+  --color-surface: #f7f7f8;
+  --color-surface-raised: #ffffff;
+  --color-line: #e3e3e7;
+
+  /* text */
+  --color-ink: #1a1a1c;
+  --color-ink-muted: #6b6b73;
+
+  /* states */
+  --color-positive: #2e7d4f;
+  --color-danger: #c23a2b;
+
+  /* typography — neutral system stacks; swap for the project's
+     real display / body faces */
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* shape */
+  --radius-app: 0.5rem;
+  --radius-card: 0.75rem;
+}

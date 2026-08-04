@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes — Design Lab</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-section="wireframes" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="flex min-h-dvh">
+    <include src="_lab/sidebar.html"></include>
+    <main class="min-w-0 flex-1 px-8 py-10">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Wireframes</h1>
+        <p class="mt-1 text-sm text-gray-500">Grayscale structure and flow. Click a screen title to open it full size; add screens by copying <code class="rounded bg-gray-200 px-1">screen-01.html</code> and adding a figure below.</p>
+      </div>
+      <button data-reset-all class="lab-btn px-4 py-1.5">↺ Reset all</button>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-10">
+      <figure>
+        <div class="phone-frame">
+          <iframe src="screen-01.html" title="Screen" class="phone-screen"></iframe>
+        </div>
+        <figcaption class="mt-3 flex items-center justify-center gap-3 text-sm font-medium">
+          <a href="screen-01.html" class="underline">01 · Screen</a>
+          <button data-reset class="lab-btn px-2.5 py-0.5" title="Reset this screen">↺ reset</button>
+        </figcaption>
+      </figure>
+    </div>
+    </main>
+  </div>
+
+  <script src="../_lab/reset.js"></script>
+  <script type="module" src="../_lab/drag-scroll.js"></script>
+</body>
+</html>

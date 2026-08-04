@@ -1,0 +1,17 @@
+{
+  "name": "design-lab",
+  "private": true,
+  "scripts": {
+    "dev": "parcel src/index.html 'src/wireframes/*.html' 'src/theme/*.html' 'src/hifi/*.html'",
+    "build": "parcel build src/index.html 'src/wireframes/*.html' 'src/theme/*.html' 'src/hifi/*.html' --public-url ./ && node scripts/fix-nested-urls.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.0",
+    "parcel": "^2.15.4",
+    "posthtml-include": "^2.0.1",
+    "tailwindcss": "^4.1.0"
+  },
+  "dependencies": {
+    "lucide": "^1.28.0"
+  }
+}

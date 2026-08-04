@@ -1,0 +1,20 @@
+<!-- LAB CHROME — full-screen viewing controls (back to gallery + reset to entry screen); hides itself inside gallery iframes.
+     Also carries drag-to-scroll, so every screen gets it with no design-level wiring. -->
+<div data-lab-bar class="lab-bar" hidden>
+  <a href="index.html">‹ Gallery</a>
+  <button data-lab-reset type="button">↺ Reset</button>
+</div>
+<script>
+  if (window.self === window.top) {
+    document.querySelector('[data-lab-bar]').hidden = false;
+    // remember the screen the user entered full-screen on (per tab); arriving
+    // from a gallery re-arms it, in-flow navigation between screens does not
+    if (document.referrer.includes('index.html') || !sessionStorage.getItem('labEntry')) {
+      sessionStorage.setItem('labEntry', location.href);
+    }
+    document.querySelector('[data-lab-reset]').addEventListener('click', () => {
+      location.href = sessionStorage.getItem('labEntry') || location.href;
+    });
+  }
+</script>
+<script type="module" src="../_lab/drag-scroll.js"></script>

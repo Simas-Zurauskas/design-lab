@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./_lab/lab.css";
+
+/* ---- design-component styles (content layer) ----------------------
+   Empty — no design components yet. Component-level state rules live
+   here, keyed off <body data-page="…">. Pattern, for when a bottom
+   nav or similar arrives:
+
+   [data-page="home"] [data-nav="home"] { color: var(--color-ink); }
+   [data-page="home"] .hifi-nav [data-nav="home"] { color: var(--color-primary); }
+-------------------------------------------------------------------- */
