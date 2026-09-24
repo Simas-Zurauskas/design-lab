@@ -6,33 +6,120 @@
   <title>Wireframes — Design Lab</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body data-section="wireframes" class="bg-gray-100 font-sans text-gray-900 antialiased">
-  <div class="flex min-h-dvh">
-    <include src="_lab/sidebar.html"></include>
-    <main class="min-w-0 flex-1 px-8 py-10">
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="text-2xl font-bold">Wireframes</h1>
-        <p class="mt-1 text-sm text-gray-500">Grayscale structure and flow. Click a screen title to open it full size; add screens by copying <code class="rounded bg-gray-200 px-1">screen-01.html</code> and adding a figure below.</p>
-      </div>
-      <button data-reset-all class="lab-btn px-4 py-1.5">↺ Reset all</button>
-    </div>
-
-    <div class="mt-8 flex flex-wrap gap-10">
-      <figure>
-        <div class="phone-frame">
-          <iframe src="screen-01.html" title="Screen" class="phone-screen"></iframe>
+<body data-section="wireframes" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
+        <div>
+          <h1>Wireframes — Horse Tinder</h1>
+          <p>Grayscale structure and flow. Click a screen's name to open it full size; press ? for canvas shortcuts.</p>
         </div>
-        <figcaption class="mt-3 flex items-center justify-center gap-3 text-sm font-medium">
-          <a href="screen-01.html" class="underline">01 · Screen</a>
-          <button data-reset class="lab-btn px-2.5 py-0.5" title="Reset this screen">↺ reset</button>
-        </figcaption>
-      </figure>
-    </div>
+        <div class="lab-header-controls">
+          <include src="_lab/hotspots/toggle.html"></include>
+          <include src="_lab/flows/toggle.html"></include>
+          <button data-reset-all class="lab-btn">↺ Reset all</button>
+        </div>
+      </header>
+
+      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
+           components (_lab/canvas/). The CONTENT here is only the arrangement — groups (a journey
+           each) → rows → screens. Add a screen = add a figure.lab-screen to a row. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="Wireframes canvas">
+        <div data-canvas-world class="lab-canvas-world">
+          <div class="lab-row">
+            <section class="lab-group">
+              <h2 class="lab-group-title">Onboarding</h2>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-01.html">01 · Welcome</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-01.html" title="Welcome" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-02.html">02 · Your horse</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-02.html" title="Your horse" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-09.html">09 · Sign in</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-09.html" title="Sign in" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+            </section>
+            <section class="lab-group">
+              <h2 class="lab-group-title">Discover</h2>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-03.html">03 · Discover</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-03.html" title="Discover" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-04.html">04 · Horse detail</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-04.html" title="Horse detail" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-05.html">05 · It's a match</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-05.html" title="It's a match" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-10.html">10 · Filters</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-10.html" title="Filters" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-14.html">14 · Out of horses</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-14.html" title="Out of horses" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+            </section>
+          </div>
+          <div class="lab-row">
+            <section class="lab-group">
+              <h2 class="lab-group-title">Matches &amp; chat</h2>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-06.html">06 · Matches</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-06.html" title="Matches" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-07.html">07 · Chat</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-07.html" title="Chat" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-13.html">13 · Plan a meet-up</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-13.html" title="Plan a meet-up" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+            </section>
+            <section class="lab-group">
+              <h2 class="lab-group-title">Likes &amp; Premium</h2>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-11.html">11 · Likes you</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-11.html" title="Likes you" class="phone-screen"></iframe></div>
+                </figure>
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-12.html">12 · Premium</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-12.html" title="Premium" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+            </section>
+            <section class="lab-group">
+              <h2 class="lab-group-title">Profile</h2>
+              <div class="lab-row">
+                <figure class="lab-screen">
+                  <figcaption><a href="screen-08.html">08 · Profile</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+                  <div class="phone-frame"><iframe src="screen-08.html" title="Profile" class="phone-screen"></iframe></div>
+                </figure>
+              </div>
+            </section>
+          </div>
+        </div>
+        <include src="_lab/canvas/canvas.html"></include>
+      </div>
     </main>
   </div>
-
-  <script src="../_lab/reset.js"></script>
-  <script type="module" src="../_lab/drag-scroll.js"></script>
 </body>
 </html>

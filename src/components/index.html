@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Components — Design Lab</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-section="components" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
+        <div>
+          <h1>Components</h1>
+          <p>Building blocks made from the theme — each lives in <code>src/components/hifi/</code>, is shown here in every state, and is included by hi-fi screens.</p>
+        </div>
+      </header>
+
+      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
+           components (_lab/canvas/). The CONTENT is one group per component, a board (.lab-board) per
+           state, each pulling the component in with an include from src/components/hifi/. Boards here
+           sit on the theme (surface, body font, ink — styles.css); components use THEME TOKENS ONLY. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="Components canvas">
+        <div data-canvas-world class="lab-canvas-world">
+        </div>
+        <include src="_lab/canvas/canvas.html"></include>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

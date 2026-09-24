@@ -1,0 +1,62 @@
+/* ============================================================
+   LAB CHROME — core: the lab UI's colors, and the device every
+   screen is shown on. The ONLY place a lab color or the device
+   size is defined; every lab-* style reads these variables
+   (screen/viewer.js too).
+   Light by default; <html data-lab-theme="dark"> (shell/theme.js)
+   switches the whole workbench. Designs never use these — screens
+   and boards take their colors from src/theme.css, or grays in
+   wireframes — so the lab's theme never touches a design.
+   ============================================================ */
+
+:root {
+  --lab-font: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+
+  /* the device: a screen's viewport, and the bezel drawn around it (canvas frames + the full-screen viewer) */
+  --lab-device-w: 390px;
+  --lab-device-h: 844px;
+  --lab-bezel-w: 6px;
+  --lab-bezel-r: 46px;
+
+  --lab-bg: #f3f4f6; /* page + canvas */
+  --lab-surface: #ffffff; /* sidebar, header, toolbar, buttons */
+  --lab-hover: #f3f4f6; /* hovered / current row */
+  --lab-line: #e5e7eb; /* separators, panel borders */
+  --lab-line-strong: #d1d5db; /* button + control borders */
+  --lab-text: #111827;
+  --lab-muted: #6b7280;
+  --lab-faint: #9ca3af;
+  --lab-strong: #111827; /* selected option, lit button */
+  --lab-on-strong: #ffffff;
+  --lab-chip: #1f2937; /* canvas group titles */
+  --lab-on-chip: #ffffff;
+  --lab-accent: 59 130 246; /* hotspots, flow lines, focus rings — an rgb triplet: rgb(var(--lab-accent) / a) */
+  --lab-alert: #f59e0b; /* the dot on a lit reset */
+  --lab-dot: rgb(0 0 0 / 0.18); /* canvas background dots */
+  --lab-group: rgb(0 0 0 / 0.03); /* canvas group boxes */
+  --lab-group-line: rgb(0 0 0 / 0.1);
+  --lab-bezel: #1f2937; /* phone frames */
+  --lab-shadow: rgb(0 0 0 / 0.25);
+}
+
+:root[data-lab-theme="dark"] {
+  --lab-bg: #0f1115;
+  --lab-surface: #181b21;
+  --lab-hover: #23272f;
+  --lab-line: #2a2f38;
+  --lab-line-strong: #3a404b;
+  --lab-text: #e8eaed;
+  --lab-muted: #9aa1ad;
+  --lab-faint: #6b7280;
+  --lab-strong: #e8eaed;
+  --lab-on-strong: #111318;
+  --lab-chip: #2d333d;
+  --lab-on-chip: #e8eaed;
+  --lab-accent: 96 165 250;
+  --lab-alert: #fbbf24;
+  --lab-dot: rgb(255 255 255 / 0.16);
+  --lab-group: rgb(255 255 255 / 0.03);
+  --lab-group-line: rgb(255 255 255 / 0.1);
+  --lab-bezel: #3b414c;
+  --lab-shadow: rgb(0 0 0 / 0.6);
+}

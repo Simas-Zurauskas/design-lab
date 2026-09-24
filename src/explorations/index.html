@@ -3,24 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Theme — Design Lab</title>
+  <title>Explorations — Design Lab</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body data-section="theme" class="lab-page">
+<body data-section="explorations" class="lab-page">
   <div class="lab-shell">
     <include src="_lab/shell/sidebar.html"></include>
     <main class="lab-main">
       <header class="lab-header">
         <div>
-          <h1>Theme</h1>
-          <p>Tokens live in <code>src/theme.css</code> — the single source of truth. Components and hi-fi screens use them as utilities (bg-primary, text-ink, font-display…).</p>
+          <h1>Explorations</h1>
+          <p>Where visual directions get tried — push looks far apart, compare them side by side, keep what fits. The winner moves into the theme.</p>
         </div>
       </header>
 
       <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
-           components (_lab/canvas/). The CONTENT is token boards (.lab-board) previewing src/theme.css —
-           a group per token family. The tokens themselves live ONLY in theme.css. -->
-      <div data-canvas class="lab-canvas" role="region" aria-label="Theme canvas">
+           components (_lab/canvas/). The CONTENT is the explorations
+           themselves — a group per direction, boards (.lab-board) or screens (figure.lab-screen) in rows.
+           Free-form: any colors, fonts or images — not bound to theme tokens. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="Explorations canvas">
         <div data-canvas-world class="lab-canvas-world">
         </div>
         <include src="_lab/canvas/canvas.html"></include>

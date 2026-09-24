@@ -1,0 +1,41 @@
+/* ============================================================
+   LAB CHROME — hotspots: outlines on what can be clicked inside a
+   screen, per <html data-lab-hotspots> (hotspots/screen.js). Only
+   things that DO something (see screen/interact.js):
+     solid  — goes to a screen            <a href="screen-05.html">
+     dotted — changes the UI in place     [aria-pressed] / [role="radio"]
+   Placeholders (href="#") and plain <button>s do nothing yet, so
+   they aren't outlined. Inset, so overflow areas (rails) never clip
+   it; pulses with a few-px glow (a box-shadow, so it stands in for a
+   hotspot's own shadow while outlined). Accent from core/tokens.css —
+   tooling blue, never part of a design.
+   ============================================================ */
+
+/* two kinds, two rules that never compete (an element is one or the other) */
+html[data-lab-hotspots="always"] a[href]:not([href="#"], [data-lab-bar] *),
+html[data-lab-hotspots="hover"] a[href]:not([href="#"], [data-lab-bar] *):hover {
+  outline: 2px solid rgb(var(--lab-accent) / 0.75);
+  outline-offset: -2px;
+  animation: lab-hotspot-pulse 1.4s ease-in-out infinite alternate;
+}
+html[data-lab-hotspots="always"] :is([aria-pressed], [role="radio"]):not(:disabled, [aria-disabled="true"], [data-lab-bar] *),
+html[data-lab-hotspots="hover"] :is([aria-pressed], [role="radio"]):not(:disabled, [aria-disabled="true"], [data-lab-bar] *):hover {
+  outline: 2px dotted rgb(var(--lab-accent) / 0.75);
+  outline-offset: -2px;
+  animation: lab-hotspot-pulse 1.4s ease-in-out infinite alternate;
+}
+@keyframes lab-hotspot-pulse {
+  from {
+    outline-color: rgb(var(--lab-accent) / 0.4);
+    box-shadow: 0 0 0 0 rgb(var(--lab-accent) / 0);
+  }
+  to {
+    outline-color: rgb(var(--lab-accent) / 0.9);
+    box-shadow: 0 0 6px 1px rgb(var(--lab-accent) / 0.45);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-lab-hotspots] :is(a[href], [aria-pressed], [role="radio"]) {
+    animation: none !important;
+  }
+}

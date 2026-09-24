@@ -1,0 +1,137 @@
+/* ============================================================
+   LAB CHROME — screen: what screen/chrome.html adds to every
+   screen. Everything here is scoped to screen documents with
+   html:has([data-lab-bar]) (the bar only screens carry) or to the
+   lab's own elements, so section pages are never affected.
+   ============================================================ */
+
+/* ---- scrolling: phones draw no scrollbar gutter (a desktop one narrows the 390px screen to 375);
+   overlay thumbs instead (scroll-indicators.js). Wheel, trackpad and drag-scroll still work. ---- */
+
+html:has([data-lab-bar]),
+html:has([data-lab-bar]) * {
+  scrollbar-width: none;
+}
+html:has([data-lab-bar]) ::-webkit-scrollbar {
+  display: none;
+}
+.lab-scroll-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+/* drawn over the design, so neutral in both lab themes */
+.lab-scroll-thumb {
+  position: absolute;
+  border-radius: 999px;
+  background-color: rgb(0 0 0 / 0.35);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.3); /* stays visible on dark designs */
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.lab-scroll-thumb[data-on] {
+  opacity: 1;
+  transition-duration: 0.1s;
+}
+
+/* ---- interactions (interact.js): what does nothing doesn't look clickable; what changes the UI does ---- */
+
+html:has([data-lab-bar]) a[href="#"]:not([data-lab-bar] *) {
+  cursor: default;
+}
+html:has([data-lab-bar]) :is([aria-pressed], [role="radio"]):not([data-lab-bar] *) {
+  cursor: pointer;
+}
+html:has([data-lab-bar]) :is([aria-pressed], [role="radio"]):is(:disabled, [aria-disabled="true"]) {
+  cursor: default;
+}
+
+/* ---- full-screen bar: ‹ Gallery, ↺ Reset, Hotspots — the same lab controls the galleries use ---- */
+
+.lab-bar {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lab-bar .lab-btn,
+.lab-bar .lab-seg {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+}
+
+/* ---- full-screen device viewer (viewer.js): the screen in a bezel, centered, true size — scaled
+   down (--s) only when the window is too small. Device sizes: core/tokens.css ---- */
+
+html.lab-viewing,
+html.lab-viewing body {
+  height: 100%;
+  overflow: hidden;
+}
+.lab-viewer {
+  --s: 1;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 32px 24px;
+  background-color: var(--lab-bg);
+  /* the canvas's dots; centered on a pixel so they stay crisp on 1x screens */
+  background-image: radial-gradient(circle at 12.5px 12.5px, var(--lab-dot) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+  color-scheme: light;
+  font-family: var(--lab-font);
+}
+:root[data-lab-theme="dark"] .lab-viewer {
+  color-scheme: dark;
+}
+.lab-viewer-stage {
+  --device-w: calc(var(--lab-device-w) + 2 * var(--lab-bezel-w)); /* the device with its bezel */
+  --device-h: calc(var(--lab-device-h) + 2 * var(--lab-bezel-w));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.lab-viewer-title {
+  max-width: calc(var(--device-w) * var(--s));
+  overflow: hidden;
+  color: var(--lab-muted);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lab-viewer-device {
+  position: relative;
+  flex: none;
+  width: calc(var(--device-w) * var(--s));
+  height: calc(var(--device-h) * var(--s));
+}
+.lab-viewer-bezel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: content-box;
+  width: var(--lab-device-w);
+  height: var(--lab-device-h);
+  overflow: hidden;
+  border: var(--lab-bezel-w) solid var(--lab-bezel);
+  border-radius: var(--lab-bezel-r);
+  background-color: #fff; /* under the screen while it loads */
+  box-shadow: 0 32px 64px -24px var(--lab-shadow);
+  transform: scale(var(--s));
+  transform-origin: 0 0;
+}
+.lab-viewer-bezel > iframe {
+  display: block;
+  width: var(--lab-device-w);
+  height: var(--lab-device-h);
+  border: 0;
+}

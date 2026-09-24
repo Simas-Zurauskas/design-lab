@@ -1,15 +1,42 @@
 {
   "name": "design-lab",
   "private": true,
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=22"
+  },
+  "source": [
+    "src/index.html",
+    "src/*/index.html",
+    "src/*/screen-*.html"
+  ],
+  "targets": {
+    "default": {
+      "includeNodeModules": true
+    }
+  },
   "scripts": {
-    "dev": "parcel src/index.html 'src/wireframes/*.html' 'src/theme/*.html' 'src/hifi/*.html'",
-    "build": "parcel build src/index.html 'src/wireframes/*.html' 'src/theme/*.html' 'src/hifi/*.html' --public-url ./ && node scripts/fix-nested-urls.mjs"
+    "dev": "parcel",
+    "build": "parcel build --public-url ./ && node scripts/fix-nested-urls.mjs",
+    "links": "node scripts/links.mjs",
+    "test": "node --test 'test/*.test.mjs'",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p jsconfig.json && tsc -p jsconfig.node.json"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^22",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
     "parcel": "^2.15.4",
     "posthtml-include": "^2.0.1",
-    "tailwindcss": "^4.1.0"
+    "posthtml-parser": "^0.11.0",
+    "prettier": "^3.9.9",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "lucide": "^1.28.0"

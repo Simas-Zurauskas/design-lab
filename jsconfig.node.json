@@ -1,0 +1,9 @@
+{
+  // `yarn typecheck`, Node half: the build scripts, the tests and the root configs (see jsconfig.json)
+  "extends": "./jsconfig.json",
+  "compilerOptions": {
+    "lib": ["es2023"],
+    "types": ["node"]
+  },
+  "include": ["scripts/**/*.mjs", "test/**/*.mjs", "*.mjs"]
+}

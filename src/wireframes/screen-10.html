@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10 · Filters</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="filters" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="relative mx-auto flex h-dvh w-full max-w-[390px] flex-col overflow-hidden border-x border-gray-300 bg-white">
+    <include src="components/status-bar.html"></include>
+
+    <!-- Discover underneath, dimmed by the sheet's backdrop -->
+    <div class="flex items-center justify-between px-5 pt-2 pb-3">
+      <div class="wf-line w-24"></div>
+      <div class="h-9 w-9 rounded-full border border-gray-300"></div>
+    </div>
+    <div class="flex min-h-0 flex-1 px-4 pb-4">
+      <div class="wf-img flex-1 rounded-3xl"></div>
+    </div>
+    <a href="screen-03.html" aria-label="Close filters" class="absolute inset-0 bg-gray-900/40"></a>
+
+    <section class="absolute inset-x-0 bottom-0 flex max-h-[86%] flex-col rounded-t-3xl bg-white">
+      <div class="flex justify-center pt-2.5"><span class="h-1 w-10 rounded-full bg-gray-300"></span></div>
+      <header class="flex items-center justify-between px-5 pt-2 pb-3">
+        <a href="screen-03.html" aria-label="Close filters" class="flex h-9 w-9 items-center justify-center text-gray-500">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </a>
+        <h1 class="text-lg font-bold">Filters</h1>
+        <button class="w-9 text-sm font-medium underline">Reset</button>
+      </header>
+
+      <div class="flex min-h-0 flex-1 flex-col gap-7 overflow-y-auto border-t border-gray-200 px-5 py-5">
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-semibold">Distance</h2>
+            <span class="text-sm text-gray-500">Up to 25 km</span>
+          </div>
+          <div class="relative h-5">
+            <span class="absolute inset-x-0 top-2 h-1 rounded-full bg-gray-200"></span>
+            <span class="absolute top-2 left-0 h-1 w-2/5 rounded-full bg-gray-900"></span>
+            <span class="absolute top-0 left-2/5 h-5 w-5 -translate-x-1/2 rounded-full border-2 border-gray-900 bg-white"></span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-semibold">Age</h2>
+            <span class="text-sm text-gray-500">4 – 12 years</span>
+          </div>
+          <div class="relative h-5">
+            <span class="absolute inset-x-0 top-2 h-1 rounded-full bg-gray-200"></span>
+            <span class="absolute top-2 left-1/5 h-1 w-2/5 rounded-full bg-gray-900"></span>
+            <span class="absolute top-0 left-1/5 h-5 w-5 -translate-x-1/2 rounded-full border-2 border-gray-900 bg-white"></span>
+            <span class="absolute top-0 left-3/5 h-5 w-5 -translate-x-1/2 rounded-full border-2 border-gray-900 bg-white"></span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <h2 class="text-sm font-semibold">Gender</h2>
+          <div class="flex gap-2">
+            <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Mare</button>
+            <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Stallion</button>
+            <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Gelding</button>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <h2 class="text-sm font-semibold">Disciplines</h2>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Dressage</button>
+            <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Show jumping</button>
+            <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Eventing</button>
+            <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Trail</button>
+            <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Western</button>
+          </div>
+        </div>
+
+        <div class="divide-y divide-gray-200 rounded-xl border border-gray-200">
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-sm">Verified owners only</span>
+              <span class="text-xs text-gray-500">ID-checked accounts</span>
+            </div>
+            <button type="button" aria-pressed="true" aria-label="Verified owners only" class="group relative h-6 w-10 shrink-0 rounded-full bg-gray-200 transition-colors aria-pressed:bg-gray-900"><span class="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform group-aria-pressed:translate-x-4"></span></button>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-sm">Vet records shared</span>
+              <span class="text-xs text-gray-500">Health check on profile</span>
+            </div>
+            <button type="button" aria-pressed="false" aria-label="Vet records shared" class="group relative h-6 w-10 shrink-0 rounded-full bg-gray-200 transition-colors aria-pressed:bg-gray-900"><span class="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform group-aria-pressed:translate-x-4"></span></button>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <span class="text-sm">Show horses I passed</span>
+            <button type="button" aria-pressed="false" aria-label="Show horses I passed" class="group relative h-6 w-10 shrink-0 rounded-full bg-gray-200 transition-colors aria-pressed:bg-gray-900"><span class="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform group-aria-pressed:translate-x-4"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="border-t border-gray-200 px-5 pt-3 pb-6">
+        <a href="screen-03.html" class="block rounded-full bg-gray-900 py-3.5 text-center font-semibold text-white">Show 38 horses</a>
+      </footer>
+    </section>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

@@ -3,10 +3,23 @@
 @import "./_lab/lab.css";
 
 /* ---- design-component styles (content layer) ----------------------
-   Empty — no design components yet. Component-level state rules live
-   here, keyed off <body data-page="…">. Pattern, for when a bottom
-   nav or similar arrives:
+   Component-level state rules live here, keyed off <body data-page="…">.
+   Hi-fi variants of the same components add token-colored rules, e.g.:
 
-   [data-page="home"] [data-nav="home"] { color: var(--color-ink); }
    [data-page="home"] .hifi-nav [data-nav="home"] { color: var(--color-primary); }
 -------------------------------------------------------------------- */
+
+/* wireframe bottom nav (components/wf-tabbar.html) */
+[data-page="discover"] [data-nav="discover"],
+[data-page="matches"] [data-nav="matches"],
+[data-page="profile"] [data-nav="profile"] {
+  color: var(--color-gray-900);
+}
+
+/* Components section: every board is a specimen on the theme — surface, body font, ink —
+   so a component shows exactly as it will in hi-fi. Tokens from theme.css. */
+[data-section="components"] .lab-board {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>08 · Profile</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="profile" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="mx-auto flex h-dvh w-full max-w-[390px] flex-col border-x border-gray-300 bg-white">
+    <include src="components/status-bar.html"></include>
+
+    <header class="flex items-center justify-between px-5 pt-2 pb-3">
+      <h1 class="text-2xl font-bold">Profile</h1>
+      <a href="#" aria-label="Settings" class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-500">
+        <i data-lucide="settings" class="h-4 w-4"></i>
+      </a>
+    </header>
+
+    <main class="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-5 pb-6">
+      <section class="flex flex-col items-center gap-3">
+        <div class="wf-img h-24 w-24 rounded-full"></div>
+        <div>
+          <p class="text-center text-xl font-bold">Storm, 5</p>
+          <p class="mt-0.5 text-center text-sm text-gray-500">Friesian · Gelding</p>
+        </div>
+        <a href="screen-02.html" class="flex items-center gap-1.5 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium">
+          <i data-lucide="pencil" class="h-3.5 w-3.5"></i>Edit profile
+        </a>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Photos</h2>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="wf-img aspect-square rounded-xl">1</div>
+          <div class="wf-img aspect-square rounded-xl">2</div>
+          <div class="wf-img aspect-square rounded-xl"><i data-lucide="plus" class="h-5 w-5"></i></div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Match preferences</h2>
+        <div class="divide-y divide-gray-200 rounded-xl border border-gray-200">
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm">Max distance</span>
+            <span class="text-sm text-gray-500">25 km</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm">Age range</span>
+            <span class="text-sm text-gray-500">4 – 12</span>
+          </div>
+          <div class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm">Looking for</span>
+            <span class="text-sm text-gray-500">Riding partner</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Account</h2>
+        <div class="divide-y divide-gray-200 rounded-xl border border-gray-200">
+          <a href="#" class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm">Notifications</span>
+            <i data-lucide="chevron-right" class="h-4 w-4 text-gray-400"></i>
+          </a>
+          <a href="#" class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm">Privacy</span>
+            <i data-lucide="chevron-right" class="h-4 w-4 text-gray-400"></i>
+          </a>
+          <a href="#" class="flex items-center justify-between px-4 py-3">
+            <span class="text-sm">Log out</span>
+            <i data-lucide="chevron-right" class="h-4 w-4 text-gray-400"></i>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <include src="components/wf-tabbar.html"></include>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

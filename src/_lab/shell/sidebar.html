@@ -1,0 +1,24 @@
+<!-- LAB CHROME — the section pages' sidebar. Include it FIRST inside <body> (see any section page): it
+     boots the lab — core/lab.js, then shell/theme.js so the theme lands before anything paints — then
+     the section nav, then the light / dark switch pinned to the bottom. -->
+<script src="../_lab/core/lab.js"></script>
+<script src="../_lab/shell/theme.js"></script>
+<aside class="lab-sidebar">
+  <a href="../wireframes/index.html" class="lab-brand">Design Lab</a>
+  <nav class="lab-nav" aria-label="Sections">
+    <a data-side="wireframes" href="../wireframes/index.html">Wireframes</a>
+    <a data-side="explorations" href="../explorations/index.html">Explorations</a>
+    <a data-side="theme" href="../theme/index.html">Theme</a>
+    <a data-side="components" href="../components/index.html">Components</a>
+    <a data-side="hifi" href="../hifi/index.html">High fidelity</a>
+  </nav>
+  <div data-lab-toggle="theme" class="lab-seg lab-theme-switch" role="group" aria-label="Lab theme">
+    <button type="button" data-mode="light" title="Light workbench">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>Light
+    </button>
+    <button type="button" data-mode="dark" title="Dark workbench">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>Dark
+    </button>
+  </div>
+</aside>
+<script src="../_lab/shell/sidebar.js"></script>

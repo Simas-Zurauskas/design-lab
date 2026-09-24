@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12 · Premium</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="premium" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="mx-auto flex min-h-dvh w-full max-w-[390px] flex-col border-x border-gray-300 bg-white">
+    <include src="components/status-bar.html"></include>
+
+    <header class="flex justify-end px-5 pt-2 pb-3">
+      <a href="screen-11.html" aria-label="Close" class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-500">
+        <i data-lucide="x" class="h-5 w-5"></i>
+      </a>
+    </header>
+
+    <main class="flex flex-1 flex-col gap-7 px-6 pb-8">
+      <section class="flex flex-col items-center gap-3 text-center">
+        <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-900 text-white">
+          <i data-lucide="crown" class="h-8 w-8"></i>
+        </div>
+        <h1 class="text-2xl font-bold">Horse Tinder Plus</h1>
+        <div class="wf-line w-3/4"></div>
+      </section>
+
+      <ul class="flex flex-col gap-3.5 text-sm">
+        <li class="flex items-center gap-3">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100"><i data-lucide="eye" class="h-4 w-4"></i></span>See who likes you
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100"><i data-lucide="infinity" class="h-4 w-4"></i></span>Unlimited likes
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100"><i data-lucide="star" class="h-4 w-4"></i></span>5 Super Likes a week
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100"><i data-lucide="plane" class="h-4 w-4"></i></span>Travel mode — match in other regions
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100"><i data-lucide="undo-2" class="h-4 w-4"></i></span>Undo an accidental pass
+        </li>
+      </ul>
+
+      <div role="radiogroup" aria-label="Plan" class="grid grid-cols-3 gap-2 pt-2">
+        <button type="button" role="radio" aria-checked="false" class="relative flex flex-col items-center gap-1.5 rounded-2xl border-2 border-gray-200 px-2 py-4 aria-checked:border-gray-900">
+          <span class="text-2xl font-bold">1</span>
+          <span class="text-xs text-gray-500">month</span>
+          <span class="wf-line mt-1 block w-12"></span>
+        </button>
+        <button type="button" role="radio" aria-checked="true" class="relative flex flex-col items-center gap-1.5 rounded-2xl border-2 border-gray-200 px-2 py-4 aria-checked:border-gray-900">
+          <span class="absolute -top-2.5 rounded-full bg-gray-900 px-2 py-0.5 text-[10px] font-semibold text-white">Popular</span>
+          <span class="text-2xl font-bold">6</span>
+          <span class="text-xs text-gray-500">months</span>
+          <span class="wf-line mt-1 block w-12"></span>
+          <span class="text-[10px] font-semibold">Save 40%</span>
+        </button>
+        <button type="button" role="radio" aria-checked="false" class="relative flex flex-col items-center gap-1.5 rounded-2xl border-2 border-gray-200 px-2 py-4 aria-checked:border-gray-900">
+          <span class="text-2xl font-bold">12</span>
+          <span class="text-xs text-gray-500">months</span>
+          <span class="wf-line mt-1 block w-12"></span>
+          <span class="text-[10px] font-semibold">Save 55%</span>
+        </button>
+      </div>
+
+      <div class="mt-auto flex flex-col gap-3">
+        <a href="#" class="rounded-full bg-gray-900 py-3.5 text-center font-semibold text-white">Continue</a>
+        <a href="#" class="text-center text-sm font-medium underline">Restore purchase</a>
+        <div class="mt-2 flex flex-col items-center gap-1.5">
+          <div class="wf-line w-full"></div>
+          <div class="wf-line w-2/3"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

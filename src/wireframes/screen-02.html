@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>02 · Your horse</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="setup" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="mx-auto flex min-h-dvh w-full max-w-[390px] flex-col border-x border-gray-300 bg-white">
+    <include src="components/status-bar.html"></include>
+
+    <header class="flex items-center gap-3 px-5 pt-2 pb-3">
+      <a href="screen-01.html" aria-label="Back" class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-300 text-gray-500">
+        <i data-lucide="chevron-left" class="h-5 w-5"></i>
+      </a>
+      <h1 class="text-2xl font-bold">Your horse</h1>
+      <div class="ml-auto flex items-center gap-1.5">
+        <span class="h-1.5 w-4 rounded-full bg-gray-900"></span>
+        <span class="h-1.5 w-1.5 rounded-full bg-gray-300"></span>
+        <span class="h-1.5 w-1.5 rounded-full bg-gray-300"></span>
+      </div>
+    </header>
+
+    <main class="flex flex-1 flex-col gap-6 overflow-y-auto px-5 pb-6">
+      <section class="flex flex-col gap-2">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Photos</h2>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="wf-img aspect-[3/4] rounded-xl"><i data-lucide="camera" class="h-5 w-5"></i></div>
+          <div class="wf-img aspect-[3/4] rounded-xl"><i data-lucide="plus" class="h-5 w-5"></i></div>
+          <div class="wf-img aspect-[3/4] rounded-xl"><i data-lucide="plus" class="h-5 w-5"></i></div>
+          <div class="wf-img aspect-[3/4] rounded-xl"><i data-lucide="plus" class="h-5 w-5"></i></div>
+          <div class="wf-img aspect-[3/4] rounded-xl"><i data-lucide="plus" class="h-5 w-5"></i></div>
+          <div class="wf-img aspect-[3/4] rounded-xl"><i data-lucide="plus" class="h-5 w-5"></i></div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-4">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Basics</h2>
+        <label class="flex flex-col gap-1.5">
+          <span class="text-sm font-medium">Name</span>
+          <div class="flex items-center rounded-xl border border-gray-300 px-4 py-3.5"><div class="wf-line w-1/3"></div></div>
+        </label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-medium">Age</span>
+            <div class="flex items-center rounded-xl border border-gray-300 px-4 py-3.5"><div class="wf-line w-1/3"></div></div>
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="text-sm font-medium">Height</span>
+            <div class="flex items-center rounded-xl border border-gray-300 px-4 py-3.5"><div class="wf-line w-1/2"></div></div>
+          </label>
+        </div>
+        <label class="flex flex-col gap-1.5">
+          <span class="text-sm font-medium">Breed</span>
+          <div class="flex items-center justify-between rounded-xl border border-gray-300 px-4 py-3.5">
+            <div class="wf-line w-1/3"></div>
+            <i data-lucide="chevron-down" class="h-4 w-4 text-gray-400"></i>
+          </div>
+        </label>
+        <div class="flex flex-col gap-1.5">
+          <span class="text-sm font-medium">Gender</span>
+          <div role="radiogroup" aria-label="Gender" class="flex gap-2">
+            <button type="button" role="radio" aria-checked="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-checked:border-gray-900 aria-checked:bg-gray-900 aria-checked:text-white">Mare</button>
+            <button type="button" role="radio" aria-checked="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-checked:border-gray-900 aria-checked:bg-gray-900 aria-checked:text-white">Stallion</button>
+            <button type="button" role="radio" aria-checked="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-checked:border-gray-900 aria-checked:bg-gray-900 aria-checked:text-white">Gelding</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Disciplines</h2>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Dressage</button>
+          <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Show jumping</button>
+          <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Eventing</button>
+          <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Trail</button>
+          <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Racing</button>
+          <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Western</button>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-2">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Looking for</h2>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Breeding</button>
+          <button type="button" aria-pressed="true" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Riding partner</button>
+          <button type="button" aria-pressed="false" class="rounded-full border border-gray-300 px-4 py-2 text-sm aria-pressed:border-gray-900 aria-pressed:bg-gray-900 aria-pressed:text-white">Friendship</button>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-1.5">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500">Location</h2>
+        <div class="flex items-center gap-2 rounded-xl border border-gray-300 px-4 py-3.5">
+          <i data-lucide="map-pin" class="h-4 w-4 text-gray-400"></i>
+          <div class="wf-line w-1/2"></div>
+        </div>
+      </section>
+
+      <a href="screen-03.html" class="mt-2 rounded-full bg-gray-900 py-3.5 text-center font-semibold text-white">Start matching</a>
+    </main>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- LAB CHROME — screen chrome. The ONE lab line every screen has, last thing in its <body>:
+       <include src="_lab/screen/chrome.html"></include>
+     It gives the screen, with no design-level wiring: the full-screen device viewer + its bar (‹ Gallery,
+     ↺ Reset, Hotspots — viewer.js), hotspot outlines, in-screen interactions (interact.js), the canvas
+     bridge (scroll / pinch / middle-drag / shortcuts / link reports — bridge.js), drag-to-scroll,
+     overlay scroll indicators and Lucide icons. Inside a canvas frame the bar stays hidden. -->
+<script src="../_lab/core/lab.js"></script>
+<script src="../_lab/shell/theme.js"></script>
+<div data-lab-bar class="lab-bar" hidden>
+  <a href="index.html" class="lab-btn">‹ Gallery</a>
+  <button data-lab-reset type="button" class="lab-btn" title="Back to the screen you opened">↺ Reset</button>
+  <include src="_lab/hotspots/toggle.html"></include>
+</div>
+<script src="../_lab/screen/viewer.js"></script>
+<script src="../_lab/hotspots/screen.js"></script>
+<script src="../_lab/screen/interact.js"></script>
+<script src="../_lab/screen/bridge.js"></script>
+<script src="../_lab/screen/drag-scroll.js"></script>
+<script src="../_lab/screen/scroll-indicators.js"></script>
+<script type="module" src="../_lab/icons/icons.js"></script>

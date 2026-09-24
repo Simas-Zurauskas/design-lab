@@ -1,0 +1,7 @@
+# design + lab markup (HTML) is hand-laid, whitespace-sensitive and reviewed as design, not code
+*.html
+# prose is hand-wrapped
+*.md
+yarn.lock
+dist/
+.parcel-cache/

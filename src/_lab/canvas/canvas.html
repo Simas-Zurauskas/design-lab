@@ -1,0 +1,39 @@
+<!-- LAB CHROME — canvas: the field's controls + every script a section page needs. Include it inside
+     [data-canvas], right after [data-canvas-world] (see any section page):
+       zoom toolbar, shortcuts panel, empty state; view-math.js + canvas.js (pan / zoom), flows/flows.js (flow lines),
+       gallery.js (↺ reset buttons), icons (Lucide, for boards). -->
+<div data-canvas-tools class="lab-canvas-tools" role="toolbar" aria-label="Canvas zoom">
+  <button type="button" data-canvas-action="out" title="Zoom out  −" aria-label="Zoom out">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+  </button>
+  <button type="button" data-canvas-action="actual" data-canvas-zoom-label title="Zoom to 100%  Shift 0">100%</button>
+  <button type="button" data-canvas-action="in" title="Zoom in  +" aria-label="Zoom in">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></svg>
+  </button>
+  <span class="lab-canvas-sep"></span>
+  <button type="button" data-canvas-action="fit" title="Zoom to fit  Shift 1">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>Fit
+  </button>
+  <button type="button" data-canvas-action="help" title="Shortcuts  ?" aria-label="Shortcuts" aria-expanded="false">?</button>
+</div>
+
+<div data-canvas-help class="lab-canvas-help" hidden>
+  <h2>Canvas</h2>
+  <dl>
+    <div><dt>Pan</dt><dd>Scroll · drag empty space · <kbd>Space</kbd> + drag · middle-drag</dd></div>
+    <div><dt>Zoom</dt><dd>Pinch · <kbd>⌘/Ctrl</kbd> + scroll · <kbd>+</kbd> <kbd>−</kbd></dd></div>
+    <div><dt>Fit everything</dt><dd><kbd>Shift</kbd> <kbd>1</kbd></dd></div>
+    <div><dt>Actual size</dt><dd><kbd>Shift</kbd> <kbd>0</kbd></dd></div>
+    <div><dt>Zoom to a group</dt><dd>Click its title</dd></div>
+    <div data-canvas-help-screens><dt>Open a screen</dt><dd>Click its name</dd></div>
+    <div data-canvas-help-screens><dt>Scroll inside a screen</dt><dd>Drag it · <kbd>⌥/Alt</kbd> + scroll</dd></div>
+  </dl>
+</div>
+
+<p class="lab-canvas-empty">Nothing here yet — add a figure.lab-screen (or a .lab-board) to a group.</p>
+
+<script src="../_lab/canvas/view-math.js"></script>
+<script src="../_lab/canvas/canvas.js"></script>
+<script src="../_lab/flows/flows.js"></script>
+<script src="../_lab/canvas/gallery.js"></script>
+<script type="module" src="../_lab/icons/icons.js"></script>

@@ -1,0 +1,21 @@
+{
+  // `yarn typecheck`, browser half: TypeScript reading the lab's plain JS — wrong names, wrong members, a mistyped
+  // Lab message type. The Node half (scripts, tests) is jsconfig.node.json: two runtimes, two sets of globals.
+  // Deliberately not `strict`: that would demand a JSDoc type on every parameter of a small plain-JS workbench;
+  // types come from inference, the DOM typings and a few JSDoc annotations where inference can't see.
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "strict": false,
+    "maxNodeModuleJsDepth": 0,
+    "noEmit": true,
+    "target": "es2023",
+    "module": "preserve",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/_lab/**/*.js"]
+}

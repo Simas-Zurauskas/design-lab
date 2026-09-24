@@ -1,0 +1,343 @@
+/* ============================================================
+   LAB CHROME — canvas: the pannable, zoomable 2D field of every
+   section page (canvas.js) — its arrangement (rows, groups, screens,
+   boards) and its controls (canvas.html).
+   Sizes are WORLD units — 1 unit = 1 device px of a screen at
+   100%. Screen names and group titles counter-scale to stay a
+   constant on-screen size; below a floor zoom they shrink with
+   the world instead, so they can never overlap what's above.
+   (Floors ↔ gaps: name 28px / 0.25 = 112 ≤ row gap + group top
+   padding 128; title 36px / 0.15 = 240 ≤ band gap 280.)
+   Colors: core/tokens.css only (never the design's theme.css).
+   ============================================================ */
+
+.lab-canvas {
+  position: relative;
+  flex: 1 1 0; /* fills .lab-main under the header */
+  min-height: 0;
+  overflow: hidden;
+  background-color: var(--lab-bg);
+  user-select: none;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+/* no JS yet / canvas.js failed: after 1.5s it's a plain scrollable area */
+.lab-canvas:not([data-ready]) {
+  overflow: auto;
+  touch-action: auto;
+}
+.lab-canvas:not([data-ready]) .lab-canvas-world {
+  visibility: hidden;
+  animation: lab-canvas-reveal 0s 1.5s forwards;
+}
+@keyframes lab-canvas-reveal {
+  to {
+    visibility: visible;
+  }
+}
+
+/* background dots — drawn by canvas.js */
+.lab-canvas-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lab-canvas-world {
+  --k: 1; /* current zoom, set by canvas.js */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 280px;
+  width: max-content;
+  padding: 280px 160px 160px;
+}
+.lab-canvas[data-ready] .lab-canvas-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+/* screens stop catching the pointer while the canvas moves / the hand tool is up */
+.lab-canvas:is([data-gesture], [data-panning], [data-space]) iframe {
+  pointer-events: none;
+}
+/* while it moves, the world is one composited layer: zoom scales that bitmap instead of re-rastering every live
+   screen each frame (smooth, a touch soft mid-zoom); ~160 ms after the last input it re-rasters sharp (canvas.js) */
+.lab-canvas[data-gesture] .lab-canvas-world {
+  will-change: transform;
+}
+.lab-canvas[data-space],
+.lab-canvas[data-space] .lab-canvas-world * {
+  cursor: grab;
+}
+/* a pan can start anywhere (middle button) and roam over the header / sidebar too */
+html:has(.lab-canvas[data-panning]) * {
+  cursor: grabbing !important;
+}
+/* values worth copying (token codes) and form fields stay selectable; a drag there never pans */
+.lab-canvas :is(code, input, textarea, [contenteditable]) {
+  user-select: text;
+}
+
+/* ---- arrangement: rows hold screens (or groups side by side); a group boxes a journey ---- */
+
+.lab-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 72px;
+}
+.lab-row:has(> .lab-group) {
+  gap: 200px;
+}
+
+.lab-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 128px;
+  padding: 128px 80px 80px;
+  border-radius: 32px;
+  background-color: var(--lab-group);
+  box-shadow: 0 0 0 calc(1px / var(--k)) var(--lab-group-line); /* hairline at any zoom, no layout */
+}
+/* boards carry no names above them — a lighter frame */
+.lab-group:not(:has(.lab-screen)) {
+  gap: 80px;
+  padding: 72px;
+}
+.lab-group-title {
+  --s: max(var(--k), 0.15);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  max-width: calc(100% * var(--s));
+  overflow: hidden;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background-color: var(--lab-chip);
+  color: var(--lab-on-chip);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: scale(calc(1 / var(--s))) translateY(-10px);
+  transform-origin: 0 100%;
+  cursor: zoom-in;
+}
+.lab-group-title:hover {
+  filter: brightness(1.15);
+}
+.lab-group-title:focus-visible {
+  outline: 2px solid rgb(var(--lab-accent));
+  outline-offset: 2px;
+}
+
+/* ---- screens: native size; the name sits above like a frame name ---- */
+
+.lab-screen {
+  position: relative;
+  margin: 0;
+}
+.lab-screen > figcaption {
+  --s: max(var(--k), 0.25);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: calc(100% * var(--s));
+  color: var(--lab-muted);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  transform: scale(calc(1 / var(--s))) translateY(-8px);
+  transform-origin: 0 100%;
+  transition: opacity 0.2s;
+}
+.lab-screen > figcaption > a {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lab-screen > figcaption > a:hover {
+  color: var(--lab-text);
+  text-decoration: underline;
+}
+.lab-screen > figcaption > [data-reset] {
+  flex-shrink: 0;
+  padding: 0 6px;
+  line-height: 16px;
+}
+/* reset shows on hover — or always once lit (the screen was navigated away) */
+.lab-screen > figcaption > [data-reset]:not(.lab-btn-alert) {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.lab-screen:is(:hover, :focus-within) > figcaption > [data-reset] {
+  opacity: 1;
+}
+@media (hover: none) {
+  .lab-screen > figcaption > [data-reset] {
+    opacity: 1;
+  }
+}
+.lab-canvas[data-zoom="far"] .lab-screen > figcaption {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- boards: fixed-size non-screen content (e.g. the theme's token sheets). The author
+   sets the width and styles the inside; the canvas only places it. ---- */
+.lab-board {
+  position: relative;
+  flex: none;
+  box-shadow: 0 24px 48px -16px var(--lab-shadow);
+}
+
+/* a screen's device: the bezel (.phone-frame) around its live frame (.phone-screen), native size
+   (core/tokens.css) */
+.phone-frame {
+  box-sizing: content-box; /* the device size inside is the screen; the bezel is extra */
+  width: var(--lab-device-w);
+  height: var(--lab-device-h);
+  overflow: hidden;
+  border: var(--lab-bezel-w) solid var(--lab-bezel);
+  border-radius: var(--lab-bezel-r);
+  background-color: #fff; /* under the screen while it loads */
+  box-shadow: 0 24px 48px -16px var(--lab-shadow);
+}
+.phone-screen {
+  display: block;
+  width: var(--lab-device-w);
+  height: var(--lab-device-h);
+  border: 0;
+}
+
+/* ---- controls (canvas.html) ---- */
+
+.lab-canvas-tools {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--lab-line);
+  border-radius: 12px;
+  background-color: var(--lab-surface);
+  box-shadow: 0 6px 20px -6px var(--lab-shadow);
+  color: var(--lab-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+.lab-canvas-tools button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.lab-canvas-tools button:hover {
+  background-color: var(--lab-hover);
+  color: var(--lab-text);
+}
+.lab-canvas-tools button:focus-visible {
+  outline: 2px solid rgb(var(--lab-accent));
+  outline-offset: 1px;
+}
+.lab-canvas-tools button[aria-expanded="true"] {
+  background-color: var(--lab-strong);
+  color: var(--lab-on-strong);
+}
+.lab-canvas-tools svg {
+  width: 14px;
+  height: 14px;
+}
+.lab-canvas-tools [data-canvas-zoom-label] {
+  min-width: 52px;
+  font-variant-numeric: tabular-nums;
+}
+.lab-canvas-sep {
+  width: 1px;
+  height: 16px;
+  margin: 0 4px;
+  background-color: var(--lab-line);
+}
+
+.lab-canvas-help {
+  position: absolute;
+  right: 16px;
+  bottom: 64px;
+  z-index: 2;
+  width: 320px;
+  padding: 14px 16px;
+  border: 1px solid var(--lab-line);
+  border-radius: 12px;
+  background-color: var(--lab-surface);
+  box-shadow: 0 12px 32px -8px var(--lab-shadow);
+  color: var(--lab-muted);
+  font-size: 12px;
+  line-height: 18px;
+}
+.lab-canvas-help h2 {
+  margin-bottom: 10px;
+  color: var(--lab-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+.lab-canvas-help dl {
+  display: grid;
+  gap: 8px;
+}
+.lab-canvas-help dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lab-canvas-help dt {
+  flex-shrink: 0;
+  color: var(--lab-text);
+}
+.lab-canvas-help dd {
+  text-align: right;
+}
+.lab-canvas-help kbd {
+  padding: 0 4px;
+  border: 1px solid var(--lab-line);
+  border-radius: 4px;
+  background-color: var(--lab-hover);
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.lab-canvas-empty {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--lab-faint);
+  font-size: 14px;
+  pointer-events: none;
+}
+.lab-canvas[data-ready]:not(:has(.lab-screen, .lab-board)) .lab-canvas-empty {
+  display: flex;
+}
+/* shortcuts that only make sense with screens on the canvas */
+.lab-canvas:not(:has(.lab-screen)) [data-canvas-help-screens] {
+  display: none;
+}

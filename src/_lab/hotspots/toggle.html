@@ -1,0 +1,12 @@
+<!-- LAB CHROME — hotspots: the Off / Hover / Always switch for outlining what can be clicked in screens.
+     Goes in a section header (galleries) and in the full-screen bar (screen/chrome.html); needs core/lab.js
+     loaded before it (both places do). The screens pick the mode up via hotspots/screen.js. -->
+<div class="lab-seg-field" title="Outline what can be clicked — solid: goes to a screen, dotted: changes the UI in place">
+  <span class="lab-seg-label">Hotspots</span>
+  <div data-lab-toggle="hotspots" class="lab-seg" role="group" aria-label="Hotspots">
+    <button type="button" data-mode="off">Off</button>
+    <button type="button" data-mode="hover">Hover</button>
+    <button type="button" data-mode="always">Always</button>
+  </div>
+</div>
+<script src="../_lab/hotspots/host.js"></script>

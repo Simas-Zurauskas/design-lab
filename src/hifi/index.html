@@ -6,33 +6,32 @@
   <title>High fidelity — Design Lab</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body data-section="hifi" class="bg-surface font-body text-ink antialiased">
-  <div class="flex min-h-dvh">
-    <include src="_lab/sidebar.html"></include>
-    <main class="min-w-0 flex-1 px-8 py-10">
-      <div class="flex items-center justify-between">
+<body data-section="hifi" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
         <div>
-          <h1 class="text-2xl font-bold">High-fidelity screens</h1>
-          <p class="mt-1 text-sm text-ink-muted">Built exclusively from the tokens in <code class="rounded bg-line px-1">src/theme.css</code> — swap the theme, these screens re-skin.</p>
+          <h1>High fidelity</h1>
+          <p>Screens built from the theme — tokens from <code>src/theme.css</code> and components from <code>src/components/hifi/</code>. Press ? for canvas shortcuts.</p>
         </div>
-        <button data-reset-all class="lab-btn px-4 py-1.5">↺ Reset all</button>
-      </div>
+        <div class="lab-header-controls">
+          <include src="_lab/hotspots/toggle.html"></include>
+          <include src="_lab/flows/toggle.html"></include>
+          <button data-reset-all class="lab-btn">↺ Reset all</button>
+        </div>
+      </header>
 
-      <div class="mt-8 flex flex-wrap gap-10">
-        <figure>
-          <div class="phone-frame">
-            <iframe src="screen-01.html" title="Screen" class="phone-screen"></iframe>
-          </div>
-          <figcaption class="mt-3 flex items-center justify-center gap-3 text-sm font-medium">
-            <a href="screen-01.html" class="underline">01 · Screen</a>
-            <button data-reset class="lab-btn px-2.5 py-0.5" title="Reset this screen">↺ reset</button>
-          </figcaption>
-        </figure>
+      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
+           components (_lab/canvas/). The CONTENT here is only the arrangement — groups (a journey
+           each) → rows → screens. Add a screen = copy screen-01.html (the scaffold, not shown here)
+           and add a figure.lab-screen to a row. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="High fidelity canvas">
+        <div data-canvas-world class="lab-canvas-world">
+        </div>
+        <include src="_lab/canvas/canvas.html"></include>
       </div>
     </main>
   </div>
-
-  <script src="../_lab/reset.js"></script>
-  <script type="module" src="../_lab/drag-scroll.js"></script>
 </body>
 </html>

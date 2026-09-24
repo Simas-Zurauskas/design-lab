@@ -1,0 +1,45 @@
+# The gates, on every push to master and every pull request — the same scripts a developer runs locally.
+name: check
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+
+      # a missing gate must fail, not skip
+      - name: scripts exist
+        run: |
+          for s in typecheck lint format:check test build links; do
+            node -e "const s=require('./package.json').scripts||{}; if(!s['$s']){console.error('missing script: $s'); process.exit(1)}"
+          done
+
+      - run: yarn typecheck
+      - run: yarn lint
+      - run: yarn format:check
+      - run: yarn test
+      - run: yarn build # includes fix-nested-urls, which fails on a ref that resolves nowhere
+      - run: yarn links # missing targets, unlabeled controls, canvas names out of step with <title>
+
+      # yarn classic's exit code is a bitmask of the severities found: 8 = high, 16 = critical
+      - name: dependency audit (high and critical block)
+        run: |
+          set +e
+          yarn audit --groups "dependencies devDependencies"
+          code=$?
+          if [ $((code & 24)) -ne 0 ]; then echo '::error::high or critical advisory'; exit 1; fi
+
+      - name: secret sweep
+        run: |
+          PATTERN='(AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{36,}|xox[abp]-[A-Za-z0-9-]{10,}|password\s*[:=]\s*["'"'"'][^"'"'"']{8,}["'"'"'])'
+          if git grep -nE "$PATTERN" -- ':!*.example' ':!*.md' ':!*lock*' ':!test/**'; then
+            echo '::error::possible committed secret — rotate it, do not suppress'; exit 1; fi

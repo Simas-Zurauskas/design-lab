@@ -1,0 +1,28 @@
+/* ============================================================
+   LAB CHROME — wireframe: the medium's "pencil" — primitives for
+   drawing grayscale wireframes, not any design. Used INSIDE screens
+   (content), so they stay gray whatever the lab theme is.
+   ============================================================ */
+
+/* image placeholder: a dashed box with an X through it */
+.wf-img {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-gray-300);
+  background-color: var(--color-gray-50);
+  background-image:
+    linear-gradient(to top right, transparent calc(50% - 0.5px), var(--color-gray-300) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom right, transparent calc(50% - 0.5px), var(--color-gray-300) 50%, transparent calc(50% + 0.5px));
+  color: var(--color-gray-400);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+}
+
+/* skeleton text line */
+.wf-line {
+  height: 0.625rem;
+  border-radius: 999px;
+  background-color: var(--color-gray-200);
+}

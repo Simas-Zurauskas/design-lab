@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>05 · It's a match</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="match" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="mx-auto flex min-h-dvh w-full max-w-[390px] flex-col border-x border-gray-300 bg-white">
+    <include src="components/status-bar.html"></include>
+
+    <main class="flex flex-1 flex-col px-6 pb-8">
+      <div class="flex flex-1 flex-col items-center justify-center gap-6 text-center">
+        <div class="relative flex items-center">
+          <div class="wf-img h-32 w-32 rounded-full">YOU</div>
+          <div class="wf-img -ml-6 h-32 w-32 rounded-full">MATCH</div>
+          <div class="absolute -bottom-3 left-1/2 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full bg-gray-900 text-white">
+            <i data-lucide="heart" class="h-5 w-5"></i>
+          </div>
+        </div>
+        <h1 class="text-3xl font-bold">It's a match!</h1>
+        <div class="flex w-full flex-col items-center gap-2">
+          <div class="wf-line w-2/3"></div>
+          <div class="wf-line w-1/2"></div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <a href="screen-07.html" class="rounded-full bg-gray-900 py-3.5 text-center font-semibold text-white">Send a message</a>
+        <a href="screen-03.html" class="rounded-full border border-gray-300 py-3.5 text-center font-semibold">Keep swiping</a>
+      </div>
+    </main>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

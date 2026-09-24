@@ -1,0 +1,52 @@
+/* ============================================================
+   LAB CHROME — flows: the lines from each link to the screen it
+   opens (flows.js), drawn in an SVG inside the canvas world —
+   above the screens, never catching the pointer. The accent is the
+   hotspot outlines' (core/tokens.css): both are prototype tooling.
+   ============================================================ */
+
+.lab-flows {
+  --flow-s: calc(1 / max(var(--k), 0.35)); /* dots + arrowheads screen-sized; shrink with the world when far out */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+.lab-canvas[data-flows="off"] .lab-flows {
+  display: none;
+}
+.lab-flow {
+  color: rgb(var(--lab-accent));
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+.lab-flow > path:first-child {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.lab-flow > circle,
+.lab-flow > .lab-flow-arrow {
+  fill: currentColor;
+}
+/* tab bars and other <nav> links repeat on every screen — keep them in the background */
+.lab-flow.is-nav {
+  opacity: 0.22;
+}
+/* the link is scrolled away / cut off: the line starts at the nearest visible edge */
+.lab-flow.is-offscreen > path:first-child {
+  stroke-dasharray: 4 4;
+}
+/* pointing at a link: its line forward, the rest dimmed */
+.lab-canvas[data-flow-focus] .lab-flow {
+  opacity: 0.1;
+}
+.lab-canvas[data-flow-focus] .lab-flow.is-focus {
+  opacity: 0.95;
+}
+.lab-flow.is-focus > path:first-child {
+  stroke-width: 2;
+}
