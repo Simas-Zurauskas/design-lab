@@ -1,7 +1,7 @@
 <!-- LAB CHROME — canvas: the field's controls + every script a section page needs. Include it inside
      [data-canvas], right after [data-canvas-world] (see any section page):
-       zoom toolbar, shortcuts panel, empty state; view-math.js + canvas.js (pan / zoom), flows/flows.js (flow lines),
-       gallery.js (↺ reset buttons), icons (Lucide, for boards). -->
+       zoom toolbar, shortcuts panel, empty state; view-math.js + canvas.js (pan / zoom), toc/toc.js (the groups list),
+       flows/flows.js (the flow line), gallery.js (↺ reset buttons). -->
 <div data-canvas-tools class="lab-canvas-tools" role="toolbar" aria-label="Canvas zoom">
   <button type="button" data-canvas-action="out" title="Zoom out  −" aria-label="Zoom out">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
@@ -24,7 +24,7 @@
     <div><dt>Zoom</dt><dd>Pinch · <kbd>⌘/Ctrl</kbd> + scroll · <kbd>+</kbd> <kbd>−</kbd></dd></div>
     <div><dt>Fit everything</dt><dd><kbd>Shift</kbd> <kbd>1</kbd></dd></div>
     <div><dt>Actual size</dt><dd><kbd>Shift</kbd> <kbd>0</kbd></dd></div>
-    <div><dt>Zoom to a group</dt><dd>Click its title</dd></div>
+    <div><dt>Zoom to a group</dt><dd>Click its title · its name in Groups</dd></div>
     <div data-canvas-help-screens><dt>Open a screen</dt><dd>Click its name</dd></div>
     <div data-canvas-help-screens><dt>Scroll inside a screen</dt><dd>Drag it · <kbd>⌥/Alt</kbd> + scroll</dd></div>
   </dl>
@@ -34,6 +34,6 @@
 
 <script src="../_lab/canvas/view-math.js"></script>
 <script src="../_lab/canvas/canvas.js"></script>
+<script src="../_lab/toc/toc.js"></script>
 <script src="../_lab/flows/flows.js"></script>
 <script src="../_lab/canvas/gallery.js"></script>
-<script type="module" src="../_lab/icons/icons.js"></script>

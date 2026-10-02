@@ -1,0 +1,12 @@
+// Deploys the built design lab (dist/) as a static-assets Worker.
+// Cloudflare Workers Builds runs this on every push to main.
+{
+  "name": "design-lab",
+  "compatibility_date": "2026-09-24",
+  "build": {
+    "command": "yarn build",
+  },
+  "assets": {
+    "directory": "./dist",
+  },
+}

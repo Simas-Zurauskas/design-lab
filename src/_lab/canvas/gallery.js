@@ -34,7 +34,7 @@
         away = false;
       } else {
         try {
-          away = frame.contentWindow.location.pathname !== original;
+          away = Lab.path(frame.contentWindow.location.href) !== original; // Lab.path: a host's redirect to /screen-03 is still screen-03.html
         } catch {
           away = loadedOnce; // file://: frames are opaque — any later load means it moved on
         }

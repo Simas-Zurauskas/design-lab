@@ -9,13 +9,6 @@
    [data-page="home"] .hifi-nav [data-nav="home"] { color: var(--color-primary); }
 -------------------------------------------------------------------- */
 
-/* wireframe bottom nav (components/wf-tabbar.html) */
-[data-page="discover"] [data-nav="discover"],
-[data-page="matches"] [data-nav="matches"],
-[data-page="profile"] [data-nav="profile"] {
-  color: var(--color-gray-900);
-}
-
 /* Components section: every board is a specimen on the theme — surface, body font, ink —
    so a component shows exactly as it will in hi-fi. Tokens from theme.css. */
 [data-section="components"] .lab-board {

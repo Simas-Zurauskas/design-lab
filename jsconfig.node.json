@@ -5,5 +5,5 @@
     "lib": ["es2023"],
     "types": ["node"]
   },
-  "include": ["scripts/**/*.mjs", "test/**/*.mjs", "*.mjs"]
+  "include": ["scripts/**/*.mjs", "scripts/**/*.cjs", "test/**/*.mjs", "*.mjs"]
 }

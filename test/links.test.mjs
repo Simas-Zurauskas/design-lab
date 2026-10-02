@@ -28,6 +28,8 @@ const FILES = {
     <figure class="lab-screen"><figcaption><a href="screen-01.html">01 · Home</a></figcaption><iframe src="screen-01.html" title="Home"></iframe></figure>
     <figure class="lab-screen"><figcaption><a href="screen-02.html">02 · Details</a></figcaption><iframe src="screen-02.html" title="Detail &amp; more"></iframe></figure>`,
   'other/screen-01.html': '<title>01 · Other</title>',
+  'other/round-01.html': `
+    <figure class="lab-screen"><figcaption><a href="screen-01.html">01 · Else</a></figcaption><iframe src="screen-01.html" title="Other"></iframe></figure>`,
 };
 let src;
 let wf;
@@ -72,6 +74,11 @@ test('a missing target, an unnamed control and a canvas name out of step with <t
   assert.match(wf.problems[0], /"Onward" links to screen-03\.html — no such page/);
   assert.match(wf.problems[1], /\[icon x\] has no accessible name/);
   assert.match(wf.problems[2], /caption "02 · Details" ≠ <title> "02 · Detail & more"/);
+});
+
+test('round pages are checked like the index canvas', () => {
+  const other = analyze(src).find((s) => s.name === 'other');
+  assert.deepEqual(other.problems, ['round-01.html: caption "01 · Else" ≠ <title> "01 · Other" (screen-01.html)']);
 });
 
 test('screens every other screen reaches are not orphans', () => {

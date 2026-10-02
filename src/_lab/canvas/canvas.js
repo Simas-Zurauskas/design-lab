@@ -24,7 +24,8 @@
   const DRAG_THRESHOLD = 4; // px before a press on a name / title turns into a pan
   const IDLE = 160; // ms without input before a gesture is over (screens take the pointer back)
   const LINE_PX = 16; // wheel deltaMode 1 (Firefox mouse wheels) → px
-  const STORE = `lab:canvas:${location.pathname}`;
+  const CULL_MARGIN = 400; // px around the view where screens still render — they're drawn before they slide in
+  const STORE = `lab:canvas:${Lab.path(location.href)}`;
   const ARROWS = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
 
   const canvas = document.querySelector('[data-canvas]');
@@ -64,7 +65,12 @@
     const clampK = math.clampK;
     const clampView = (v) => math.clampView(v, vp, content);
     const zoomAround = math.zoomAround; // same world point stays under canvas point p
-    const fitRect = (r, head) => math.fitRect(r, vp, head);
+    // the groups list (toc/toc.js) covers the canvas's top-left while shown: a fit keeps clear of it
+    const tocRoom = () => {
+      const toc = canvas.querySelector('[data-canvas-toc]');
+      return toc instanceof HTMLElement && !toc.hidden ? toc.offsetLeft + toc.offsetWidth : 0;
+    };
+    const fitRect = (r, head) => math.fitRect(r, vp, head, tocRoom());
     // the arranged content itself — not the world's padding, which only reserves room for titles
     // at the farthest zoom
     const contentBox = () => {
@@ -87,8 +93,25 @@
       const c = canvasRect();
       return { x: (r.left - c.left - view.x) / view.k, y: (r.top - c.top - view.y) / view.k, w: r.width / view.k, h: r.height / view.k };
     };
+
+    /* ---- culling: screens away from the view aren't rendered ------------- */
+
+    // A screen more than CULL_MARGIN px outside the view is marked data-lab-culled and the browser skips it
+    // (canvas.css): no layout, paint or animation frames inside, its page kept loaded as it was. Measured with 160
+    // screens: most of a pan's or a zoom's work was re-compositing every screen, seen or not. Screens only move
+    // when the layout does, so each one's world box is measured once per layout (measure() starts over).
+    let placed = null; // [{ frame, box, culled }]
+    const cull = () => {
+      placed ||= [...world.querySelectorAll('iframe')].map((frame) => ({ frame, box: worldRect(frame), culled: frame.hasAttribute('data-lab-culled') }));
+      const shown = math.viewRect(view, vp, CULL_MARGIN);
+      for (const p of placed) {
+        const culled = !math.overlaps(p.box, shown);
+        if (culled !== p.culled) p.frame.toggleAttribute('data-lab-culled', (p.culled = culled));
+      }
+    };
     const measure = () => {
       content = { w: world.offsetWidth, h: world.offsetHeight };
+      placed = null;
     };
 
     /* ---- render + persist ----------------------------------------------- */
@@ -162,14 +185,25 @@
       );
     watchDpr();
 
+    // --k (every frame) keeps names and titles screen-sized. --k-rest is the zoom once the canvas stops, for what
+    // isn't worth repainting every frame: the groups' hairline, a box-shadow that repaints each whole group — measured,
+    // most of the GPU work of a zoom. Each is set only when it changes: a pan restyles nothing.
+    let shownK = 0;
+    let restK = 0;
+    const settle = () => {
+      if (view.k !== restK) world.style.setProperty('--k-rest', String((restK = view.k)));
+    };
     const render = () => {
       const { x, y, k } = view;
       world.style.transform = `translate(${x}px, ${y}px) scale(${k})`;
-      world.style.setProperty('--k', k);
+      if (k !== shownK) world.style.setProperty('--k', String((shownK = k)));
+      cull();
+      if (!('gesture' in canvas.dataset)) settle();
       drawGrid();
       const b = k < FAR_K ? 'far' : 'near';
       if (b !== band) canvas.dataset.zoom = band = b;
-      if (zoomLabel) zoomLabel.textContent = `${Math.round(k * 100)}%`;
+      const pct = `${Math.round(k * 100)}%`;
+      if (zoomLabel && zoomLabel.textContent !== pct) zoomLabel.textContent = pct;
       clearTimeout(saveTimer);
       saveTimer = setTimeout(save, 200);
     };
@@ -201,7 +235,9 @@
       if (!('gesture' in canvas.dataset)) canvas.dataset.gesture = '';
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
-        if (!pan && !tween) delete canvas.dataset.gesture;
+        if (pan || tween) return;
+        delete canvas.dataset.gesture;
+        settle();
       }, IDLE);
     };
 
@@ -287,6 +323,8 @@
       'wheel',
       (e) => {
         if (!started) return; // no-JS fallback scrolls natively until the canvas is live
+        const toc = e.target instanceof Element && e.target.closest('[data-canvas-toc]');
+        if (toc && Lab.scrollAxes(toc).y) return; // a groups list too long for the canvas scrolls itself
         e.preventDefault();
         onWheel(e, local(e.clientX, e.clientY));
       },
@@ -395,7 +433,11 @@
       const middle = e.button === 1;
       const t = e.target;
       if (!started || (e.button !== 0 && !middle) || !(t instanceof Element)) return;
-      if (!middle && (!canvas.contains(t) || t.closest('[data-canvas-tools], [data-canvas-help], code, input, textarea, select, [contenteditable]'))) return;
+      if (
+        !middle &&
+        (!canvas.contains(t) || t.closest('[data-canvas-tools], [data-canvas-help], [data-canvas-toc], code, input, textarea, select, [contenteditable]'))
+      )
+        return;
       if (e.pointerType === 'mouse' && pan) endPan(); // a lost release — start clean
       if (remote) remotePan('end');
       stop();
@@ -419,6 +461,8 @@
       }
     });
     document.addEventListener('mousedown', (e) => started && e.button === 1 && e.preventDefault()); // belt and braces: autoscroll
+    // a drag on the canvas pans — never the browser's drag-and-drop of a screen's name (a link) as a ghost
+    canvas.addEventListener('dragstart', (e) => e.preventDefault());
 
     // Middle-drag that began over a screen: the screen streams its pointer here (screen/bridge.js).
     // Screen coordinates, so it doesn't matter that the screen moves with the canvas under the mouse.
@@ -631,7 +675,7 @@
       if (nav === 'reload' || nav === 'back_forward') return true;
       if (!document.referrer) return false; // typed URL, file://: an opening
       const from = new URL(document.referrer);
-      return from.origin === location.origin && from.pathname !== location.pathname && Lab.dir(from.href) === Lab.dir(location.href);
+      return from.origin === location.origin && Lab.path(from.href) !== Lab.path(location.href) && Lab.dir(from.href) === Lab.dir(location.href);
     };
 
     const start = () => {

@@ -17,6 +17,7 @@ const load = ({ frame, protocol = 'http:' } = {}) => {
     addEventListener: (type, fn) => listeners.push({ type, fn }),
     removeEventListener: () => {},
     setTimeout,
+    URL,
   };
   // lab.js only compares self with top: framed = top is some other window
   const self = {};
@@ -41,6 +42,18 @@ test('a lab page embedded by someone else (a Notion embed) is framed but not hos
 
 test('on file:// a cross-origin parent can only be the lab', () => {
   assert.equal(load({ frame: null, protocol: 'file:' }).Lab.hosted, true);
+});
+
+test('a page is the same page however the host spells it (Cloudflare drops .html and index.html)', () => {
+  const { Lab } = load();
+  assert.equal(Lab.path('screen-03.html'), '/wireframes/screen-03');
+  assert.equal(Lab.path('https://lab.test/wireframes/screen-03'), '/wireframes/screen-03');
+  assert.equal(Lab.path('index.html'), '/wireframes/');
+  assert.equal(Lab.path('https://lab.test/wireframes/'), '/wireframes/');
+  assert.equal(Lab.path('/index.html'), '/');
+  assert.equal(Lab.path('screen-03.html?bare#top'), '/wireframes/screen-03'); // query and hash never change the page
+  assert.equal(Lab.path('reindex.html'), '/wireframes/reindex'); // only a whole `index` segment is the folder
+  assert.equal(Lab.dir('screen-03.html'), '/wireframes/');
 });
 
 test('canvas shortcuts: one list for the canvas and for screens that pass keys up', () => {

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explorations · Round 1 — Design Lab</title>
+  <link rel="stylesheet" href="../styles.css">
+  <!-- each variant's fonts + stylesheet go here: <include src="explorations/parts/r1-vNN-head.html"></include> -->
+</head>
+<body data-section="explorations" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
+        <div>
+          <h1>Explorations</h1>
+          <include src="explorations/parts/rounds.html"></include>
+        </div>
+        <include src="_lab/shell/controls.html"></include>
+      </header>
+
+      <!-- LAB CHROME sheet: [data-lab-sheet] and every lab-* class are workbench components (_lab/sheet/,
+           _lab/canvas/canvas.css for screens and boards). The CONTENT is Round 1: one .lab-sheet-section per
+           variant (its board, parts/r1-vNN-board.html, above its screens), then compare strips (.lab-sheet-grid).
+           Empty for now — run a mood-board-creator round (EXPLORATIONS-PROMPT.md) to fill it. -->
+      <div data-lab-sheet class="lab-sheet">
+        <div class="lab-sheet-body">
+          <section class="lab-sheet-section" id="r1-empty">
+            <h2 class="lab-sheet-title">Round 1</h2>
+            <p>No directions yet.</p>
+          </section>
+        </div>
+        <include src="_lab/sheet/sheet.html"></include>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

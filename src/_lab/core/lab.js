@@ -42,10 +42,10 @@ var Lab = (() => {
     }
   };
 
-  // Shown BY THE LAB — a screen inside a canvas or the full-screen viewer — which is not the same as framed: a lab
-  // page embedded somewhere else (a Notion embed) is framed but is its own host. Same-origin parent: ask the frame
-  // element. Cross-origin parent: over http(s) it is someone else's page (the lab and its screens always share an
-  // origin); on file:// every file is its own origin and only the lab frames a screen.
+  // Shown BY THE LAB — a screen inside a canvas, a sheet or the full-screen viewer — which is not the same as framed:
+  // a lab page embedded somewhere else (a Notion embed) is framed but is its own host. Same-origin parent: ask the
+  // frame element. Cross-origin parent: over http(s) it is someone else's page (the lab and its screens always share
+  // an origin); on file:// every file is its own origin and only the lab frames a screen.
   const hostedByLab = () => {
     if (window.self === window.top) return false;
     let frame = null;
@@ -54,7 +54,7 @@ var Lab = (() => {
     } catch {
       // older browsers throw for a cross-origin parent instead of returning null — same answer
     }
-    return frame ? !!frame.closest('[data-canvas], .lab-viewer') : location.protocol === 'file:';
+    return frame ? !!frame.closest('[data-canvas], [data-lab-sheet], .lab-viewer') : location.protocol === 'file:';
   };
 
   // Every message between frames is { lab: TYPE, …fields }. The types are listed once, here: posting or listening
@@ -86,8 +86,10 @@ var Lab = (() => {
 
     hosted: hostedByLab(),
 
-    /** URL (relative to this page) → its pathname, and the folder it's in */
-    path: (u) => url(u)?.pathname ?? null,
+    /** URL (relative to this page) → the page it shows, and the folder it's in. Hosts spell a page differently —
+        Cloudflare redirects /a/screen-03.html to /a/screen-03 and /a/index.html to /a/ — so the page is its
+        pathname without `.html` / `index.html`: every spelling of one page compares equal */
+    path: (u) => url(u)?.pathname.replace(/(?:(^|\/)index)?\.html$/, '$1') ?? null,
     dir: (u) => url(u)?.pathname.replace(/[^/]*$/, '') ?? null,
     /** the element that scrolls the page */
     page,
@@ -181,7 +183,7 @@ var Lab = (() => {
     },
 
     /**
-     * A remembered segmented setting — Hotspots, Flows, the lab theme. Markup (optional — a setting can
+     * A remembered segmented setting — Hotspots, Groups, the lab theme. Markup (optional — a setting can
      * live without a visible switch):
      *   <div data-lab-toggle="NAME"> … <button data-mode="off">…</button> <button data-mode="on">…</button> </div>
      * Lab.toggle(NAME, { modes, fallback, store: Lab.session | Lab.local, key, onChange })
@@ -190,7 +192,7 @@ var Lab = (() => {
      * @param {string} name
      * @param {{ modes?: string[], fallback?: string, store?: LabStorage, key?: string, onChange?: (mode: string) => void }} [options]
      */
-    toggle(name, { modes, fallback, store = session, key = `lab:${name}:${location.pathname}`, onChange = () => {} } = {}) {
+    toggle(name, { modes, fallback, store = session, key = `lab:${name}:${Lab.path(location.href)}`, onChange = () => {} } = {}) {
       const el = document.querySelector(`[data-lab-toggle="${name}"]`);
       const all = modes || (el ? [...el.querySelectorAll('[data-mode]')].map((b) => b.getAttribute('data-mode')) : []);
       const saved = store.get(key);
@@ -214,6 +216,9 @@ var Lab = (() => {
 
     /** light / dark for the lab UI — set by shell/theme.js on pages that theme it */
     theme: undefined,
+    /** the Hotspots switch's mode on a page that shows screens — set by hotspots/host.js, which fires 'lab:hotspots'
+        on document when it changes (flow lines follow it) */
+    hotspots: undefined,
     /** the canvas's view maths — set by canvas/view-math.js on section pages */
     viewMath: undefined,
   };

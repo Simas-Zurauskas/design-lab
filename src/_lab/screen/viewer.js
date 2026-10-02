@@ -22,18 +22,26 @@
   if (bar instanceof HTMLElement) bar.hidden = false;
 
   const KEY = 'lab:entry';
+  const GALLERY = 'lab:gallery';
   const samePage = (a, b) => Lab.path(a) === Lab.path(b);
 
   // Entry = the screen this viewing started on. A fresh open (from a gallery, a typed URL) arms it;
   // a reload, Back/Forward, or clicking from one screen to the next (raw page) keeps it.
   const nav = Lab.navType();
   const from = document.referrer && new URL(document.referrer);
-  const fromScreen = !!from && from.origin === location.origin && Lab.dir(from.href) === Lab.dir(location.href) && !/(^|\/)(index\.html)?$/.test(from.pathname);
+  const inSection = !!from && from.origin === location.origin && Lab.dir(from.href) === Lab.dir(location.href);
+  const fromScreen = inSection && !!from && /(^|\/)screen-[^/]*$/.test(Lab.path(from.href) ?? '');
   let entry = Lab.session.get(KEY);
   if (!entry || Lab.dir(entry) !== Lab.dir(location.href) || (nav === 'navigate' && !fromScreen)) {
     entry = location.href;
     Lab.session.set(KEY, entry);
+    // ‹ Gallery returns to the section page this viewing was opened from (a section can have several — Explorations'
+    // rounds); opened any other way (a typed URL, a shared link), to the section's index.html
+    Lab.session.set(GALLERY, inSection && from ? from.href : '');
   }
+  const gallery = Lab.session.get(GALLERY);
+  const back = bar?.querySelector('[data-lab-gallery]');
+  if (back instanceof HTMLAnchorElement && gallery && Lab.dir(gallery) === Lab.dir(location.href)) back.href = gallery;
   const light = (away) => reset?.classList.toggle('lab-btn-alert', away);
 
   const viewing = !new URLSearchParams(location.search).has('bare') && matchMedia('(min-width: 600px) and (min-height: 480px)').matches;
@@ -57,9 +65,9 @@
   viewer.innerHTML =
     '<div class="lab-viewer-stage"><p class="lab-viewer-title"></p>' +
     '<div class="lab-viewer-device"><div class="lab-viewer-bezel"><iframe></iframe></div></div></div>';
-  // the screen renders inside the device instead — drop this page's own copy (the lab bar and the
-  // scripts stay; nothing after this point has been parsed yet)
-  for (const el of [...document.body.children]) if (!el.matches('[data-lab-bar], script, style')) el.remove();
+  // the screen renders inside the device instead — drop this page's own copy (the lab bar, the password
+  // gate and the scripts stay; nothing after this point has been parsed yet)
+  for (const el of [...document.body.children]) if (!el.matches('[data-lab-bar], .lab-gate, script, style')) el.remove();
   document.body.prepend(viewer);
   document.documentElement.classList.add('lab-viewing');
 

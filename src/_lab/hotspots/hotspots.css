@@ -6,9 +6,10 @@
      dotted — changes the UI in place     [aria-pressed] / [role="radio"]
    Placeholders (href="#") and plain <button>s do nothing yet, so
    they aren't outlined. Inset, so overflow areas (rails) never clip
-   it; pulses with a few-px glow (a box-shadow, so it stands in for a
-   hotspot's own shadow while outlined). Accent from core/tokens.css —
-   tooling blue, never part of a design.
+   it; the one under the pointer pulses with a few-px glow (a
+   box-shadow, so it stands in for a hotspot's own shadow while
+   outlined). Accent from core/tokens.css — tooling blue, never part
+   of a design.
    ============================================================ */
 
 /* two kinds, two rules that never compete (an element is one or the other) */
@@ -16,12 +17,18 @@ html[data-lab-hotspots="always"] a[href]:not([href="#"], [data-lab-bar] *),
 html[data-lab-hotspots="hover"] a[href]:not([href="#"], [data-lab-bar] *):hover {
   outline: 2px solid rgb(var(--lab-accent) / 0.75);
   outline-offset: -2px;
-  animation: lab-hotspot-pulse 1.4s ease-in-out infinite alternate;
 }
 html[data-lab-hotspots="always"] :is([aria-pressed], [role="radio"]):not(:disabled, [aria-disabled="true"], [data-lab-bar] *),
 html[data-lab-hotspots="hover"] :is([aria-pressed], [role="radio"]):not(:disabled, [aria-disabled="true"], [data-lab-bar] *):hover {
   outline: 2px dotted rgb(var(--lab-accent) / 0.75);
   outline-offset: -2px;
+}
+/* Only the hotspot under the pointer pulses. Outline and box-shadow repaint on every frame of an animation, and a
+   canvas holds every screen at once: pulsing all of them (Always) kept the page repainting non-stop — measured, it
+   saturated the main thread with nothing moving, and zooming or clicking on top of it froze the canvas. */
+html:is([data-lab-hotspots="always"], [data-lab-hotspots="hover"]) a[href]:not([href="#"], [data-lab-bar] *):hover,
+html:is([data-lab-hotspots="always"], [data-lab-hotspots="hover"])
+  :is([aria-pressed], [role="radio"]):not(:disabled, [aria-disabled="true"], [data-lab-bar] *):hover {
   animation: lab-hotspot-pulse 1.4s ease-in-out infinite alternate;
 }
 @keyframes lab-hotspot-pulse {

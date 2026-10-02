@@ -1,0 +1,102 @@
+/* ============================================================
+   LAB CHROME — sheet: a section page that scrolls like a document
+   instead of panning like a canvas (Explorations' rounds). It holds
+   the same pieces as a canvas — .lab-board and figure.lab-screen in
+   .lab-row — stacked in .lab-sheet-section blocks, at true device
+   size. .lab-sheet-fit scales one block down as a unit (CSS zoom)
+   when the window is too narrow for its row, so a board and its
+   screens always line up. Colors: core/tokens.css only.
+   ============================================================ */
+
+.lab-sheet {
+  --k: 1; /* the canvas's zoom variables, fixed: screen names (canvas.css) read them */
+  --k-rest: 1;
+  flex: 1 1 0; /* fills .lab-main under the header */
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--lab-bg);
+  container: lab-sheet / inline-size;
+}
+.lab-sheet-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 120px;
+  padding: 48px 40px 160px;
+}
+
+.lab-sheet-section {
+  scroll-margin-top: 32px; /* an in-page link (#v01) lands with a little air above */
+}
+.lab-sheet-fit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 72px; /* board → screens: room for the screen names above the frames */
+}
+/* 3 devices (402 px each with the bezel) + 2 gaps of 40 = 1286: step down so a row of three still fits */
+@container lab-sheet (width < 1370px) {
+  .lab-sheet-fit {
+    zoom: 0.86;
+  }
+}
+@container lab-sheet (width < 1190px) {
+  .lab-sheet-fit {
+    zoom: 0.72;
+  }
+}
+@container lab-sheet (width < 1000px) {
+  .lab-sheet-fit {
+    zoom: 0.6;
+  }
+}
+.lab-sheet .lab-row {
+  gap: 40px;
+}
+
+/* a section's title on the sheet (e.g. "Compare · Home") — lab chrome, so it follows the lab's light / dark */
+.lab-sheet-title {
+  margin-bottom: 32px;
+  color: var(--lab-text);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+}
+.lab-sheet-title + p {
+  max-width: 72ch;
+  margin: -20px 0 32px;
+  color: var(--lab-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* a compact grid of screens — one screen compared across a round's variants: five to a row, scaled down as one
+   block (the names scale back up so they stay readable) */
+.lab-sheet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 96px 24px; /* row gap: room for the names above the frames */
+  width: calc(5 * 402px + 4 * 24px);
+  padding-top: 40px;
+  zoom: 0.55;
+}
+.lab-sheet-grid .lab-screen > figcaption {
+  font-size: 22px;
+  line-height: 32px;
+}
+@container lab-sheet (width >= 1370px) {
+  .lab-sheet-grid {
+    zoom: 0.6;
+  }
+}
+@container lab-sheet (width < 1190px) {
+  .lab-sheet-grid {
+    zoom: 0.5;
+  }
+}
+@container lab-sheet (width < 1000px) {
+  .lab-sheet-grid {
+    zoom: 0.42;
+  }
+}

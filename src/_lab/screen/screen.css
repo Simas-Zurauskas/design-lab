@@ -35,6 +35,16 @@ html:has([data-lab-bar]) ::-webkit-scrollbar {
   transition-duration: 0.1s;
 }
 
+/* ---- a phone, not a web page: a press taps, or drags to scroll (drag-scroll.js, which also keeps the browser's
+   drag-and-drop off) — it never selects text. Fields stay selectable. ---- */
+
+html:has([data-lab-bar]) {
+  user-select: none;
+}
+html:has([data-lab-bar]) :is(input, textarea, [contenteditable]:not([contenteditable="false"])) {
+  user-select: text;
+}
+
 /* ---- interactions (interact.js): what does nothing doesn't look clickable; what changes the UI does ---- */
 
 html:has([data-lab-bar]) a[href="#"]:not([data-lab-bar] *) {

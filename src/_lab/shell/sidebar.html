@@ -1,14 +1,16 @@
 <!-- LAB CHROME — the section pages' sidebar. Include it FIRST inside <body> (see any section page): it
-     boots the lab — core/lab.js, then shell/theme.js so the theme lands before anything paints — then
+     boots the lab — core/lab.js, then shell/theme.js so the theme lands before anything paints, then gate/gate.js
+     (the password screen of a hosted lab opened in its own tab) — then
      the section nav, then the light / dark switch pinned to the bottom. -->
 <script src="../_lab/core/lab.js"></script>
 <script src="../_lab/shell/theme.js"></script>
+<script src="../_lab/gate/gate.js"></script>
 <aside class="lab-sidebar">
-  <a href="../wireframes/index.html" class="lab-brand">Design Lab</a>
+  <a href="../explorations/index.html" class="lab-brand">Design Lab</a>
   <nav class="lab-nav" aria-label="Sections">
-    <a data-side="wireframes" href="../wireframes/index.html">Wireframes</a>
     <a data-side="explorations" href="../explorations/index.html">Explorations</a>
-    <a data-side="theme" href="../theme/index.html">Theme</a>
+    <a data-side="theme" href="../theme/index.html">Design System</a>
+    <a data-side="wireframes" href="../wireframes/index.html">Wireframes</a>
     <a data-side="components" href="../components/index.html">Components</a>
     <a data-side="hifi" href="../hifi/index.html">High fidelity</a>
   </nav>

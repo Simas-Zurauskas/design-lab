@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Theme — Design Lab</title>
+  <title>Design System — Design Lab</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
 <body data-section="theme" class="lab-page">
@@ -12,15 +12,15 @@
     <main class="lab-main">
       <header class="lab-header">
         <div>
-          <h1>Theme</h1>
-          <p>Tokens live in <code>src/theme.css</code> — the single source of truth. Components and hi-fi screens use them as utilities (bg-primary, text-ink, font-display…).</p>
+          <h1>Design System</h1>
         </div>
+        <include src="_lab/shell/controls.html"></include>
       </header>
 
       <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
            components (_lab/canvas/). The CONTENT is token boards (.lab-board) previewing src/theme.css —
            a group per token family. The tokens themselves live ONLY in theme.css. -->
-      <div data-canvas class="lab-canvas" role="region" aria-label="Theme canvas">
+      <div data-canvas class="lab-canvas" role="region" aria-label="Design System canvas">
         <div data-canvas-world class="lab-canvas-world">
         </div>
         <include src="_lab/canvas/canvas.html"></include>

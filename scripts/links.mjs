@@ -6,7 +6,8 @@
 //   · does nothing yet       <a href="#"> (placeholder) / a plain <button> — not clickable in the lab
 // Read with posthtml-parser — the parser the build's <include> runs on — so comments, quoting and entities count
 // the way the build counts them. Fails (exit 1) on: links to pages that don't exist; links and controls with no
-// accessible name (CLAUDE.md rule 4); a canvas caption or frame title out of step with the screen's <title>.
+// accessible name (CLAUDE.md rule 4); a caption or frame title out of step with the screen's <title> — on the
+// section's index (canvas or sheet) and on its round pages (round-*.html, Explorations).
 // Also lists placeholders and screens nothing links to. Tests: test/links.test.mjs.
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, resolve, relative, basename } from 'node:path';
@@ -132,16 +133,26 @@ export function analyze(src) {
         });
         for (const c of [...s.links, ...s.controls]) if (!c.named) problems.push(`${s.title}: ${c.label} has no accessible name — add aria-label`);
       }
-      for (const f of readCanvas(join(dir, 'index.html'))) {
-        const s = f.src && byPath.get(resolve(dir, f.src));
-        if (!s) {
-          problems.push(`canvas: a frame shows ${f.src} — not a screen of this section`);
-          continue;
+      // the section's pages that show screens: its index (a canvas or a sheet) and any round pages (Explorations)
+      const pages = [
+        'index.html',
+        ...readdirSync(dir)
+          .filter((f) => /^round-.*\.html$/.test(f))
+          .sort(),
+      ];
+      for (const page of pages) {
+        const where = page === 'index.html' ? 'canvas' : page;
+        for (const f of readCanvas(join(dir, page))) {
+          const s = f.src && byPath.get(resolve(dir, f.src));
+          if (!s) {
+            problems.push(`${where}: a frame shows ${f.src} — not a screen of this section`);
+            continue;
+          }
+          const short = s.title.replace(/^[^·]*·\s*/, ''); // "05 · It's a match" → "It's a match"
+          if (f.caption !== s.title) problems.push(`${where}: caption "${f.caption}" ≠ <title> "${s.title}" (${s.file})`);
+          if (f.href !== f.src) problems.push(`${where}: caption opens ${f.href} but the frame shows ${f.src}`);
+          if (f.frameTitle !== short) problems.push(`${where}: frame title "${f.frameTitle}" ≠ "${short}" (${s.file})`);
         }
-        const short = s.title.replace(/^[^·]*·\s*/, ''); // "05 · It's a match" → "It's a match"
-        if (f.caption !== s.title) problems.push(`canvas: caption "${f.caption}" ≠ <title> "${s.title}" (${s.file})`);
-        if (f.href !== f.src) problems.push(`canvas: caption opens ${f.href} but the frame shows ${f.src}`);
-        if (f.frameTitle !== short) problems.push(`canvas: frame title "${f.frameTitle}" ≠ "${short}" (${s.file})`);
       }
       const orphans = screens.length > 1 ? screens.filter((s) => incoming.get(s) === 0) : [];
       return { name, screens, orphans, problems };

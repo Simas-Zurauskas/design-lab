@@ -4,7 +4,7 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
-  { ignores: ['dist/', '.parcel-cache/', 'node_modules/'] },
+  { ignores: ['dist/', '.parcel-cache/', 'node_modules/', '.wrangler/'] },
   js.configs.recommended,
   {
     // the lab: classic browser scripts sharing window.Lab (core/lab.js defines it; theme.js / view-math.js add to it)
@@ -16,11 +16,11 @@ export default [
     languageOptions: { globals: { Lab: 'off' } },
   },
   {
-    files: ['src/_lab/icons/icons.js'], // the one ES module in the lab
-    languageOptions: { sourceType: 'module' },
-  },
-  {
     files: ['**/*.mjs'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    files: ['**/*.cjs'], // the posthtml plugin: Parcel loads plugins as CommonJS
+    languageOptions: { sourceType: 'commonjs', globals: globals.node },
   },
 ];

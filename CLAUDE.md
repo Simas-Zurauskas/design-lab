@@ -4,8 +4,9 @@ An HTML design workbench — a Figma replacement where every design is plain HTM
 it directly, every change is a diff, prototypes are really clickable, and the approved tokens are the CSS the
 app ships with. Parcel builds it; posthtml `<include>` composes it. Two technical users; AI does most edits.
 
-Each **section** (sidebar) is a pan/zoom **canvas** (Figma-like) of screens or boards, in workflow order:
-**Wireframes → Explorations → Theme → Components → High fidelity.**
+Each **section** (sidebar) is a pan/zoom **canvas** (Figma-like) of screens or boards — except Explorations, a
+scrolling **sheet** per round — in workflow order:
+**Explorations → Design System → Wireframes → Components → High fidelity.**
 
 ## Read this first — system vs content
 
@@ -16,23 +17,25 @@ Each **section** (sidebar) is a pan/zoom **canvas** (Figma-like) of screens or b
   content-layer rules in `src/styles.css`.
 - Default assumption: every request is about designs.
 - **Docs are three files — there is no `docs/` folder:** `README.md` (people), this file (agents),
-  `src/_lab/README.md` (the workbench map). Keep them true; don't create new doc files or a `docs/` folder.
+  `src/_lab/README.md` (the workbench map). Keep them true; don't create new doc files or a `docs/` folder. One more
+  file is not a doc but a pointer: `EXPLORATIONS-PROMPT.md` — Explorations rounds are run by the `mood-board-creator`
+  skill (`~/dev/ai/SKILLS/mood-board-creator`); the file says how to start one here.
 
 ## Where the designs are
 
 | Path | Section | What goes there |
 | --- | --- | --- |
-| `src/wireframes/` | Wireframes | Grayscale screens (`screen-NN.html`) + `index.html` (the canvas arrangement). Structure and flow only — never color or branding. |
-| `src/explorations/` | Explorations | Divergent visual directions — free-form on purpose (any colors, fonts, images; not bound to tokens). A group per direction; the winner is promoted into `theme.css`. |
+| `src/explorations/` | Explorations | Divergent visual directions in **rounds** — free-form on purpose (any colors, fonts, images; not bound to tokens). `round-NN.html` is one round: a **sheet** (scrolls like a page, no pan/zoom); `index.html` opens the latest round; `parts/rounds.html` is the round tabs. A variant = `screen-rR-vNN-1…3.html` + `rR-vNN.css` (every selector under `.rR-vNN`) + `parts/rR-vNN-board.html` (its description board); shared photos in `img/`. The winner is promoted into `theme.css`. |
 | `src/theme.css` | — | **All design tokens** (`@theme static`) — the single source of truth. Re-skin = edit only this file. |
-| `src/theme/index.html` | Theme | Boards previewing the tokens (values can be read live via `getComputedStyle(document.documentElement).getPropertyValue('--color-primary')`; which swatches exist is hand-kept). |
-| `src/components/` | Components | Design parts, included with `<include src="components/x.html"></include>` (path from `src/`, NOT from the including file): `status-bar.html` (neutral phone OS chrome), `wf-tabbar.html` (wireframe tab bar). Themed parts go in `components/hifi/` (create it with the first one). `components/index.html` is the Components canvas — the only page in this folder (the build's entries are `src/*/index.html` + `src/*/screen-*.html`, so parts are never built as pages). |
+| `src/theme/index.html` | Design System | Boards previewing the tokens (values can be read live via `getComputedStyle(document.documentElement).getPropertyValue('--color-primary')`; which swatches exist is hand-kept). |
+| `src/wireframes/` | Wireframes | Grayscale screens (`screen-NN.html`) + `index.html` (the canvas arrangement). Structure and flow only — never color or branding. |
+| `src/components/` | Components | Design parts, included with `<include src="components/x.html"></include>` (path from `src/`, NOT from the including file): `status-bar.html` (neutral phone OS chrome); wireframe parts are `wf-<name>.html`. Themed parts go in `components/hifi/` (create it with the first one). `components/index.html` is the Components canvas — the only page in this folder (the build's entries are `src/*/index.html` + `src/*/screen-*.html`, so parts are never built as pages). |
 | `src/hifi/` | High fidelity | Themed screens + canvas. `screen-01.html` is the blank scaffold to copy (not on the canvas). |
-| `src/styles.css` | — | Imports Tailwind, `theme.css` and the lab; below that, content-layer rules (e.g. wireframe tab-bar active state, Components boards on the theme). |
+| `src/styles.css` | — | Imports Tailwind, `theme.css` and the lab; below that, content-layer rules (e.g. a tab bar's active state keyed off `data-page`, Components boards on the theme). |
 
-**Current state:** Wireframes hold *Horse Tinder* — 14 screens in 5 journeys (Onboarding, Discover,
-Matches & chat, Likes & Premium, Profile). Explorations, Theme, Components and High fidelity are empty;
-`theme.css` holds neutral placeholder values.
+**Current state:** a blank lab. Wireframes hold one placeholder group, *Sample flow* (01 · Home → 02 · Item → 03 ·
+Done), to copy from and then replace. Explorations has an empty Round 1 (`round-01.html`; `index.html` opens it).
+Design System, Components and High fidelity are empty; `theme.css` holds neutral placeholder values.
 
 ## Rules
 
@@ -58,8 +61,8 @@ Matches & chat, Likes & Premium, Profile). Explorations, Theme, Components and H
    a link or control with no name.
 5. **Boards** (`.lab-board`) get an explicit width (`w-[896px]`) and no viewport breakpoints (`sm:` / `lg:`)
    inside — the canvas, not the window, sizes them.
-6. **Icons**: Lucide, full set — `<i data-lucide="house" class="h-5 w-5"></i>` anywhere; any name works. No
-   brand icons (Google/Apple…) — use neutral shapes.
+6. **Icons**: Lucide, full set — `<i data-lucide="house" class="h-5 w-5"></i>` anywhere; any name works (inlined as
+   `<svg>` at build — an unknown name fails the build). No brand icons (Google/Apple…) — use neutral shapes.
 7. **Keep files small** — one screen / component per file. That's the point of the setup.
 
 ## Common tasks
@@ -81,10 +84,19 @@ Matches & chat, Likes & Premium, Profile). Explorations, Theme, Components and H
 - **New component** — `src/components/hifi/<name>.html` (tokens only). On the Components canvas: a group per
   component, a `<div class="lab-board w-[…]">` per state containing its `<include>` (boards sit on the theme
   automatically). Hi-fi screens include the same file — the library and the screens can't drift.
-- **Preview tokens** — boards on the Theme canvas; **explore a direction** — a group of boards/screens on
-  Explorations.
+- **Preview tokens** — boards on the Design System canvas; **explore a direction** — a variant in an Explorations
+  round (next two items).
+- **New variant in a round** — its files (table above); in the round page a
+  `<section class="lab-sheet-section" id="rR-vNN"><div class="lab-sheet-fit">` holding the board's `<include>`, then a
+  `.lab-row` of `figure.lab-screen`s (same markup as a canvas, iframes `loading="lazy"`). Fonts: a Google Fonts
+  `<link>` in each screen's `<head>` and in the round page's (never a CSS `@import` — a build may merge stylesheets
+  and drop it). Boards on a sheet: `w-[1286px]` = a row of three devices.
+- **New round** — add its tab to `src/explorations/parts/rounds.html`, create `round-NN.html` from the last round
+  (keep the skeleton: sidebar, header with the tabs include, `[data-lab-sheet]` > `.lab-sheet-body`,
+  `_lab/sheet/sheet.html` last), point `src/explorations/index.html` at it.
 - **Check the flow** — `yarn links` prints what links to what, per section, lists placeholders and screens
-  nothing links to, and fails on missing targets, unlabeled controls and canvas names that don't match `<title>`.
+  nothing links to, and fails on missing targets, unlabeled controls and screen names on a canvas or round page
+  that don't match `<title>`.
 - **Workbench changes** (new section, lab UI, behavior) — system; see `src/_lab/README.md` (map, contracts,
   messages, recipes).
 
@@ -94,21 +106,27 @@ Matches & chat, Likes & Premium, Profile). Explorations, Theme, Components and H
   (anywhere) = pan · `+` `−` · Shift+1 fit · Shift+0 100% · `?` shortcuts. Scrolling over a screen pans the
   canvas; dragging scrolls inside it (⌥/Alt+scroll natively). Screens render at native 390×844 (100% = device
   size). Opening a section fits it; coming back (‹ Gallery, Back, a reload) restores the view.
+- **Sheet** (Explorations rounds): scrolls like a page — scroll over a screen scrolls the page, dragging scrolls
+  inside it (⌥/Alt+scroll natively). Screens at native size, scaled down with their board as one block when the
+  window is narrow (CSS zoom steps). Round tabs next to the title; no Groups list, no flow lines.
+- **Groups list**: top-left of every canvas with groups, fixed while it pans — each group's name (+ how many
+  screens), a click zooms to it like its title does. Header switch **Groups** Off/On (starts On).
 - **Header switches** (sections with screens): **Hotspots** Off/Hover/Always (solid = goes to a screen,
-  dotted = changes the UI) and **Flows** Off/Hover/Always (a curve from each link to the screen it opens;
-  tab-bar links faint, out-of-view links dashed). Both start on Hover, remembered per page for the tab.
-  ↺ Reset all + a ↺ per screen light up once a screen was clicked away from or changed.
+  dotted = changes the UI; the one under the pointer pulses). While it's Hover or Always, pointing at a link
+  also draws a line to the screen it opens (flows — no switch of their own). Switches are remembered per page
+  for the tab. ↺ Reset all + a ↺ per screen light up once a screen was clicked away from or changed.
 - **Full screen** (a screen's name clicked, or its URL): the screen in a device bezel on the lab background,
-  with ‹ Gallery, ↺ Reset and Hotspots. `?bare` shows the raw page.
+  with ‹ Gallery (back to the page it was opened from — a round, a canvas), ↺ Reset and Hotspots. `?bare` shows
+  the raw page.
 - **Sidebar bottom**: Light / Dark for the lab UI only — designs never change with it.
 
 ## Commands
 
 Package manager is **yarn** (yarn.lock — never create package-lock.json).
 - `yarn dev` → http://localhost:1234 (never while `yarn build` runs — both write `dist/`)
-- `yarn build` → static `dist/`, works from `file://` or any host (icons don't render from `file://` — the one
-  module script). Chains `scripts/fix-nested-urls.mjs` (fails on a ref that resolves nowhere); don't bypass it.
-- `yarn links` → the link map (exit 1 on missing targets, unlabeled controls, canvas names ≠ `<title>`)
+- `yarn build` → static `dist/`, works from `file://` or any host. Chains `scripts/fix-nested-urls.mjs` (fails on a
+  ref that resolves nowhere); don't bypass it. Then copies `_headers` (Cloudflare caching) into `dist/`.
+- `yarn links` → the link map (exit 1 on missing targets, unlabeled controls, canvas / round names ≠ `<title>`)
 - `yarn test` · `yarn lint` · `yarn format` / `format:check` · `yarn typecheck` — the gates CI runs
   (`.github/workflows/check.yml`, with `build`, `links`, a dependency audit and a secret sweep). Run them after
   any workbench change; content-only changes need `yarn links` (and `yarn build` if links changed).
