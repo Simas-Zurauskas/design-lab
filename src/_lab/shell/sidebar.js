@@ -1,7 +1,9 @@
 /* ============================================================
    LAB CHROME — shell: the sidebar's behavior. Marks the current
    section (from <body data-section="…">, so adding a section needs
-   no CSS) and runs the light / dark switch at the bottom.
+   no CSS) and the current page in a section's page tabs
+   ([data-lab-pages] — Explorations' rounds), and runs the light /
+   dark switch at the bottom.
    Loaded at the end of shell/sidebar.html.
    ============================================================ */
 
@@ -10,6 +12,12 @@
   for (const a of document.querySelectorAll('.lab-nav [data-side]')) {
     if (a.getAttribute('data-side') === section) a.setAttribute('aria-current', 'page');
   }
+  // page tabs sit in the header, after this script: mark them once the page is parsed
+  document.addEventListener('DOMContentLoaded', () => {
+    for (const a of document.querySelectorAll('[data-lab-pages] a[href]')) {
+      if (Lab.path(a.getAttribute('href')) === Lab.path(location.href)) a.setAttribute('aria-current', 'page');
+    }
+  });
 
   if (!Lab.theme) return; // theme.js stands down on a page the lab itself shows — nothing to switch there
   const theme = Lab.toggle('theme', { store: Lab.local, key: Lab.theme.key, fallback: Lab.theme.get(), onChange: Lab.theme.apply });

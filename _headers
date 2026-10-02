@@ -1,0 +1,9 @@
+# Response headers on Cloudflare (Workers static assets or Pages) — `yarn build` copies this file into dist/.
+# Parcel names every script and stylesheet after its content hash, so a change is a new URL: they are cached for a
+# year instead of re-checked by every screen frame on every visit (a canvas of 14 screens made ~180 requests per
+# load, nearly all of them the same dozen files). Pages (.html) keep the default: re-checked every time, so a deploy
+# shows at once.
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+/*.css
+  Cache-Control: public, max-age=31536000, immutable

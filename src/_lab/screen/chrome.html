@@ -2,12 +2,15 @@
        <include src="_lab/screen/chrome.html"></include>
      It gives the screen, with no design-level wiring: the full-screen device viewer + its bar (‹ Gallery,
      ↺ Reset, Hotspots — viewer.js), hotspot outlines, in-screen interactions (interact.js), the canvas
-     bridge (scroll / pinch / middle-drag / shortcuts / link reports — bridge.js), drag-to-scroll,
-     overlay scroll indicators and Lucide icons. Inside a canvas frame the bar stays hidden. -->
+     bridge (scroll / pinch / middle-drag / shortcuts / link reports — bridge.js), drag-to-scroll and
+     overlay scroll indicators, and the password gate of a hosted screen opened in its own tab (gate.js).
+     Inside a canvas frame the bar stays hidden. (Lucide icons are inlined at build
+     time — scripts/posthtml-lab-icons.) -->
 <script src="../_lab/core/lab.js"></script>
 <script src="../_lab/shell/theme.js"></script>
+<script src="../_lab/gate/gate.js"></script>
 <div data-lab-bar class="lab-bar" hidden>
-  <a href="index.html" class="lab-btn">‹ Gallery</a>
+  <a href="index.html" data-lab-gallery class="lab-btn">‹ Gallery</a>
   <button data-lab-reset type="button" class="lab-btn" title="Back to the screen you opened">↺ Reset</button>
   <include src="_lab/hotspots/toggle.html"></include>
 </div>
@@ -17,4 +20,3 @@
 <script src="../_lab/screen/bridge.js"></script>
 <script src="../_lab/screen/drag-scroll.js"></script>
 <script src="../_lab/screen/scroll-indicators.js"></script>
-<script type="module" src="../_lab/icons/icons.js"></script>

@@ -1,17 +1,14 @@
 /* ============================================================
-   LAB CHROME — flows: on a canvas, a line from every link in a
-   screen to the screen it opens — like Figma's prototype
-   connections. Header switch (flows/toggle.html): Off / Hover
-   (only the line of the link under the pointer) / Always (all
-   lines; the one under the pointer stands out, the rest dim).
-   Starts on Hover; remembered per page for the tab.
+   LAB CHROME — flows: on a canvas, pointing at a link in a screen
+   draws a line to the screen it opens — like Figma's prototype
+   connections. It shows while hotspots do (the header's Hotspots
+   switch on Hover or Always — Lab.hotspots, hotspots/host.js):
+   a flow is where a hotspot goes. No switch of its own.
    Screens report their links from the inside (screen/bridge.js),
-   so lines follow scrolling and clicking through, and it works
-   from file:// too. Lines live in an SVG inside the world — world
-   units, so pan and zoom move them for free — while stroke width,
-   start dot and arrowhead stay screen-sized. Links inside a <nav>
-   (tab bars: the same on every screen) are drawn faint; a link
-   out of view starts dashed at the nearest visible edge.
+   so the line follows scrolling and clicking through, and it works
+   from file:// too. It lives in an SVG inside the world — world
+   units, so pan and zoom move it for free — while stroke width,
+   start dot and arrowhead stay screen-sized.
    Classic script (not a module) so it also runs from file://.
    ============================================================ */
 
@@ -63,7 +60,7 @@
   // its nearest edge, level with the link when it can, so lines stay as straight as possible.
   // Target above / below: leave sideways past the screen's nearer edge, then arc into the target's
   // top / bottom — never straight through the screen's own content.
-  const curve = (frameBox, from, to, l, lit, ends) => {
+  const curve = (frameBox, from, to, l, ends) => {
     const L = { x: frameBox.x + l.x, y: frameBox.y + l.y, w: l.w, h: l.h };
     const cx = L.x + L.w / 2;
     const cy = L.y + L.h / 2;
@@ -90,7 +87,7 @@
       c2 = [ex, ey - down * span(Math.abs(ey - sy))];
     }
     const angle = (Math.atan2(ey - c2[1], ex - c2[0]) * 180) / Math.PI;
-    const g = make('g', { class: `lab-flow${l.nav ? ' is-nav' : ''}${l.hidden ? ' is-offscreen' : ''}${lit ? ' is-focus' : ''}`, ...ends });
+    const g = make('g', { class: 'lab-flow', ...ends });
     g.append(
       make('path', { d: `M${f(sx)} ${f(sy)}C${f(c1[0])} ${f(c1[1])} ${f(c2[0])} ${f(c2[1])} ${f(ex)} ${f(ey)}` }),
       make('circle', { r: '3.5', style: `transform:translate(${f(sx)}px,${f(sy)}px) scale(var(--flow-s))` }),
@@ -105,7 +102,6 @@
 
   /* ---- render (once per frame at most) ---- */
 
-  let mode = 'always';
   let focus = null; // { s, i } — link i of screen s is under the pointer
   let queued = false;
   const draw = () => {
@@ -115,26 +111,17 @@
   };
   const render = () => {
     queued = false;
-    canvas.toggleAttribute('data-flow-focus', !!focus && mode !== 'off');
-    if (mode === 'off') return svg.replaceChildren();
+    const s = focus?.s;
+    const l = s?.links[focus.i];
+    const target = l ? pathOf(l.href) : null;
+    const t = target ? byPath.get(target) : null;
+    const page = s ? pathOf(s.page) : null;
+    // nothing pointed at, a link off this canvas or to itself, or hotspots Off: no line
+    if (!t || t === s || target === page || Lab.hotspots?.get() === 'off') return svg.replaceChildren();
     svg.setAttribute('width', world.offsetWidth);
     svg.setAttribute('height', world.offsetHeight);
-    const boxes = new Map(screens.map((s) => [s, { frame: boxOf(s.frame), bezel: boxOf(s.bezel) }]));
-    const rest = [];
-    const front = []; // the hovered link's line paints on top
-    for (const s of screens) {
-      const page = pathOf(s.page);
-      for (const [i, l] of s.links.entries()) {
-        const target = pathOf(l.href);
-        const t = byPath.get(target);
-        if (!t || t === s || target === page) continue; // not on this canvas, or a link to itself
-        const lit = !!focus && focus.s === s && focus.i === i;
-        if (mode === 'hover' && !lit) continue;
-        const ends = { 'data-from': page || s.path, 'data-to': target }; // for inspection / tests
-        (lit ? front : rest).push(curve(boxes.get(s).frame, boxes.get(s).bezel, boxes.get(t).bezel, l, lit, ends));
-      }
-    }
-    svg.replaceChildren(...rest, ...front);
+    const ends = { 'data-from': page || s.path, 'data-to': target }; // for inspection / tests
+    svg.replaceChildren(curve(boxOf(s.frame), boxOf(s.bezel), boxOf(t.bezel), l, ends));
   };
 
   /* ---- links reported by each screen (screen/bridge.js) ---- */
@@ -147,7 +134,7 @@
     s.links = d.links
       .slice(0, Lab.MAX_LINKS)
       .filter((l) => l && typeof l.href === 'string' && [l.x, l.y, l.w, l.h].every((n) => Number.isFinite(+n)))
-      .map((l) => ({ href: l.href, nav: !!l.nav, hidden: !!l.hidden, x: +l.x, y: +l.y, w: Math.max(0, +l.w), h: Math.max(0, +l.h) }));
+      .map((l) => ({ href: l.href, x: +l.x, y: +l.y, w: Math.max(0, +l.w), h: Math.max(0, +l.h) }));
     draw();
   });
   // which link the pointer is on (screen/bridge.js) — -1: none
@@ -158,7 +145,7 @@
     else if (focus?.s === s) focus = null;
     draw();
   });
-  // a screen navigating inside its frame: drop the old page's lines until the new one reports
+  // a screen navigating inside its frame: drop the old page's links until the new one reports
   for (const s of screens) {
     s.frame.addEventListener('load', () => {
       s.links = [];
@@ -167,15 +154,5 @@
     });
   }
   new ResizeObserver(draw).observe(world);
-
-  /* ---- mode: the header switch ---- */
-
-  Lab.toggle('flows', {
-    fallback: 'hover',
-    onChange: (m) => {
-      mode = m;
-      canvas.dataset.flows = m;
-      draw();
-    },
-  });
+  document.addEventListener('lab:hotspots', draw); // the Hotspots switch turns the line on and off
 })();

@@ -98,28 +98,18 @@
   background-color: var(--lab-surface);
 }
 .lab-header > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* the title, then the section's page tabs if it has them */
   min-width: 0;
 }
-.lab-header h1,
-.lab-header p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .lab-header h1 {
+  overflow: hidden;
   font-size: 18px;
   font-weight: 700;
   line-height: 28px;
-}
-.lab-header p {
-  color: var(--lab-muted);
-  font-size: 12px;
-  line-height: 16px;
-}
-.lab-header code {
-  padding: 0 4px;
-  border-radius: 4px;
-  background-color: var(--lab-hover);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .lab-header-controls {
   display: flex;
@@ -127,8 +117,9 @@
   align-items: center;
   gap: 12px;
 }
-/* Hotspots / Flows / Reset all act on screens: until the section has one, they'd be switches that do nothing */
-.lab-main:not(:has(.lab-screen)) .lab-header-controls {
+/* Hotspots / Reset all act on screens: until the section has one, they'd be switches that do nothing (Groups hides
+   itself until there's a group — toc/toc.css) */
+.lab-main:not(:has(.lab-screen)) .lab-header-controls > :not(.lab-toc-field) {
   display: none;
 }
 
@@ -164,7 +155,7 @@ a.lab-btn:hover {
   vertical-align: 1px;
 }
 
-/* ---- segmented toggles: Hotspots, Flows, the theme switch (driven by Lab.toggle) ---- */
+/* ---- segmented toggles: Groups, Hotspots, the theme switch (driven by Lab.toggle) ---- */
 
 .lab-seg {
   display: inline-flex;
@@ -190,6 +181,21 @@ a.lab-btn:hover {
   background-color: var(--lab-strong);
   color: var(--lab-on-strong);
 }
+/* page tabs ([data-lab-pages]: Explorations' rounds): the same pill, its options are links — the current page is
+   marked by shell/sidebar.js */
+.lab-seg > a {
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.lab-seg > a:hover {
+  color: var(--lab-text);
+}
+.lab-seg > a[aria-current="page"] {
+  background-color: var(--lab-strong);
+  color: var(--lab-on-strong);
+}
+.lab-seg > a:focus-visible,
 .lab-seg > button:focus-visible {
   outline: 2px solid rgb(var(--lab-accent));
   outline-offset: 1px;

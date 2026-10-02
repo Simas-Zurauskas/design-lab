@@ -41,15 +41,22 @@
     /**
      * world rect → the view that shows it whole, centered, never above 100%.
      * `head` = px kept free above the rect for the titles that sit on top of it (they don't scale with the zoom,
-     * so this can't be folded into the world rect)
+     * so this can't be folded into the world rect); `left` = px of the canvas's left edge covered by a panel
+     * (the groups list) — the rect is fitted into the rest
      */
-    fitRect(r, vp, head = TITLE_ROOM) {
-      if (!(r.w > 0 && r.h > 0)) return { k: 1, x: FIT_PAD, y: FIT_PAD + head };
-      const w = Math.max(1, vp.w - 2 * FIT_PAD);
+    fitRect(r, vp, head = TITLE_ROOM, left = 0) {
+      if (!(r.w > 0 && r.h > 0)) return { k: 1, x: left + FIT_PAD, y: FIT_PAD + head };
+      const w = Math.max(1, vp.w - left - 2 * FIT_PAD);
       const h = Math.max(1, vp.h - 2 * FIT_PAD - head - TOOLS_ROOM);
       const k = clampK(Math.min(w / r.w, h / r.h, 1));
-      return { k, x: FIT_PAD + (w - r.w * k) / 2 - r.x * k, y: FIT_PAD + head + (h - r.h * k) / 2 - r.y * k };
+      return { k, x: left + FIT_PAD + (w - r.w * k) / 2 - r.x * k, y: FIT_PAD + head + (h - r.h * k) / 2 - r.y * k };
     },
+    /** the world rect the canvas shows, grown by `margin` canvas px on every side */
+    viewRect({ x, y, k }, vp, margin = 0) {
+      return { x: (-x - margin) / k, y: (-y - margin) / k, w: (vp.w + 2 * margin) / k, h: (vp.h + 2 * margin) / k };
+    },
+    /** two rects share some area (touching edges don't count) */
+    overlaps: (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h,
     /** the next zoom stop from k: dir > 0 in, dir < 0 out (off the ends: the limit) */
     step(k, dir) {
       if (dir > 0) return STEPS.find((s) => s > k * 1.001) ?? MAX_K;

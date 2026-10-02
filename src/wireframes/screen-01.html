@@ -3,33 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>01 · Welcome</title>
+  <title>01 · Home</title>
   <link rel="stylesheet" href="../styles.css">
 </head>
-<body data-page="welcome" class="bg-gray-100 font-sans text-gray-900 antialiased">
-  <div class="mx-auto flex min-h-dvh w-full max-w-[390px] flex-col border-x border-gray-300 bg-white">
+<body data-page="home" class="bg-gray-100 font-sans text-gray-900 antialiased">
+  <div class="mx-auto flex h-dvh w-full max-w-[390px] flex-col border-x border-gray-300 bg-white grayscale">
     <include src="components/status-bar.html"></include>
-
-    <main class="flex flex-1 flex-col px-6 pb-8">
-      <div class="flex flex-1 flex-col items-center justify-center gap-5 text-center">
-        <div class="flex h-20 w-20 items-center justify-center rounded-full bg-gray-900 text-white">
-          <i data-lucide="flame" class="h-9 w-9"></i>
-        </div>
-        <h1 class="text-3xl font-bold">Horse Tinder</h1>
-        <div class="flex w-full flex-col items-center gap-2">
-          <div class="wf-line w-2/3"></div>
-          <div class="wf-line w-1/2"></div>
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <a href="screen-02.html" class="rounded-full bg-gray-900 py-3.5 text-center font-semibold text-white">Create a profile</a>
-        <a href="screen-09.html" class="rounded-full border border-gray-300 py-3.5 text-center font-semibold">I already have an account</a>
-        <div class="mt-4 flex flex-col items-center gap-1.5">
-          <div class="wf-line w-3/4"></div>
-          <div class="wf-line w-1/2"></div>
-        </div>
-      </div>
+    <!-- Placeholder: a sample screen showing the primitives — replace with the project's first real screen. -->
+    <header class="px-4 pt-2 pb-3">
+      <h1 class="text-2xl font-bold">Home</h1>
+    </header>
+    <main class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 pb-6">
+      <div class="wf-img h-40 rounded-xl">Image</div>
+      <a href="screen-02.html" class="flex items-center gap-3 rounded-xl border border-gray-200 p-3">
+        <span class="wf-img h-12 w-12 shrink-0 rounded-lg" aria-hidden="true"></span>
+        <span class="flex flex-1 flex-col gap-2"><span class="text-base font-semibold">First item</span><span class="wf-line w-3/4"></span></span>
+        <i data-lucide="chevron-right" class="h-5 w-5 text-gray-400"></i>
+      </a>
+      <a href="#" class="flex items-center gap-3 rounded-xl border border-gray-200 p-3">
+        <span class="wf-img h-12 w-12 shrink-0 rounded-lg" aria-hidden="true"></span>
+        <span class="flex flex-1 flex-col gap-2"><span class="text-base font-semibold">Second item</span><span class="wf-line w-2/3"></span></span>
+        <i data-lucide="chevron-right" class="h-5 w-5 text-gray-400"></i>
+      </a>
     </main>
   </div>
   <include src="_lab/screen/chrome.html"></include>

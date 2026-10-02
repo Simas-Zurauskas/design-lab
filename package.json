@@ -8,6 +8,7 @@
   "source": [
     "src/index.html",
     "src/*/index.html",
+    "src/*/round-*.html",
     "src/*/screen-*.html"
   ],
   "targets": {
@@ -17,7 +18,7 @@
   },
   "scripts": {
     "dev": "parcel",
-    "build": "parcel build --public-url ./ && node scripts/fix-nested-urls.mjs",
+    "build": "parcel build --public-url ./ && node scripts/fix-nested-urls.mjs && cp _headers dist/",
     "links": "node scripts/links.mjs",
     "test": "node --test 'test/*.test.mjs'",
     "lint": "eslint .",
@@ -31,14 +32,13 @@
     "@types/node": "^22",
     "eslint": "^10.11.0",
     "globals": "^17.12.0",
+    "lucide": "^1.28.0",
     "parcel": "^2.15.4",
     "posthtml-include": "^2.0.1",
+    "posthtml-lab-icons": "link:./scripts/posthtml-lab-icons",
     "posthtml-parser": "^0.11.0",
     "prettier": "^3.9.9",
     "tailwindcss": "^4.1.0",
     "typescript": "^6.0.3"
-  },
-  "dependencies": {
-    "lucide": "^1.28.0"
   }
 }

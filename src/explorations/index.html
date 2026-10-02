@@ -2,31 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Explorations opens on the latest round (the sidebar, a screen's ‹ Gallery opened from a link). A new round:
+       point both URLs below at it. The rounds themselves are round-NN.html; their tabs, parts/rounds.html. -->
+  <meta http-equiv="refresh" content="0; url=round-01.html">
   <title>Explorations — Design Lab</title>
-  <link rel="stylesheet" href="../styles.css">
 </head>
-<body data-section="explorations" class="lab-page">
-  <div class="lab-shell">
-    <include src="_lab/shell/sidebar.html"></include>
-    <main class="lab-main">
-      <header class="lab-header">
-        <div>
-          <h1>Explorations</h1>
-          <p>Where visual directions get tried — push looks far apart, compare them side by side, keep what fits. The winner moves into the theme.</p>
-        </div>
-      </header>
-
-      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
-           components (_lab/canvas/). The CONTENT is the explorations
-           themselves — a group per direction, boards (.lab-board) or screens (figure.lab-screen) in rows.
-           Free-form: any colors, fonts or images — not bound to theme tokens. -->
-      <div data-canvas class="lab-canvas" role="region" aria-label="Explorations canvas">
-        <div data-canvas-world class="lab-canvas-world">
-        </div>
-        <include src="_lab/canvas/canvas.html"></include>
-      </div>
-    </main>
-  </div>
+<body>
+  <a href="round-01.html">Explorations — Round 1</a>
 </body>
 </html>

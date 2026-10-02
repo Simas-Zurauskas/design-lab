@@ -4,11 +4,17 @@
    lists, the screen itself) can be grabbed and dragged with the
    mouse — the way it would behave under a finger. Works on top
    of normal wheel/trackpad scrolling, never replaces it.
+   A press never starts the browser's own drag-and-drop (a link
+   or image picked up as a ghost): a phone has none, and it took
+   the pointer away from the scroll mid-drag. Text doesn't select
+   either (screen.css).
    Classic script (not a module) so it also runs from file://.
    ============================================================ */
 
 (() => {
   const DRAG_THRESHOLD = 4; // px before a press counts as a drag (not a click)
+
+  document.addEventListener('dragstart', (e) => e.preventDefault());
 
   document.addEventListener('pointerdown', (e) => {
     // touch scrolls natively; leave secondary buttons and form controls alone

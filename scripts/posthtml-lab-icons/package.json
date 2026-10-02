@@ -1,0 +1,7 @@
+{
+  "name": "posthtml-lab-icons",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LAB CHROME — Lucide icons inlined at build time (see index.cjs)",
+  "main": "index.cjs"
+}

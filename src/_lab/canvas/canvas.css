@@ -48,6 +48,7 @@
 
 .lab-canvas-world {
   --k: 1; /* current zoom, set by canvas.js */
+  --k-rest: 1; /* the zoom once the canvas stops moving (canvas.js) */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -103,7 +104,9 @@ html:has(.lab-canvas[data-panning]) * {
   padding: 128px 80px 80px;
   border-radius: 32px;
   background-color: var(--lab-group);
-  box-shadow: 0 0 0 calc(1px / var(--k)) var(--lab-group-line); /* hairline at any zoom, no layout */
+  /* hairline at any zoom, no layout. At rest only (--k-rest): mid-zoom it scales with the world for a moment —
+     redrawing it every frame repainted every group */
+  box-shadow: 0 0 0 calc(1px / var(--k-rest)) var(--lab-group-line);
 }
 /* boards carry no names above them — a lighter frame */
 .lab-group:not(:has(.lab-screen)) {
@@ -219,6 +222,12 @@ html:has(.lab-canvas[data-panning]) * {
   width: var(--lab-device-w);
   height: var(--lab-device-h);
   border: 0;
+}
+/* A screen away from the view (canvas.js) isn't rendered: the browser skips its page — no layout, paint or animation
+   frames inside — and keeps it loaded as it was (clicked-through, toggled). On the frame itself, not its device: the
+   frame keeps its size, where a page inside skipped content would lay out at 0 × 0. */
+iframe[data-lab-culled] {
+  content-visibility: hidden;
 }
 
 /* ---- controls (canvas.html) ---- */

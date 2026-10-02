@@ -1,0 +1,96 @@
+/* ============================================================
+   LAB CHROME — gate: the password screen gate.js shows over a
+   hosted lab page opened in its own tab. The page stays laid out
+   underneath (visibility, not display) so the canvas fits itself
+   as usual the moment it is unlocked.
+   ============================================================ */
+
+/* !important: nothing underneath may show through or take focus — not even the canvas's own reveal animation */
+html.lab-locked body,
+html.lab-locked body * {
+  visibility: hidden !important;
+}
+html.lab-locked body {
+  overflow: hidden;
+}
+html.lab-locked .lab-gate,
+html.lab-locked .lab-gate * {
+  visibility: visible !important;
+}
+
+.lab-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background-color: var(--lab-bg);
+  color: var(--lab-text);
+  font-family: var(--lab-font);
+}
+
+.lab-gate-card {
+  width: 100%;
+  max-width: 340px;
+  padding: 28px;
+  border: 1px solid var(--lab-line);
+  border-radius: 12px;
+  background-color: var(--lab-surface);
+}
+
+.lab-gate h1 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.lab-gate p {
+  margin: 0 0 20px;
+  color: var(--lab-muted);
+  font-size: 14px;
+}
+
+.lab-gate label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lab-gate input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 8px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.lab-gate input:focus-visible {
+  outline: 2px solid rgb(var(--lab-accent) / 0.6);
+  outline-offset: 1px;
+}
+
+.lab-gate-submit {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--lab-strong);
+  color: var(--lab-on-strong);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lab-gate .lab-gate-error {
+  margin: 12px 0 0;
+  color: var(--lab-alert);
+}
+
+.lab-gate .lab-gate-error:empty {
+  display: none;
+}

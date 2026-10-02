@@ -31,9 +31,10 @@
   const send = (type, fields) => Lab.post(window.parent, type, fields);
   send('canvas:hello');
 
-  // Links for the flow lines (flows.js): each one's VISIBLE box in this screen's own px and where it
-  // goes. A link scrolled away or cut off by an overflow area reports the nearest visible point
-  // instead, flagged hidden. Re-sent (once per frame at most) on load, scroll, resize and DOM change.
+  // Links for the flow line (flows.js): the links you can point at — each one's VISIBLE box in this
+  // screen's own px and where it goes. A link scrolled away, cut off by an overflow area or covered
+  // can't be pointed at, so it isn't reported. Re-sent (once per frame at most) on load, scroll,
+  // resize and DOM change.
   let queued = false;
   let reported = []; // the <a> behind each entry of the last report, in order
   let hoveredEl = null; // the link under the pointer — its line is the one to show
@@ -79,10 +80,10 @@
         let t = Math.max(c.t, r.top);
         let rr = Math.min(c.r, r.right);
         let b = Math.min(c.b, r.bottom);
-        let shown = rr > l && b > t;
+        if (rr <= l || b <= t) continue; // scrolled away or cut off
         // Covered at its middle (a full-screen backdrop under a sheet): keep only the part you can
         // actually click, found by sampling a grid. Covered everywhere: it can't be clicked — no line.
-        if (shown && !hits(a, (l + rr) / 2, (t + b) / 2)) {
+        if (!hits(a, (l + rr) / 2, (t + b) / 2)) {
           const N = 6;
           const cw = (rr - l) / N;
           const ch = (b - t) / N;
@@ -99,17 +100,9 @@
           }
           if (!box) continue;
           [l, t, rr, b] = [box.l, box.t, box.r, box.b];
-          shown = true;
         }
-        // hidden: the point of the visible area nearest to the link
-        const px = Math.min(Math.max((r.left + r.right) / 2, c.l), c.r);
-        const py = Math.min(Math.max((r.top + r.bottom) / 2, c.t), c.b);
         reported.push(a);
-        links.push(
-          shown
-            ? { href: a.href, nav: !!a.closest('nav'), x: l, y: t, w: rr - l, h: b - t }
-            : { href: a.href, nav: !!a.closest('nav'), x: px, y: py, w: 0, h: 0, hidden: true },
-        );
+        links.push({ href: a.href, x: l, y: t, w: rr - l, h: b - t });
       }
       send('canvas:links', { page: location.href, links });
       hovered = -2; // positions renumbered: re-announce the hovered link

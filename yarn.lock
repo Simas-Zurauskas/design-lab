@@ -2078,6 +2078,10 @@ posthtml-include@^2.0.1:
     posthtml-expressions "^1.7.1"
     posthtml-parser "^0.11.0"
 
+"posthtml-lab-icons@link:./scripts/posthtml-lab-icons":
+  version "0.0.0"
+  uid ""
+
 posthtml-match-helper@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/posthtml-match-helper/-/posthtml-match-helper-1.0.4.tgz#b8f384179732cb5d5e060b9dd1945a2352eb6a44"

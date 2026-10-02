@@ -7,7 +7,10 @@
 @import "./core/tokens.css"; /* lab UI colors, light + dark — first: everything reads them */
 @import "./shell/shell.css"; /* section pages: sidebar, header, buttons, toggles */
 @import "./canvas/canvas.css"; /* the pan / zoom field: groups, screens, boards, toolbar */
+@import "./sheet/sheet.css"; /* the scrolling page (Explorations' rounds): after canvas.css, whose pieces it reuses */
+@import "./toc/toc.css"; /* the groups list over the canvas + its header switch */
 @import "./flows/flows.css"; /* flow lines between screens */
 @import "./hotspots/hotspots.css"; /* clickable outlines inside screens */
 @import "./screen/screen.css"; /* what every screen gets: scrolling, interactions, the full-screen viewer */
 @import "./wireframe/wireframe.css"; /* wf-img / wf-line — the wireframe medium */
+@import "./gate/gate.css"; /* the password screen of the hosted lab opened in its own tab */
