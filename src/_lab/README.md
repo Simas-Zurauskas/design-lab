@@ -37,7 +37,8 @@ asked to change the workbench. Every file starts with a `LAB CHROME` header sayi
 | `wireframe/` | The wireframe medium | `wireframe.css` `.wf-img` `.wf-line` | `lab.css` (used inside wireframe screens) |
 | `lab.css` | CSS entry — imports the above in order | | `src/styles.css` |
 
-Also system, outside this folder: `scripts/links.mjs` (`yarn links`), `scripts/fix-nested-urls.mjs` (post-build),
+Also system, outside this folder: `scripts/links.mjs` (`yarn links` — checks each screen as the build's posthtml-include
+expands it, locals and `{{ }}` / `<if>` resolved), `scripts/fix-nested-urls.mjs` (post-build),
 `scripts/posthtml-lab-icons/` (Lucide icons inlined at build — a posthtml plugin in `.posthtmlrc`, linked as a
 package so Parcel can name it), `_headers` (Cloudflare cache headers, copied into `dist/` by `yarn build`),
 `test/` (`yarn test`), `src/index.html` (redirect to the first section, Explorations), `package.json` (its `source` globs

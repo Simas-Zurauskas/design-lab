@@ -84,3 +84,66 @@ test('round pages are checked like the index canvas', () => {
 test('screens every other screen reaches are not orphans', () => {
   assert.deepEqual(wf.orphans, []);
 });
+
+// components that take their href and label as locals — <include src="…">{"href": …}</include> — are checked on what
+// the build renders from them (posthtml-include + posthtml-expressions), never on their raw {{ template }}
+const LOCALS = {
+  'components/hifi/slab.html': `<if condition="typeof href !== 'undefined' && href"><a href="{{ typeof href !== 'undefined' ? href : '' }}" class="slab">{{ label }}</a></if>
+    <else><button type="button">{{ typeof label !== 'undefined' ? label : '' }}</button></else>`,
+  'components/hifi/icon-button.html': `<a href="{{ this.href || '#' }}" aria-label="{{ label }}" class="h-9 w-9"><i data-lucide="x"></i></a>`,
+  'components/hifi/maybe.html': `<if condition="show"><a href="{{ typeof later !== 'undefined' ? later : 'screen-98.html' }}">Hidden</a><a href="screen-99.html">{{ label }}</a></if>`,
+  'components/hifi/next.html': `<include src="components/hifi/slab.html">{"href": "{{ next }}", "label": "Onward"}</include>`,
+  'components/hifi/broken.html': `<a href="{{ nope.nope }}">Broken</a>`,
+  'hf/screen-01.html': `<title>01 · Start</title>
+    <include src="components/hifi/slab.html">{"href": "screen-02.html", "label": "Log reps"}</include>
+    <include src="components/hifi/slab.html">{"href": "screen-09.html", "label": "Ghost"}</include>
+    <include src="components/hifi/icon-button.html">{"href": "screen-02.html", "label": "Close"}</include>
+    <include src="components/hifi/maybe.html">{"show": false, "label": "Hidden too"}</include>
+    <include src="components/hifi/next.html">{"next": "screen-02.html"}</include>
+    <include src="components/hifi/slab.html">{"label": "Not yet"}</include>`,
+  'hf/screen-02.html': `<title>02 · Log</title><include src="components/hifi/icon-button.html">{"href": "screen-01.html", "label": "Back"}</include>`,
+  'broken/screen-01.html': `<title>01 · Broken</title><include src="components/hifi/broken.html">{"x": 1}</include>`,
+};
+let hf;
+let localsSrc;
+before(() => {
+  localsSrc = mkdtempSync(join(tmpdir(), 'links-locals-'));
+  for (const [path, html] of Object.entries(LOCALS)) {
+    mkdirSync(join(localsSrc, dirname(path)), { recursive: true });
+    writeFileSync(join(localsSrc, path), html);
+  }
+  hf = analyze(localsSrc).find((s) => s.name === 'hf');
+});
+after(() => rmSync(localsSrc, { recursive: true, force: true }));
+
+const hfLink = (label) => hf.screens[0].links.find((l) => l.label === `"${label}"`);
+
+test('an href and label passed as include locals resolve to an existing screen', () => {
+  assert.deepEqual([hfLink('Log reps').to, hfLink('Log reps').target.title], ['screen', '02 · Log']);
+  assert.ok(!hf.screens[0].links.some((l) => /\{\{/.test(`${l.href}${l.label}`)), 'no raw template left');
+});
+
+test('an href from locals to a page that does not exist fails with the usual message', () => {
+  assert.deepEqual(hf.problems, ['01 · Start: "Ghost" links to screen-09.html — no such page']);
+});
+
+test('an aria-label from a local names an icon-only link', () => {
+  assert.deepEqual([hfLink('Close').to, hfLink('Close').named], ['screen', true]);
+  assert.equal(hf.screens[1].links[0].label, '"Back"');
+});
+
+test('what a false <if> leaves out is not checked, and locals reach nested includes', () => {
+  assert.equal(hfLink('Hidden'), undefined);
+  assert.equal(hfLink('Hidden too'), undefined);
+  assert.equal(hfLink('Onward').to, 'screen');
+  assert.deepEqual(
+    hf.screens[0].controls.map((c) => c.label),
+    ['"Not yet"'],
+  ); // no href local: the <else> button
+});
+
+test('a page the build cannot expand fails instead of crashing the map', () => {
+  const broken = analyze(localsSrc).find((s) => s.name === 'broken');
+  assert.equal(broken.problems.length, 1);
+  assert.match(broken.problems[0], /^screen-01\.html: the build can't expand it — /);
+});

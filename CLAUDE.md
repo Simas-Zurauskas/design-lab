@@ -4,8 +4,8 @@ An HTML design workbench — a Figma replacement where every design is plain HTM
 it directly, every change is a diff, prototypes are really clickable, and the approved tokens are the CSS the
 app ships with. Parcel builds it; posthtml `<include>` composes it. Two technical users; AI does most edits.
 
-Each **section** (sidebar) is a pan/zoom **canvas** (Figma-like) of screens or boards — except Explorations, a
-scrolling **sheet** per round — in workflow order:
+Each **section** (sidebar) is a pan/zoom **canvas** (Figma-like) of screens or boards — except Explorations (a
+scrolling **sheet** per round) and the Design System (a scrolling document on the sheet) — in workflow order:
 **Explorations → Design System → Wireframes → Components → High fidelity.**
 
 ## Read this first — system vs content
@@ -27,20 +27,28 @@ scrolling **sheet** per round — in workflow order:
 | --- | --- | --- |
 | `src/explorations/` | Explorations | Divergent visual directions in **rounds** — free-form on purpose (any colors, fonts, images; not bound to tokens). `round-NN.html` is one round: a **sheet** (scrolls like a page, no pan/zoom); `index.html` opens the latest round; `parts/rounds.html` is the round tabs. A variant = `screen-rR-vNN-1…3.html` + `rR-vNN.css` (every selector under `.rR-vNN`) + `parts/rR-vNN-board.html` (its description board); shared photos in `img/`. The winner is promoted into `theme.css`. |
 | `src/theme.css` | — | **All design tokens** (`@theme static`) — the single source of truth. Re-skin = edit only this file. |
-| `src/theme/index.html` | Design System | Boards previewing the tokens (values can be read live via `getComputedStyle(document.documentElement).getPropertyValue('--color-primary')`; which swatches exist is hand-kept). |
-| `src/wireframes/` | Wireframes | Grayscale screens (`screen-NN.html`) + `index.html` (the canvas arrangement). Structure and flow only — never color or branding. |
-| `src/components/` | Components | Design parts, included with `<include src="components/x.html"></include>` (path from `src/`, NOT from the including file): `status-bar.html` (neutral phone OS chrome); wireframe parts are `wf-<name>.html`. Themed parts go in `components/hifi/` (create it with the first one). `components/index.html` is the Components canvas — the only page in this folder (the build's entries are `src/*/index.html` + `src/*/screen-*.html`, so parts are never built as pages). |
+| `src/design-system/` | Design System | The design-system **document**: a scrolling reference on the lab sheet (`data-lab-sheet`), not a canvas — cover, principles, colour, type, layout, components, accessibility, build. `index.html` composes it from `design-system/parts/*.html` (one `<section class="ds-section">` per part, its header comment says what it shows); its styles are `design-system/system.css` (`.ds-*` only, tokens only). It reads the tokens live (swatches are utilities like `bg-primary`; which roles are listed is hand-kept). Token values live only in `theme.css`. |
+| `src/wireframes/` | Wireframes | Grayscale frames `screen-<slug>.html` (slug = the frame's semantic ID, which notes and tickets cite; `<title>` is its plain name, e.g. "Item") drawn on the design system's geometry. `index.html` is the **overview** (an intro board, journey entry points, a board per package); one canvas per **package** `round-<package>.html` (a set of journeys: a group per journey, a note under each frame); `round-kit.html` shows the kit; `parts/packages.html` is the tabs. Structure and flow only — never color or branding. |
+| `src/components/` | Components | Design parts, included with `<include src="components/x.html">{"json": "locals"}</include>` (path from `src/`, NOT from the including file; the JSON body is the part's props). One part per file; its header comment lists its locals. `wf/` is the grayscale **wireframe kit** (its recipes: the `/* wireframes */` block of `src/styles.css`; package-specific parts prefixed with their package). `status-bar.html` is neutral phone OS chrome for hi-fi. Themed parts go in `components/hifi/` (create it with the first one; their shared CSS in `components/hifi/css/`, one class prefix per project, imported by `styles.css`). `components/index.html` is the Components canvas — the only page in this folder (the build's entries are `src/*/index.html`, `round-*.html` and `screen-*.html`, so parts are never built as pages). |
 | `src/hifi/` | High fidelity | Themed screens + canvas. `screen-01.html` is the blank scaffold to copy (not on the canvas). |
-| `src/styles.css` | — | Imports Tailwind, `theme.css` and the lab; below that, content-layer rules (e.g. a tab bar's active state keyed off `data-page`, Components boards on the theme). |
+| `src/styles.css` | — | Imports Tailwind, `theme.css`, the lab and the design-system document CSS; below that, content-layer rules (Components boards on the theme, the `/* wireframes */` kit block). |
 
-**Current state:** a blank lab. Wireframes hold one placeholder group, *Sample flow* (01 · Home → 02 · Item → 03 ·
-Done), to copy from and then replace. Explorations has an empty Round 1 (`round-01.html`; `index.html` opens it).
-Design System, Components and High fidelity are empty; `theme.css` holds neutral placeholder values.
+**Current state:** a blank lab. Wireframes hold the generic kit (`components/wf/`: status, root-header, nav-bar,
+tabbar, pinbar, button, section-header, list-row, toggle-row, segmented, chips, text-field, empty, dialog, note) and
+one placeholder package, *Sample* (`round-sample.html`: J1 · Sample flow — home → item → item-remove-confirm / done),
+to copy from and then replace. The Design System document is a skeleton (placeholder principles, the neutral
+placeholder tokens of `theme.css`, the layout numbers the kit uses). Explorations has an empty Round 1
+(`round-01.html`; `index.html` opens it). Components and High fidelity are empty.
 
 ## Rules
 
-1. **Wireframes are grayscale.** Tailwind `gray-*` + white/black only, the `.wf-img` (image placeholder) and
-   `.wf-line` (text line) primitives, no brand.
+1. **Wireframes are grayscale, and built from the kit.** Tailwind `gray-*` + white/black only, the `.wf-img`
+   (image placeholder) and `.wf-line` (text line) primitives, no brand. A screen is the `.wf-frame` skeleton
+   (`wf-frame--tabs` / `--pinned` by its bottom bar) filled with `components/wf/` parts; a layout that repeats
+   becomes a kit part, never a copy-paste. Their sizes are the Design System's Layout numbers — change one there,
+   in the `/* wireframes */` block and in theme.css together. **Draw the smallest set of frames:** a new frame only
+   when the layout, the input, a consequential decision or a recovery differs; ordinary variations (copy, loading,
+   who's looking, an error line) are rows in the frame's canvas note. Notes live on the canvas, never in a screen.
 2. **Hi-fi uses theme tokens only** — `src/hifi/`, `src/components/hifi/`, `src/components/index.html`:
    `bg-primary`, `text-ink`, `border-line`, `rounded-card`, `font-display`… never hex, never palette classes.
    Audit (must print nothing):
@@ -67,25 +75,38 @@ Design System, Components and High fidelity are empty; `theme.css` holds neutral
 
 ## Common tasks
 
-- **New screen** — copy `screen-01.html` in `src/wireframes/` or `src/hifi/` (status bar, lab line, nothing
-  else), set `<title>` (`"15 · Settings"` — the canvas caption and frame title must match it; `yarn links`
-  checks) and `<body data-page="…">`. Its last
-  line stays `<include src="_lab/screen/chrome.html"></include>`. Links to screens that don't exist yet
-  **hard-fail the build** — use `href="#"` until they do.
-- **Put it on the canvas** — in that section's `index.html`, inside a group's `.lab-row`:
+- **New wireframe** — copy the closest frame in `src/wireframes/` to `screen-<slug>.html` (a semantic slug:
+  `settings`, `invite-share-sheet`), set `<title>` (its plain name, `"Settings"` — the canvas caption and frame
+  title must match it; `yarn links` checks), `<body data-page="<slug>">` and the comment under `<body>` (slug, what
+  it shows). Its last line stays `<include src="_lab/screen/chrome.html"></include>`. Links to screens that don't
+  exist yet **hard-fail the build** — use `href="#"` until they do.
+- **New hi-fi screen** — copy `src/hifi/screen-01.html` (status bar, lab line, nothing else); same title rules.
+- **Put it on the canvas** — in its package canvas (`round-<package>.html`; hi-fi: `hifi/index.html`), inside a
+  journey group's `.lab-row`, with its note (wireframes only):
   ```html
-  <figure class="lab-screen">
-    <figcaption><a href="screen-15.html">15 · Settings</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
-    <div class="phone-frame"><iframe src="screen-15.html" title="Settings" class="phone-screen"></iframe></div>
+  <figure class="lab-screen" id="frame-settings">
+    <figcaption><a href="screen-settings.html">Settings</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+    <div class="phone-frame"><iframe src="screen-settings.html" title="Settings" class="phone-screen" loading="lazy"></iframe></div>
+    <include src="components/wf/note.html">{"slug": "settings", "text": "What it shows, in one line.", "rows": [["A variation", "What differs"]]}</include>
   </figure>
   ```
+- **New package** — `round-<package>.html` from `round-sample.html` (intro board, a group per journey `J<n> · Name`),
+  its tab in `wireframes/parts/packages.html`, its board and entry points on the overview (`index.html`).
+- **New kit part** — `src/components/wf/<name>.html`: a header comment (what it is, its size, where it sits, every
+  local), gray only, classes from the `/* wireframes */` block (add a recipe there when a part needs one); a board
+  per state on `round-kit.html`. Locals are read as `this.<name>`; every `{{ }}` must have a fallback
+  (`{{ this.label || '' }}`, `{{ x ?? '' }}`) — the build's expressions are strict and an undefined one fails the
+  page (`yarn links` reports it). Branch with `<if condition>` / `<elseif>` / `<else>`, repeat with `<each loop="x in (this.items || [])">`.
 - **Group a journey** — `<section class="lab-group"><h2 class="lab-group-title">Settings</h2> <div class="lab-row">…screens…</div> </section>`;
   put groups side by side in a `.lab-row` at the top of `[data-canvas-world]`. No coordinates — CSS lays it out.
-- **New component** — `src/components/hifi/<name>.html` (tokens only). On the Components canvas: a group per
-  component, a `<div class="lab-board w-[…]">` per state containing its `<include>` (boards sit on the theme
-  automatically). Hi-fi screens include the same file — the library and the screens can't drift.
-- **Preview tokens** — boards on the Design System canvas; **explore a direction** — a variant in an Explorations
-  round (next two items).
+- **New component** — `src/components/hifi/<name>.html` (tokens only; locals and header comment like the kit).
+  On the Components canvas: a group per component, a `<div class="lab-board w-[…]">` per state containing its
+  `<include>` (boards sit on the theme automatically). Hi-fi screens include the same file — the library and the
+  screens can't drift. Add its row to the Design System's Components part.
+- **Design System** — edit a part in `design-system/parts/`; a new section = a part file (header comment, a
+  `<section class="ds-section" id="…">` with a `.ds-head`), its `<include>` in `design-system/index.html` and its
+  nav link. Use the shared `.ds-*` classes (listed at the top of `system.css`); never type a value — read tokens.
+  **Explore a direction** — a variant in an Explorations round (next two items).
 - **New variant in a round** — its files (table above); in the round page a
   `<section class="lab-sheet-section" id="rR-vNN"><div class="lab-sheet-fit">` holding the board's `<include>`, then a
   `.lab-row` of `figure.lab-screen`s (same markup as a canvas, iframes `loading="lazy"`). Fonts: a Google Fonts
@@ -136,3 +157,4 @@ Package manager is **yarn** (yarn.lock — never create package-lock.json).
 - New Tailwind class not showing in dev → delete `.parcel-cache`, restart `yarn dev`.
 - A new section needs a `yarn dev` restart (the entries are globs in `package.json` → `source`).
 - A link to a screen that doesn't exist fails the build — `href="#"` until it exists.
+- `yarn links` says "the build can't expand it — 'this.x' is not defined" → a `{{ }}` in a part has no fallback.

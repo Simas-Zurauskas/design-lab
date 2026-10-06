@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="home" class="bg-white font-sans text-gray-900 antialiased">
+  <!-- home — placeholder: a root screen (a tab opens it) built only from the kit (components/wf/). Replace with the project's own. -->
+  <div class="wf-frame wf-frame--tabs">
+    <main class="wf-main">
+      <div class="wf-top">
+        <include src="components/wf/status.html"></include>
+        <include src="components/wf/root-header.html">{"title": "Home", "actions": [{"icon": "plus", "label": "New item", "href": "#"}]}</include>
+      </div>
+      <div class="px-4">
+        <include src="components/wf/chips.html">{"label": "Filter", "items": [{"label": "All", "on": true}, {"label": "Saved"}, {"label": "Recent"}]}</include>
+        <section class="mt-6" aria-labelledby="items">
+          <include src="components/wf/section-header.html">{"title": "Items", "id": "items", "action": {"label": "See all", "href": "#"}}</include>
+          <ul class="wf-rule mt-1">
+            <li><include src="components/wf/list-row.html">{"href": "screen-item.html", "thumb": true, "title": "First item", "sub": "A line about it"}</include></li>
+            <li><include src="components/wf/list-row.html">{"href": "#", "thumb": true, "title": "Second item", "sub": "A line about it"}</include></li>
+            <li><include src="components/wf/list-row.html">{"href": "#", "thumb": true, "title": "Third item", "sub": "A line about it"}</include></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <include src="components/wf/tabbar.html">{"current": "home"}</include>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

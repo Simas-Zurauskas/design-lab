@@ -1,0 +1,38 @@
+<!-- Design System · colour: every colour token in theme.css as a role with a job. The swatches are utilities (bg-primary …),
+     so they always show the live value; which roles are listed is hand-kept — add a tile when theme.css gains a role. -->
+<section class="ds-section" id="color" aria-labelledby="ds-color-title">
+  <div class="ds-head">
+    <div>
+      <p class="ds-head-n">02 <span class="ds-kicker">Colour</span></p>
+      <h3 id="ds-color-title">Colour has a job, not a hue.</h3>
+    </div>
+    <p class="ds-lede">Tokens are named for what they do (<code>primary</code>, <code>ink</code>, <code>line</code>), never for how they look, so a re-skin changes values in theme.css and nothing downstream.</p>
+  </div>
+
+  <div class="ds-sub"><h4>Roles</h4><p>The value is theme.css's; the job is written here.</p></div>
+  <ul class="ds-swatches">
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-primary text-on-primary">Aa</span><code>primary</code><p>The main action, what's selected, the brand moment.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-primary-strong text-on-primary">Aa</span><code>primary-strong</code><p>Primary pressed, or on a primary-tinted ground.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-accent text-on-accent">Aa</span><code>accent</code><p>A second voice, used sparingly.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-surface text-ink">Aa</span><code>surface</code><p>The app's background.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-surface-raised text-ink">Aa</span><code>surface-raised</code><p>Cards, sheets, fields.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-line text-ink">Aa</span><code>line</code><p>Dividers and outlines; decorative, never the only cue.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-ink text-surface">Aa</span><code>ink</code><p>Text and icons.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-ink-muted text-surface">Aa</span><code>ink-muted</code><p>Secondary text, captions, metadata.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-positive text-surface-raised">Aa</span><code>positive</code><p>Saved, done, success — with words or an icon.</p></li>
+    <li class="ds-swatch"><span class="ds-swatch-fill bg-danger text-surface-raised">Aa</span><code>danger</code><p>Destructive and error — always with words and an icon.</p></li>
+  </ul>
+
+  <div class="ds-sub"><h4>Pairs that carry text</h4><p>Every pair text sits on must pass: 4.5 : 1 for body text, 3 : 1 for large text and UI edges. Measure after every change to theme.css.</p></div>
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead><tr><th scope="col">Specimen</th><th scope="col">Text</th><th scope="col">On</th><th scope="col">Needs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="rounded-app bg-primary px-3 py-1.5 font-semibold text-on-primary">Continue</span></td><td><code>on-primary</code></td><td><code>primary</code></td><td>4.5 : 1</td></tr>
+        <tr><td><span class="rounded-app bg-surface px-3 py-1.5 text-ink">Body text</span></td><td><code>ink</code></td><td><code>surface</code></td><td>4.5 : 1</td></tr>
+        <tr><td><span class="rounded-app bg-surface px-3 py-1.5 text-ink-muted">A caption</span></td><td><code>ink-muted</code></td><td><code>surface</code></td><td>4.5 : 1</td></tr>
+        <tr><td><span class="rounded-app bg-surface-raised px-3 py-1.5 font-semibold text-danger">Delete</span></td><td><code>danger</code></td><td><code>surface-raised</code></td><td>4.5 : 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

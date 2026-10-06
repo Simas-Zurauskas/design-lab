@@ -1,0 +1,13 @@
+<!-- wf nav-bar — a pushed screen's top row, 44 tall: back (or close for a modal) on the left, an optional centred title
+     (truncates), up to two icon actions on the right. In .wf-top, after the status bar.
+     Locals: back (href) or close (href), title (opt.), actions (opt., array of { icon, label, href }). -->
+<nav aria-label="Screen" class="grid h-11 grid-cols-[88px_1fr_88px] items-center px-1">
+  <span class="flex">
+    <if condition="this.close"><a href="{{ this.close ?? '' }}" class="wf-icon-btn" aria-label="Close"><i data-lucide="x" class="h-6 w-6"></i></a></if>
+    <elseif condition="this.back"><a href="{{ this.back ?? '' }}" class="wf-icon-btn" aria-label="Back"><i data-lucide="chevron-left" class="h-7 w-7"></i></a></elseif>
+  </span>
+  <span class="truncate text-center text-[17px] font-semibold">{{ this.title || '' }}</span>
+  <span class="flex justify-end">
+    <each loop="a in (this.actions || [])"><a href="{{ a.href || '#' }}" class="wf-icon-btn" aria-label="{{ a.label || '' }}"><i data-lucide="{{ a.icon || 'circle' }}" class="h-6 w-6"></i></a></each>
+  </span>
+</nav>

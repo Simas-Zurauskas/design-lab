@@ -1,0 +1,13 @@
+<!-- wf dialog — a confirmation over the page: the scrim, then a centred card with a title, a body and two buttons (the act
+     below Cancel). Last child of .wf-frame, over a drawn page behind it. A destructive act carries an icon and its verb.
+     Locals: title, body (opt.), label (the act), href (opt.; none = a plain button), cancel (href), danger (opt.). -->
+<div class="wf-scrim" aria-hidden="true"></div>
+<div role="dialog" aria-modal="true" aria-labelledby="wf-dialog-title" class="wf-dialog">
+  <h2 id="wf-dialog-title" class="text-[22px]/7 font-bold">{{ this.title || '' }}</h2>
+  <if condition="this.body"><p class="mt-2 text-[17px]/6 text-gray-600">{{ this.body ?? '' }}</p></if>
+  <div class="mt-6 flex flex-col gap-2">
+    <if condition="this.href"><a href="{{ this.href ?? '' }}" class="wf-btn {{ this.danger ? 'wf-btn--danger' : 'wf-btn--primary' }}"><if condition="this.danger"><i data-lucide="trash-2" class="h-5 w-5"></i></if>{{ this.label || '' }}</a></if>
+    <else><button type="button" class="wf-btn {{ this.danger ? 'wf-btn--danger' : 'wf-btn--primary' }}">{{ this.label || '' }}</button></else>
+    <a href="{{ this.cancel || '#' }}" class="wf-btn">Cancel</a>
+  </div>
+</div>

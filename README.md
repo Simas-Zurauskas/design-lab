@@ -8,18 +8,22 @@ real app ships with. The design-to-dev handoff step disappears.
 
 ## The workflow
 
-Each step is a section in the sidebar — a pan/zoom canvas, like a Figma page (Explorations: a scrolling page per
-round):
+Each step is a section in the sidebar — a pan/zoom canvas, like a Figma page (Explorations and the Design System:
+pages that scroll like a document):
 
 1. **Explorations** — drastically different visual directions, a round at a time: each direction a description
    board (a style tile) above its live screens. Tabs in the header switch rounds; keep what fits.
-2. **Design System** — the chosen look as design tokens in one file, `src/theme.css`.
-3. **Wireframes** — grayscale flows, so feedback stays about structure, not colors.
+2. **Design System** — the chosen look as design tokens in one file, `src/theme.css`, explained in a scrolling
+   document (principles, colour, type, layout, components, accessibility, how to build with it).
+3. **Wireframes** — grayscale flows, so feedback stays about structure, not colors: one canvas per *package* of
+   journeys, a note under each frame for the variations that share its layout, all built from a shared gray kit
+   drawn on the design system's geometry.
 4. **Components** — the building blocks, made only from those tokens.
 5. **High fidelity** — screens composed from the components; re-skinning for the next app = swapping `theme.css`.
 
-**Current state:** a blank lab. Wireframes hold one placeholder group (*Sample flow*, three screens) to copy from;
-Explorations has an empty Round 1; the other sections are empty and `theme.css` has neutral placeholder tokens.
+**Current state:** a blank lab. Wireframes hold the gray kit (the **Kit** tab) and one placeholder package
+(*Sample*, four frames) to copy from; the Design System document is a skeleton showing the neutral placeholder
+tokens in `theme.css`; Explorations has an empty Round 1; Components and High fidelity are empty.
 
 ## Quick start
 
@@ -53,9 +57,9 @@ yarn test       # + yarn lint · yarn typecheck · yarn format:check — what CI
 
 | Where | What |
 | --- | --- |
-| `src/explorations/` · `src/theme/` · `src/wireframes/` · `src/components/` · `src/hifi/` | The sections: each `index.html` is its canvas; screens are `screen-*.html`. Explorations has a page per round (`round-NN.html`); its `index.html` opens the latest. |
+| `src/explorations/` · `src/design-system/` · `src/wireframes/` · `src/components/` · `src/hifi/` | The sections: each `index.html` is its canvas (or document); screens are `screen-*.html`. Explorations has a page per round (`round-NN.html`), Wireframes a canvas per package (`round-<package>.html`) plus the Kit; each `index.html` is the overview. |
 | `src/theme.css` | All design tokens — the single source of truth for hi-fi. |
-| `src/components/` | Shared design parts via `<include>` — edit once, changes everywhere (themed ones in `components/hifi/`). |
+| `src/components/` | Shared design parts via `<include>` with JSON props — edit once, changes everywhere (the gray wireframe kit in `components/wf/`, themed ones in `components/hifi/`). |
 | `src/_lab/` + `scripts/` | **The workbench itself** — map in [`src/_lab/README.md`](src/_lab/README.md). Only changed on purpose; day-to-day design work never touches it. |
 | `CLAUDE.md` | How AI agents work in this repo — rules, where things go, recipes. |
 | `EXPLORATIONS-PROMPT.md` | How to start an Explorations round: rounds are run by the `mood-board-creator` skill (researched guidelines, divergent variants built and critiqued from screenshots, the round page). |

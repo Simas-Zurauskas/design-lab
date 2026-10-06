@@ -13,34 +13,39 @@
       <header class="lab-header">
         <div>
           <h1>Wireframes</h1>
+          <include src="wireframes/parts/packages.html"></include>
         </div>
         <include src="_lab/shell/controls.html"></include>
       </header>
 
-      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench
-           components (_lab/canvas/). The CONTENT here is only the arrangement — groups (a journey
-           each) → rows → screens. Add a screen = add a figure.lab-screen to a row. -->
-      <div data-canvas class="lab-canvas" role="region" aria-label="Wireframes canvas">
+      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench components (_lab/canvas/).
+           The CONTENT here is only the arrangement — groups (a journey each) → rows → screens, each with its canvas note
+           (components/wf/note.html) under the phone; .wf-board for the words. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="Wireframes overview">
         <div data-canvas-world class="lab-canvas-world">
-          <div class="lab-row">
-            <section class="lab-group">
-              <h2 class="lab-group-title">Sample flow</h2>
-              <div class="lab-row">
-                <figure class="lab-screen">
-                  <figcaption><a href="screen-01.html">01 · Home</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
-                  <div class="phone-frame"><iframe src="screen-01.html" title="Home" class="phone-screen"></iframe></div>
-                </figure>
-                <figure class="lab-screen">
-                  <figcaption><a href="screen-02.html">02 · Item</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
-                  <div class="phone-frame"><iframe src="screen-02.html" title="Item" class="phone-screen"></iframe></div>
-                </figure>
-                <figure class="lab-screen">
-                  <figcaption><a href="screen-03.html">03 · Done</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
-                  <div class="phone-frame"><iframe src="screen-03.html" title="Done" class="phone-screen"></iframe></div>
-                </figure>
-              </div>
-            </section>
+        <div class="lab-row">
+          <div class="lab-board wf-board w-[1120px]">
+            <h2>Phone wireframes</h2>
+            <p>Grayscale frames on the design system's geometry (390 × 844, safe areas, bars, rows, targets): structure and flow, never colour. A frame is a layout and copy reference; the product spec governs behaviour.</p>
+            <h3>How to read it</h3>
+            <ul>
+              <li>One canvas per package (tabs above); one group per journey; a note under each phone gives the frame's ID (its slug, which tickets cite) and the variations that share its layout.</li>
+              <li>Links go to screens (solid hotspots); in-place changes are toggles (dotted). <code>#</code> = not designed.</li>
+              <li>Every frame is built from the shared parts: the <a href="round-kit.html">Kit</a> tab.</li>
+            </ul>
+            <h3>Walkthrough entry points</h3>
+            <ul>
+              <li>Sample: <a href="screen-home.html"><code>home</code></a> → <a href="screen-item.html"><code>item</code></a> → <a href="screen-done.html"><code>done</code></a></li>
+            </ul>
           </div>
+        </div>
+        <div class="lab-row">
+          <div class="lab-board wf-board w-[520px]">
+            <h2><a href="round-sample.html">Sample</a></h2>
+            <p>A placeholder package to copy, then replace · 4 frames</p>
+            <ul><li><b>J1 Sample flow</b> — starts at <a href="screen-home.html"><code>home</code></a></li></ul>
+          </div>
+        </div>
         </div>
         <include src="_lab/canvas/canvas.html"></include>
       </div>

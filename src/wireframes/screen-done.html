@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Done</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="done" class="bg-white font-sans text-gray-900 antialiased">
+  <!-- done — placeholder: an outcome screen, closed back to where the flow started. Replace with the project's own. -->
+  <div class="wf-frame">
+    <main class="wf-main">
+      <div class="wf-top">
+        <include src="components/wf/status.html"></include>
+        <include src="components/wf/nav-bar.html">{"close": "screen-home.html"}</include>
+      </div>
+      <include src="components/wf/empty.html">{"icon": "check", "title": "Done", "body": "A line on what just happened and what comes next.", "action": "Back to Home", "href": "screen-home.html", "big": true}</include>
+    </main>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!-- Design System · type: the faces (theme.css --font-display / --font-body) at true size, and the scale. The specimens
+     read the live tokens; the scale table is placeholder until the project sets one (then: --text-* tokens in theme.css). -->
+<section class="ds-section" id="type" aria-labelledby="ds-type-title">
+  <div class="ds-head">
+    <div>
+      <p class="ds-head-n">03 <span class="ds-kicker">Type</span></p>
+      <h3 id="ds-type-title">Two faces, one scale.</h3>
+    </div>
+    <p class="ds-lede">A display face for titles and the numbers that matter, a body face for everything you read. Sizes come from one scale; nothing is set off it.</p>
+  </div>
+
+  <div class="ds-grid ds-grid--2">
+    <div class="ds-card">
+      <p class="ds-label">Display · <code>font-display</code></p>
+      <p class="mt-4 font-display text-5xl font-bold tracking-tight">Aa Bb 0123</p>
+      <p class="mt-2 font-display text-2xl font-bold">The quick brown fox</p>
+    </div>
+    <div class="ds-card">
+      <p class="ds-label">Body · <code>font-body</code></p>
+      <p class="mt-4 font-body text-5xl">Aa Bb 0123</p>
+      <p class="mt-2 font-body text-base">The quick brown fox jumps over the lazy dog. Body copy is set for reading at arm's length.</p>
+    </div>
+  </div>
+
+  <div class="ds-sub"><h4>The scale</h4><p>Role → size / line height / weight. Placeholder rows: replace with the project's scale and add each step to theme.css as a token.</p></div>
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead><tr><th scope="col">Role</th><th scope="col">Specimen</th><th scope="col">Size / line</th><th scope="col">Weight</th></tr></thead>
+      <tbody>
+        <tr><td>Large title</td><td><span class="font-display text-[34px]/[41px] font-bold">Home</span></td><td>34 / 41</td><td>700</td></tr>
+        <tr><td>Title</td><td><span class="font-display text-[22px]/7 font-bold">Items</span></td><td>22 / 28</td><td>700</td></tr>
+        <tr><td>Body</td><td><span class="font-body text-[17px]/[22px]">A line you read</span></td><td>17 / 22</td><td>400</td></tr>
+        <tr><td>Caption</td><td><span class="font-body text-[15px]/5 text-ink-muted">A line about it</span></td><td>15 / 20</td><td>400</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Item</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="item" class="bg-white font-sans text-gray-900 antialiased">
+  <!-- item — placeholder: a pushed screen with in-place controls and a pinned action. Replace with the project's own. -->
+  <div class="wf-frame wf-frame--pinned">
+    <main class="wf-main">
+      <div class="wf-top">
+        <include src="components/wf/status.html"></include>
+        <include src="components/wf/nav-bar.html">{"back": "screen-home.html", "actions": [{"icon": "trash-2", "label": "Remove", "href": "screen-item-remove-confirm.html"}]}</include>
+      </div>
+      <div class="px-4">
+        <div class="wf-img h-56 rounded-xl">Image</div>
+        <h1 class="mt-4 text-[28px]/[34px] font-bold tracking-tight">First item</h1>
+        <div class="mt-3 flex flex-col gap-2"><span class="wf-line w-full"></span><span class="wf-line w-11/12"></span><span class="wf-line w-2/3"></span></div>
+        <div class="mt-6"><include src="components/wf/segmented.html">{"label": "Size", "options": ["Small", "Medium", "Large"], "current": "Medium"}</include></div>
+        <div class="wf-rule mt-4">
+          <include src="components/wf/toggle-row.html">{"label": "Notify me", "sub": "When it changes"}</include>
+          <include src="components/wf/list-row.html">{"href": "#", "icon": "info", "title": "Details"}</include>
+        </div>
+      </div>
+    </main>
+    <include src="components/wf/pinbar.html">{"label": "Continue", "href": "screen-done.html"}</include>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

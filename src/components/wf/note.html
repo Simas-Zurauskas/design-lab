@@ -1,0 +1,6 @@
+<!-- wf note — a CANVAS annotation under a frame (inside its figure.lab-screen, after .phone-frame): never inside a screen.
+     It carries the frame's ID (the slug tickets cite), one line of what it shows, and the variations that share its
+     layout — so an ordinary variation is a row here, not another screen. Requirement pointers live in the project's
+     product docs, not here. Locals: slug, text, items (opt. array of strings: skipped steps, handoffs, open questions),
+     rows (opt. array of [state, what differs]: a compact variation table). -->
+<div class="wf-note"><p><code>{{ this.slug || '' }}</code></p><p class="mt-1">{{ this.text || '' }}</p><if condition="(this.items || []).length"><ul><each loop="x in (this.items || [])"><li>{{ x ?? '' }}</li></each></ul></if><if condition="(this.rows || []).length"><table><each loop="r in (this.rows || [])"><tr><th>{{ r[0] ?? '' }}</th><td>{{ r[1] ?? '' }}</td></tr></each></table></if></div>

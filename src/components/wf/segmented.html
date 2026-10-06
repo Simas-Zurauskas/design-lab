@@ -1,0 +1,6 @@
+<!-- wf segmented — one of a few options, switched in place (role="radiogroup" + radios, a dotted hotspot).
+     Locals: label (the group's name, for aria-label), options (array of strings), current (opt.: the selected option;
+     default the first). -->
+<div role="radiogroup" aria-label="{{ this.label || '' }}" class="wf-segmented">
+  <each loop="o, i in (this.options || [])"><button type="button" role="radio" aria-checked="{{ (this.current ? o === this.current : i === 0) ? 'true' : 'false' }}" class="wf-segment">{{ o ?? '' }}</button></each>
+</div>

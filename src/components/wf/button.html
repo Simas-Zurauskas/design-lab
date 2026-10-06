@@ -1,0 +1,6 @@
+<!-- wf button — a button in the content (the pinned bar has its own): 52 tall, full width; small = 40 and hugs its label.
+     Locals: label, href (opt.: a link; none = a plain button), variant (opt. "primary" | "danger"; default secondary =
+     outlined), icon (opt.), small (opt.), toggle (opt.: an on/off button, aria-pressed), on (opt.), disabled (opt.). -->
+<if condition="this.toggle"><button type="button" aria-pressed="{{ this.on ? 'true' : 'false' }}" class="wf-btn{{ this.small ? ' wf-btn--s' : '' }} aria-pressed:bg-gray-900 aria-pressed:text-white"><if condition="this.icon"><i data-lucide="{{ this.icon ?? '' }}" class="h-5 w-5"></i></if>{{ this.label || '' }}</button></if>
+<elseif condition="this.href && !this.disabled"><a href="{{ this.href ?? '' }}" class="wf-btn{{ this.variant ? ' wf-btn--' + this.variant : '' }}{{ this.small ? ' wf-btn--s' : '' }}"><if condition="this.icon || this.variant === 'danger'"><i data-lucide="{{ this.icon || 'triangle-alert' }}" class="h-5 w-5"></i></if>{{ this.label || '' }}</a></elseif>
+<else><button type="button" aria-disabled="{{ this.disabled ? 'true' : 'false' }}" class="wf-btn{{ this.variant ? ' wf-btn--' + this.variant : '' }}{{ this.small ? ' wf-btn--s' : '' }}"><if condition="this.icon"><i data-lucide="{{ this.icon ?? '' }}" class="h-5 w-5"></i></if>{{ this.label || '' }}</button></else>

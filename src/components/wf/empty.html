@@ -1,0 +1,10 @@
+<!-- wf empty — an empty, done, gone or error state: a glyph on a well disc, a title, a body, one action and an optional
+     quiet second one. Locals: icon, title, body (opt.), action (opt. label), href (opt.), big (opt.: a full-screen
+     state — larger title, centred in the screen), secondary (opt. object { label, href }). -->
+<div class="flex flex-col items-center px-4 text-center {{ this.big ? 'py-24' : 'py-10' }}">
+  <span class="flex h-[76px] w-[76px] items-center justify-center rounded-full bg-gray-100"><i data-lucide="{{ this.icon || 'inbox' }}" class="h-10 w-10"></i></span>
+  <h2 class="mt-5 {{ this.big ? 'text-[34px]/[41px]' : 'text-[22px]/7' }} font-bold tracking-tight">{{ this.title || '' }}</h2>
+  <if condition="this.body"><p class="mt-2 max-w-[320px] text-[17px]/6 text-gray-600">{{ this.body ?? '' }}</p></if>
+  <if condition="this.action"><div class="mt-6 w-full"><a href="{{ this.href || '#' }}" class="wf-btn wf-btn--primary">{{ this.action ?? '' }}</a></div></if>
+  <if condition="this.secondary"><a href="{{ this.secondary ? this.secondary.href || '#' : '#' }}" class="mt-2 inline-flex h-11 items-center text-[15px] font-semibold underline underline-offset-4">{{ this.secondary ? this.secondary.label : '' }}</a></if>
+</div>

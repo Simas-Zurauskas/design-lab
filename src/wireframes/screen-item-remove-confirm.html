@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Remove item?</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="item-remove-confirm" class="bg-white font-sans text-gray-900 antialiased">
+  <!-- item-remove-confirm — placeholder: a layer over a page. The page behind is drawn just enough to place it (not
+       interactive); the dialog is the last child of the frame. Replace with the project's own. -->
+  <div class="wf-frame">
+    <div class="wf-main" aria-hidden="true">
+      <div class="wf-top"><include src="components/wf/status.html"></include><div class="h-11"></div></div>
+      <div class="px-4">
+        <div class="wf-img h-56 rounded-xl">Image</div>
+        <p class="mt-4 text-[28px]/[34px] font-bold tracking-tight">First item</p>
+      </div>
+    </div>
+    <include src="components/wf/dialog.html">{"title": "Remove this item?", "body": "It goes from your list. You can't undo this.", "label": "Remove", "href": "screen-home.html", "cancel": "screen-item.html", "danger": true}</include>
+  </div>
+  <include src="_lab/screen/chrome.html"></include>
+</body>
+</html>

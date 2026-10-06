@@ -1,0 +1,349 @@
+/* ============================================================
+   Design System document — design-system/index.html and design-system/parts/*.html.
+   The document's own styles: every selector starts with .ds-. Tokens only: colours are roles from theme.css,
+   fonts and radii are its tokens, sizes are Tailwind's spacing scale. The few raw numbers here describe the
+   document's own anatomy (its measure, a column width), never a colour. It prints on the theme, so a re-skin in
+   theme.css re-skins the document too.
+
+   Shared document classes (every part may use them):
+   .ds-section > .ds-head (.ds-head-n, .ds-kicker, h3, .ds-lede) · .ds-sub (a subsection title + line) · .ds-grid
+   (--2 / --3 / --4) · .ds-card · .ds-note · .ds-todo (a slot still to fill: dashed, says what goes there) ·
+   .ds-table-wrap > table.ds-table · .ds-list · .ds-stage (a flat specimen area) · .ds-cap (a caption) · .ds-label
+   (caps kicker) · .ds-do / .ds-dont (verdicts) · .ds-swatches > .ds-swatch · .ds-rules > .ds-rule (principles)
+   ============================================================ */
+
+/* ---------- the document ---------- */
+.ds-doc {
+  --ds-measure: 1120px; /* the document's width on the sheet */
+  --ds-pad: calc(var(--spacing) * 16); /* section side padding: 64 */
+  --ds-read: 64ch; /* reading measure for prose */
+  width: min(100% - calc(var(--spacing) * 10), var(--ds-measure));
+  margin: calc(var(--spacing) * 10) auto calc(var(--spacing) * 30);
+  overflow: clip; /* not hidden: hidden would stop the nav sticking */
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  container: ds / inline-size;
+  overflow-wrap: break-word;
+}
+.ds-doc code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+.ds-doc a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@container ds (width < 760px) {
+  .ds-doc {
+    --ds-pad: calc(var(--spacing) * 6);
+  }
+}
+
+/* ---------- cover + nav ---------- */
+.ds-cover {
+  padding: calc(var(--spacing) * 20) var(--ds-pad) calc(var(--spacing) * 14);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.ds-cover h2 {
+  margin-top: calc(var(--spacing) * 3);
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-5xl), 9cqi, var(--text-8xl));
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.ds-cover :is(.ds-label, .ds-lede) {
+  color: inherit;
+}
+.ds-cover .ds-lede {
+  margin-top: calc(var(--spacing) * 5);
+  max-width: var(--ds-read);
+  font-size: var(--text-xl);
+}
+.ds-cover dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--spacing) * 3) calc(var(--spacing) * 10);
+  margin-top: calc(var(--spacing) * 10);
+}
+.ds-cover dt {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.ds-cover dd {
+  font-weight: 600;
+}
+.ds-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--spacing) * 1);
+  padding: calc(var(--spacing) * 3) var(--ds-pad);
+  border-bottom: 1px solid var(--color-line);
+  background-color: var(--color-surface);
+}
+.ds-nav a {
+  text-decoration: none;
+  padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 3);
+  border-radius: var(--radius-app);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+.ds-nav a:hover {
+  background-color: var(--color-surface-raised);
+  color: var(--color-ink);
+}
+
+/* ---------- a section and its head ---------- */
+.ds-section {
+  padding: calc(var(--spacing) * 20) var(--ds-pad);
+  border-top: 1px solid var(--color-line);
+  scroll-margin-top: calc(var(--spacing) * 14); /* under the sticky nav */
+}
+.ds-head {
+  display: grid;
+  gap: calc(var(--spacing) * 4) calc(var(--spacing) * 12);
+  margin-bottom: calc(var(--spacing) * 12);
+}
+@container ds (width >= 900px) {
+  .ds-head {
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+  }
+}
+.ds-head-n {
+  display: flex;
+  align-items: baseline;
+  gap: calc(var(--spacing) * 3);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-ink-muted);
+}
+.ds-kicker,
+.ds-label {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+.ds-head h3 {
+  margin-top: calc(var(--spacing) * 2);
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.ds-lede {
+  max-width: var(--ds-read);
+  font-size: var(--text-lg);
+  color: var(--color-ink-muted);
+}
+.ds-sub {
+  margin: calc(var(--spacing) * 14) 0 calc(var(--spacing) * 5);
+}
+.ds-sub:first-of-type {
+  margin-top: 0;
+}
+.ds-sub h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+.ds-sub p {
+  margin-top: calc(var(--spacing) * 1);
+  max-width: var(--ds-read);
+  color: var(--color-ink-muted);
+}
+
+/* ---------- blocks ---------- */
+.ds-grid {
+  display: grid;
+  gap: calc(var(--spacing) * 5);
+}
+@container ds (width >= 760px) {
+  .ds-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ds-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .ds-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.ds-card {
+  padding: calc(var(--spacing) * 6);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+.ds-card h4 {
+  font-weight: 700;
+}
+.ds-card p {
+  margin-top: calc(var(--spacing) * 1);
+  color: var(--color-ink-muted);
+}
+.ds-note {
+  max-width: var(--ds-read);
+  padding: calc(var(--spacing) * 4) calc(var(--spacing) * 5);
+  border-left: 4px solid var(--color-accent);
+  background-color: var(--color-surface-raised);
+}
+.ds-todo {
+  padding: calc(var(--spacing) * 5) calc(var(--spacing) * 6);
+  border: 1.5px dashed var(--color-line);
+  border-radius: var(--radius-card);
+  color: var(--color-ink-muted);
+}
+.ds-todo::before {
+  content: "To fill in";
+  display: block;
+  margin-bottom: calc(var(--spacing) * 1);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ds-stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--spacing) * 6);
+  padding: calc(var(--spacing) * 8);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+.ds-cap {
+  margin-top: calc(var(--spacing) * 2);
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+}
+.ds-list {
+  max-width: var(--ds-read);
+  padding-left: calc(var(--spacing) * 5);
+  list-style: disc;
+}
+.ds-list li + li {
+  margin-top: calc(var(--spacing) * 2);
+}
+.ds-do,
+.ds-dont {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 1.5);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+.ds-do {
+  color: var(--color-positive);
+}
+.ds-dont {
+  color: var(--color-danger);
+}
+
+/* ---------- tables ---------- */
+.ds-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+}
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.ds-table :is(th, td) {
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
+  text-align: left;
+  vertical-align: top;
+}
+.ds-table thead th {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+.ds-table tbody tr {
+  border-top: 1px solid var(--color-line);
+}
+
+/* ---------- colour swatches ---------- */
+.ds-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: calc(var(--spacing) * 5);
+}
+.ds-swatch-fill {
+  display: flex;
+  height: calc(var(--spacing) * 28);
+  align-items: flex-end;
+  padding: calc(var(--spacing) * 3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+.ds-swatch code {
+  display: block;
+  margin-top: calc(var(--spacing) * 2);
+  font-weight: 600;
+}
+.ds-swatch p {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+}
+
+/* ---------- principles ---------- */
+.ds-rules {
+  display: grid;
+  gap: calc(var(--spacing) * 5);
+  counter-reset: ds-rule;
+}
+.ds-rule {
+  padding: calc(var(--spacing) * 6);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-raised);
+  counter-increment: ds-rule;
+}
+.ds-rule h4::before {
+  content: counter(ds-rule) ". ";
+  color: var(--color-ink-muted);
+}
+.ds-rule h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+.ds-rule dl {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+  margin-top: calc(var(--spacing) * 4);
+}
+.ds-rule dt {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}

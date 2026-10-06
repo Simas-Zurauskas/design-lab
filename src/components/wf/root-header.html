@@ -1,0 +1,6 @@
+<!-- wf root-header — a top-level screen's head (one a tab opens): the large title, up to two icon actions on the right.
+     In .wf-top, after the status bar. Locals: title, actions (opt., array of { icon, label, href }). -->
+<div class="flex items-end gap-1 px-4 pt-2 pb-3">
+  <h1 class="min-w-0 flex-1 truncate text-[34px]/[41px] font-bold tracking-tight">{{ this.title || '' }}</h1>
+  <each loop="a in (this.actions || [])"><a href="{{ a.href || '#' }}" class="wf-icon-btn -mr-2" aria-label="{{ a.label || '' }}"><i data-lucide="{{ a.icon || 'circle' }}" class="h-6 w-6"></i></a></each>
+</div>

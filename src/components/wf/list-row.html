@@ -1,0 +1,20 @@
+<!-- wf list-row — one row of a list, min 60 tall, edge to edge of the gutter: a leading thumb, icon or avatar, a title and
+     a sub line, a trailing value, a chevron when it opens something. Rows sit in a .wf-rule list (hairlines between).
+     Locals: title, sub (opt.), value (opt.), href (opt.: a link with a chevron; none = read-only), thumb (opt.: true =
+     an image placeholder), icon (opt. Lucide name), initials (opt.: an avatar), external (opt.: arrow-up-right in place
+     of the chevron — leaves the app). -->
+<if condition="this.href"><a href="{{ this.href ?? '' }}" class="flex min-h-15 items-center gap-3 py-2">
+  <if condition="this.thumb"><span class="wf-img h-12 w-12 flex-none rounded-lg" aria-hidden="true"></span></if>
+  <elseif condition="this.initials"><span class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gray-100 text-[15px] font-semibold" aria-hidden="true">{{ this.initials ?? '' }}</span></elseif>
+  <elseif condition="this.icon"><i data-lucide="{{ this.icon ?? '' }}" class="h-6 w-6 flex-none"></i></elseif>
+  <span class="min-w-0 flex-1"><span class="block truncate text-[17px]/[22px] font-semibold">{{ this.title || '' }}</span><if condition="this.sub"><span class="block truncate text-[15px]/5 text-gray-600">{{ this.sub ?? '' }}</span></if></span>
+  <if condition="this.value"><span class="text-[15px] text-gray-600">{{ this.value ?? '' }}</span></if>
+  <i data-lucide="{{ this.external ? 'arrow-up-right' : 'chevron-right' }}" class="h-5 w-5 flex-none text-gray-400"></i>
+</a></if>
+<else><div class="flex min-h-15 items-center gap-3 py-2">
+  <if condition="this.thumb"><span class="wf-img h-12 w-12 flex-none rounded-lg" aria-hidden="true"></span></if>
+  <elseif condition="this.initials"><span class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gray-100 text-[15px] font-semibold" aria-hidden="true">{{ this.initials ?? '' }}</span></elseif>
+  <elseif condition="this.icon"><i data-lucide="{{ this.icon ?? '' }}" class="h-6 w-6 flex-none"></i></elseif>
+  <span class="min-w-0 flex-1"><span class="block truncate text-[17px]/[22px] font-semibold">{{ this.title || '' }}</span><if condition="this.sub"><span class="block truncate text-[15px]/5 text-gray-600">{{ this.sub ?? '' }}</span></if></span>
+  <if condition="this.value"><span class="text-[15px] text-gray-600">{{ this.value ?? '' }}</span></if>
+</div></else>

@@ -1,0 +1,5 @@
+<!-- wf chips — a row of on/off filters, each switched in place (button aria-pressed, a dotted hotspot); wraps.
+     Locals: label (the group's name, for aria-label), items (array of { label, on }). -->
+<div role="group" aria-label="{{ this.label || '' }}" class="flex flex-wrap gap-2">
+  <each loop="c in (this.items || [])"><button type="button" aria-pressed="{{ c.on ? 'true' : 'false' }}" class="wf-chip">{{ c.label || '' }}</button></each>
+</div>

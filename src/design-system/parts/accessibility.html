@@ -1,0 +1,19 @@
+<!-- Design System · accessibility: the floor every screen meets. The section id is "inclusive", not "accessibility": the
+     hex audit (CLAUDE.md rule 2) would read a link to "#acce…" as a hex colour. -->
+<section class="ds-section" id="inclusive" aria-labelledby="ds-access-title">
+  <div class="ds-head">
+    <div>
+      <p class="ds-head-n">06 <span class="ds-kicker">Accessibility</span></p>
+      <h3 id="ds-access-title">The floor, not a feature.</h3>
+    </div>
+    <p class="ds-lede">These hold on every screen, in every theme. A design that can't meet one is redrawn, not excused.</p>
+  </div>
+  <div class="ds-grid ds-grid--3">
+    <div class="ds-card"><h4>Contrast</h4><p>4.5 : 1 for text, 3 : 1 for large text, icons and control edges. Colour is never the only cue.</p></div>
+    <div class="ds-card"><h4>Targets</h4><p>44 × 44 at least, for every link and control, whatever it draws.</p></div>
+    <div class="ds-card"><h4>Names</h4><p>Icon-only controls carry a label; a toggle says its state (<code>aria-pressed</code>, <code>aria-checked</code>).</p></div>
+    <div class="ds-card"><h4>Text size</h4><p>Layouts survive the largest text setting: lines wrap, rows grow, nothing clips.</p></div>
+    <div class="ds-card"><h4>Motion</h4><p>Reduced motion keeps every state change, without the movement.</p></div>
+    <div class="ds-card"><h4>Focus</h4><p>A visible focus ring on every focusable thing, on every surface.</p></div>
+  </div>
+</section>

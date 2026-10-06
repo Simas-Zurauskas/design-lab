@@ -1,13 +1,19 @@
 /* ============================================================
    THEME — single source of truth for all high-fidelity styling.
-   Swap this file (or its values) per project; the Theme page and
-   every hi-fi screen re-skin automatically.
-   `static` forces ALL tokens into the CSS output so the Theme
-   page can read them even before a utility uses them.
+   Swap this file (or its values) per project; the Design System
+   document and every hi-fi screen re-skin automatically.
+   `static` forces ALL tokens into the CSS output so the document
+   can read them even before a utility uses them.
 
    Current brand: NONE — neutral placeholder. Replace the values
    below with the project's real palette and type; keep the token
-   NAMES (screens and the Theme page reference them).
+   NAMES (screens and the Design System document reference them).
+   Name tokens for their job (primary, ink, line), never their hue.
+   When the system outgrows one flat block, split it into tiers —
+   primitives → contract roles → derived → component (the Design
+   System's Build part). Never reset Tailwind's defaults here
+   (--color-*: initial, --spacing, --font-sans …): the wireframes
+   and the Explorations rounds use them.
    ============================================================ */
 @theme static {
   /* brand */

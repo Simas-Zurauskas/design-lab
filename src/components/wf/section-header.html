@@ -1,0 +1,6 @@
+<!-- wf section-header — a titled group in a scrolling screen: title on the left, an optional text action on the right.
+     Give the section aria-labelledby the id. Locals: title, id (opt.), action (opt. object { label, href }). -->
+<div class="flex h-11 items-end justify-between gap-3 pb-1">
+  <h2 id="{{ this.id || '' }}" class="text-[22px]/7 font-bold">{{ this.title || '' }}</h2>
+  <if condition="this.action"><a href="{{ this.action ? this.action.href || '#' : '#' }}" class="text-[15px] font-semibold underline underline-offset-4">{{ this.action ? this.action.label : '' }}</a></if>
+</div>

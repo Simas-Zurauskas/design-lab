@@ -1,0 +1,13 @@
+<!-- wf text-field — a labelled input, drawn (not typed into): a label above, the value or a gray placeholder, a helper or
+     an error line below. Locals: label, value (opt.), placeholder (opt.), icon (opt. leading Lucide), helper (opt.),
+     error (opt.: replaces the helper; the field gets the heavy edge and an alert icon). -->
+<div>
+  <p class="mb-1.5 text-[15px] font-semibold">{{ this.label || '' }}</p>
+  <div class="wf-field{{ this.error ? ' wf-field--error' : '' }}">
+    <if condition="this.icon"><i data-lucide="{{ this.icon ?? '' }}" class="h-5 w-5 flex-none text-gray-500"></i></if>
+    <if condition="this.value"><span class="min-w-0 flex-1 truncate">{{ this.value ?? '' }}</span></if>
+    <else><span class="min-w-0 flex-1 truncate text-gray-400">{{ this.placeholder || '' }}</span></else>
+  </div>
+  <if condition="this.error"><p class="mt-1.5 flex items-center gap-1.5 text-[15px] font-semibold"><i data-lucide="circle-alert" class="h-4 w-4"></i>{{ this.error ?? '' }}</p></if>
+  <elseif condition="this.helper"><p class="mt-1.5 text-[15px] text-gray-600">{{ this.helper ?? '' }}</p></elseif>
+</div>

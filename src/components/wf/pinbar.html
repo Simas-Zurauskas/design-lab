@@ -1,0 +1,12 @@
+<!-- wf pinbar — the pinned action bar, 102 tall (16 + 52 + 34); last child of a .wf-frame--pinned. Never with a tab bar.
+     One primary button, or a paired footer (Cancel + the act, two columns), with an optional helper line above (why
+     it's disabled, what happens next). Locals: label, href (opt.; none = a plain button), icon (opt.), variant (opt.
+     "danger"), disabled (opt.), helper (opt.), cancel (opt. href: makes it paired), cancelLabel (opt.; default "Cancel"). -->
+<div class="wf-pinbar">
+  <if condition="this.helper"><p class="mb-3 text-center text-[15px]/5 text-gray-600">{{ this.helper ?? '' }}</p></if>
+  <div class="{{ this.cancel ? 'grid grid-cols-2 gap-2' : '' }}">
+    <if condition="this.cancel"><a href="{{ this.cancel ?? '' }}" class="wf-btn">{{ this.cancelLabel || 'Cancel' }}</a></if>
+    <if condition="this.href && !this.disabled"><a href="{{ this.href ?? '' }}" class="wf-btn wf-btn--{{ this.variant || 'primary' }}"><if condition="this.icon || this.variant === 'danger'"><i data-lucide="{{ this.icon || 'triangle-alert' }}" class="h-5 w-5"></i></if>{{ this.label || '' }}</a></if>
+    <else><button type="button" aria-disabled="{{ this.disabled ? 'true' : 'false' }}" class="wf-btn wf-btn--{{ this.variant || 'primary' }}"><if condition="this.icon"><i data-lucide="{{ this.icon ?? '' }}" class="h-5 w-5"></i></if>{{ this.label || '' }}</button></else>
+  </div>
+</div>

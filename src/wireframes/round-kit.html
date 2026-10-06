@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes · Kit — Design Lab</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-section="wireframes" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
+        <div>
+          <h1>Wireframes</h1>
+          <include src="wireframes/parts/packages.html"></include>
+        </div>
+        <include src="_lab/shell/controls.html"></include>
+      </header>
+
+      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench components (_lab/canvas/).
+           The CONTENT here is the kit: a group per family, a board per part and state, each board captioned with the locals
+           it was given. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="Wireframe kit canvas">
+        <div data-canvas-world class="lab-canvas-world">
+        <div class="lab-row">
+          <div class="lab-board wf-board w-[820px]">
+            <h2>Kit</h2>
+            <p>The grayscale wireframe parts, <code>src/components/wf/*.html</code> — one part per file, its locals listed in its header comment — with their recipes in the <code>/* wireframes */</code> block of <code>src/styles.css</code>. Geometry and hierarchy follow the Design System's Layout part, in gray only.</p>
+            <p>Screens are built from these parts; a layout that repeats becomes a part (project parts are named for what they are, package-specific ones prefixed with their package). Each board: the part, then the locals it was given.</p>
+            <p><a href="index.html">← Overview</a></p>
+          </div>
+        </div>
+        <div class="lab-row">
+        <section class="lab-group">
+          <h2 class="lab-group-title">Frame and bars</h2>
+          <div class="flex w-[1700px] flex-wrap items-start gap-10">
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">status — 47</p>
+              <div class=""><include src="components/wf/status.html"></include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">root-header — title + action</p>
+              <div class=""><include src="components/wf/root-header.html">{"title": "Home", "actions": [{"icon": "plus", "label": "New item", "href": "#"}]}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">nav-bar — back + title + action</p>
+              <div class=""><include src="components/wf/nav-bar.html">{"back": "#", "title": "Settings", "actions": [{"icon": "share", "label": "Share", "href": "#"}]}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">nav-bar — close (a modal)</p>
+              <div class=""><include src="components/wf/nav-bar.html">{"close": "#", "title": "New item"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">tabbar — 83, absolute bottom</p>
+              <div class=""><div class="relative overflow-hidden" style="height:83px"><include src="components/wf/tabbar.html">{"current": "home"}</include></div></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">pinbar — 102, absolute bottom</p>
+              <div class=""><div class="relative overflow-hidden" style="height:102px"><include src="components/wf/pinbar.html">{"label": "Continue", "href": "#"}</include></div></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">pinbar — disabled + helper</p>
+              <div class=""><div class="relative overflow-hidden" style="height:138px"><include src="components/wf/pinbar.html">{"label": "Continue", "disabled": true, "helper": "Pick a size first"}</include></div></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">pinbar — paired, danger</p>
+              <div class=""><div class="relative overflow-hidden" style="height:102px"><include src="components/wf/pinbar.html">{"label": "Delete", "href": "#", "cancel": "#", "variant": "danger"}</include></div></div>
+            </div>
+          </div>
+        </section>
+        <section class="lab-group">
+          <h2 class="lab-group-title">Rows and controls</h2>
+          <div class="flex w-[1700px] flex-wrap items-start gap-10">
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">section-header + action</p>
+              <div class="px-4 pb-2"><include src="components/wf/section-header.html">{"title": "Items", "action": {"label": "See all", "href": "#"}}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">list-row — thumb, link</p>
+              <div class="px-4"><include src="components/wf/list-row.html">{"href": "#", "thumb": true, "title": "First item", "sub": "A line about it"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">list-row — avatar + value</p>
+              <div class="px-4"><include src="components/wf/list-row.html">{"href": "#", "initials": "AB", "title": "Alex Brown", "value": "Admin"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">list-row — icon, external</p>
+              <div class="px-4"><include src="components/wf/list-row.html">{"href": "#", "icon": "life-buoy", "title": "Help centre", "external": true}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">list-row — read-only</p>
+              <div class="px-4"><include src="components/wf/list-row.html">{"title": "Version", "value": "1.0"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">toggle-row — off</p>
+              <div class="px-4"><include src="components/wf/toggle-row.html">{"label": "Notify me", "sub": "When it changes"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">toggle-row — on</p>
+              <div class="px-4"><include src="components/wf/toggle-row.html">{"label": "Notify me", "on": true}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">segmented</p>
+              <div class="p-4"><include src="components/wf/segmented.html">{"label": "Size", "options": ["Small", "Medium", "Large"], "current": "Medium"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">chips</p>
+              <div class="p-4"><include src="components/wf/chips.html">{"label": "Filter", "items": [{"label": "All", "on": true}, {"label": "Saved"}, {"label": "Recent"}]}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">button — primary</p>
+              <div class="p-4"><include src="components/wf/button.html">{"label": "Continue", "href": "#", "variant": "primary"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">button — secondary</p>
+              <div class="p-4"><include src="components/wf/button.html">{"label": "Not now", "href": "#"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">button — danger</p>
+              <div class="p-4"><include src="components/wf/button.html">{"label": "Delete", "href": "#", "variant": "danger"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">button — small toggle, on</p>
+              <div class="p-4"><include src="components/wf/button.html">{"label": "Following", "toggle": true, "on": true, "small": true, "icon": "check"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">text-field — placeholder + helper</p>
+              <div class="p-4"><include src="components/wf/text-field.html">{"label": "Email", "placeholder": "you@example.com", "helper": "We send a code there"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">text-field — error</p>
+              <div class="p-4"><include src="components/wf/text-field.html">{"label": "Email", "value": "you@example", "error": "That is not an email address"}</include></div>
+            </div>
+          </div>
+        </section>
+        <section class="lab-group">
+          <h2 class="lab-group-title">States and layers</h2>
+          <div class="flex w-[1700px] flex-wrap items-start gap-10">
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">empty</p>
+              <div class=""><include src="components/wf/empty.html">{"icon": "inbox", "title": "Nothing here yet", "body": "A line on how this fills up.", "action": "New item", "href": "#"}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">empty — big, with a second way out</p>
+              <div class=""><include src="components/wf/empty.html">{"icon": "wifi-off", "title": "You are offline", "body": "Check the connection and try again.", "action": "Try again", "href": "#", "secondary": {"label": "Go back", "href": "#"}, "big": true}</include></div>
+            </div>
+            <div class="lab-board w-[390px] bg-white font-sans text-gray-900">
+              <p class="border-b border-gray-200 px-4 py-2 font-mono text-[12px] text-gray-500">dialog — danger, over a page</p>
+              <div class=""><div class="relative overflow-hidden" style="height:360px"><include src="components/wf/dialog.html">{"title": "Remove this item?", "body": "You cannot undo this.", "label": "Remove", "href": "#", "cancel": "#", "danger": true}</include></div></div>
+            </div>
+          </div>
+        </section>
+        <section class="lab-group">
+          <h2 class="lab-group-title">Canvas</h2>
+          <div class="flex w-[1700px] flex-wrap items-start gap-10">
+            <div class="lab-board w-[440px] bg-gray-100 p-5">
+              <p class="mb-2 font-mono text-[12px] text-gray-500">note — under a frame on a package canvas</p>
+              <include src="components/wf/note.html">{"slug": "item", "text": "One line of what the frame shows.", "items": ["A skipped step, a handoff or an open question."], "rows": [["A variation", "What differs from the frame"], ["Another one", "What differs"]]}</include>
+            </div>
+          </div>
+        </section>
+        </div>
+        </div>
+        <include src="_lab/canvas/canvas.html"></include>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

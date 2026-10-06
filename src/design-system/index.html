@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design System — Design Lab</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-section="design-system" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
+        <div>
+          <h1>Design System</h1>
+        </div>
+        <include src="_lab/shell/controls.html"></include>
+      </header>
+
+      <!-- LAB CHROME sheet: [data-lab-sheet] and the lab-* classes are workbench components (_lab/sheet/).
+           The CONTENT is the design-system document: a cover, a nav, then one <section class="ds-section"> per part in
+           design-system/parts/, styled by design-system/system.css (.ds-*, tokens only). Token values live only in
+           theme.css. Add a section: its part file, its <include> below, its link in the nav. -->
+      <div data-lab-sheet class="lab-sheet" role="region" aria-label="The design system">
+        <article class="ds-doc">
+          <include src="design-system/parts/overview.html"></include>
+
+          <nav class="ds-nav" aria-label="Design system">
+            <a href="#principles">Principles</a><a href="#color">Colour</a><a href="#type">Type</a><a href="#layout">Layout</a><a href="#components">Components</a><a href="#inclusive">Accessibility</a><a href="#implementation">Build</a>
+          </nav>
+
+          <include src="design-system/parts/principles.html"></include>
+          <include src="design-system/parts/color.html"></include>
+          <include src="design-system/parts/type.html"></include>
+          <include src="design-system/parts/layout.html"></include>
+          <include src="design-system/parts/components.html"></include>
+          <include src="design-system/parts/accessibility.html"></include>
+          <include src="design-system/parts/implementation.html"></include>
+        </article>
+        <include src="_lab/sheet/sheet.html"></include>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

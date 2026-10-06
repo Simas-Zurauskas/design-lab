@@ -1,0 +1,36 @@
+<!-- Design System · layout: the geometry every screen sits on — frame, safe areas, bars, gutter, targets, control
+     heights, radii. The WIREFRAMES draw these same numbers in gray (the /* wireframes */ block in src/styles.css):
+     change a number here, change it there and in theme.css in the same edit. -->
+<section class="ds-section" id="layout" aria-labelledby="ds-layout-title">
+  <div class="ds-head">
+    <div>
+      <p class="ds-head-n">04 <span class="ds-kicker">Layout</span></p>
+      <h3 id="ds-layout-title">One frame, a few fixed numbers.</h3>
+    </div>
+    <p class="ds-lede">Screens are drawn at 390 × 844. Bars, the gutter and touch targets are fixed numbers, shared by the wireframes and hi-fi, so a frame drawn in gray already has its final proportions.</p>
+  </div>
+
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead><tr><th scope="col">What</th><th scope="col">Size</th><th scope="col">Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Frame</td><td>390 × 844</td><td>The design size; content reflows from 320 wide up.</td></tr>
+        <tr><td>Status bar</td><td>47</td><td>Top safe area; nothing tappable in it.</td></tr>
+        <tr><td>Nav bar</td><td>44</td><td>Back or close on the left, title centred, up to two actions.</td></tr>
+        <tr><td>Tab bar</td><td>83 (49 + 34)</td><td>Top-level destinations only; never with a pinned bar.</td></tr>
+        <tr><td>Pinned bar</td><td>102 (16 + 52 + 34)</td><td>The screen's one act (or Cancel + the act).</td></tr>
+        <tr><td>Gutter</td><td>16</td><td>Content's side margin; rows run edge to edge of it.</td></tr>
+        <tr><td>Touch target</td><td>44 × 44 min</td><td>Every link and control, whatever it draws.</td></tr>
+        <tr><td>Button, field</td><td>52 (small 40)</td><td>Full width in the content; small hugs its label.</td></tr>
+        <tr><td>List row</td><td>60 min</td><td>Hairlines between rows, not boxes around them.</td></tr>
+        <tr><td>Spacing</td><td>4 grid</td><td>Tailwind's spacing scale (<code>--spacing</code> = 4 px).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-sub"><h4>Radii</h4><p>From theme.css.</p></div>
+  <div class="ds-stage">
+    <div><div class="h-20 w-32 rounded-app border border-line bg-surface"></div><p class="ds-cap"><code>rounded-app</code> — controls</p></div>
+    <div><div class="h-20 w-32 rounded-card border border-line bg-surface"></div><p class="ds-cap"><code>rounded-card</code> — cards, sheets</p></div>
+  </div>
+</section>

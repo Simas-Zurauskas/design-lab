@@ -1,0 +1,40 @@
+<!-- Design System · implementation: how to build with the system — the token tiers in theme.css, how screens use them,
+     the file map, the change policy. -->
+<section class="ds-section" id="implementation" aria-labelledby="ds-impl-title">
+  <div class="ds-head">
+    <div>
+      <p class="ds-head-n">07 <span class="ds-kicker">Build</span></p>
+      <h3 id="ds-impl-title">Tokens in one file, used by name.</h3>
+    </div>
+    <p class="ds-lede">Every value lives in <code>src/theme.css</code>. Screens and components use its names as Tailwind utilities (<code>bg-primary</code>, <code>text-ink</code>, <code>rounded-card</code>, <code>font-display</code>) — never a hex, never a palette class.</p>
+  </div>
+
+  <div class="ds-sub"><h4>How theme.css grows</h4><p>Start flat (one block of roles, as now). When the system needs more, split it top to bottom into tiers:</p></div>
+  <div class="ds-table-wrap">
+    <table class="ds-table">
+      <thead><tr><th scope="col">Tier</th><th scope="col">Names</th><th scope="col">What it holds</th></tr></thead>
+      <tbody>
+        <tr><td>Primitives</td><td><code>--&lt;prefix&gt;-&lt;name&gt;</code></td><td>Raw values (every theme's colours). No utilities; no component reads them.</td></tr>
+        <tr><td>Contract</td><td><code>--color-&lt;role&gt;</code></td><td>The roles a theme sets — a new theme is one block of these.</td></tr>
+        <tr><td>Derived</td><td><code>--color-&lt;role&gt;</code></td><td>Computed from the contract (<code>color-mix</code>): muted, pressed, washes.</td></tr>
+        <tr><td>Component</td><td><code>--&lt;prefix&gt;-&lt;part&gt;-*</code></td><td>Per-part colours and sizes, when a part needs its own.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="ds-cap">Plus the non-colour scales — type, spacing, radius, shadow, motion — as Tailwind namespaces where they make utilities. Never reset Tailwind's defaults in theme.css: the wireframes and Explorations use them.</p>
+
+  <div class="ds-sub"><h4>Where things are</h4></div>
+  <ul class="ds-list">
+    <li><code>src/theme.css</code> — every token; a re-skin edits only this file.</li>
+    <li><code>src/design-system/parts/*.html</code> — this document, one part per section; <code>design-system/system.css</code> — its styles (<code>.ds-*</code>).</li>
+    <li><code>src/components/hifi/</code> — the parts; their shared CSS in <code>components/hifi/css/</code> under one class prefix.</li>
+    <li><code>src/hifi/</code> — screens built from those parts.</li>
+  </ul>
+
+  <div class="ds-sub"><h4>Changing the system</h4></div>
+  <ul class="ds-list">
+    <li>A value: edit theme.css; check the pairs in Colour still pass.</li>
+    <li>A geometry number (Layout): change it here, in theme.css, and in the wireframe kit in the same edit.</li>
+    <li>A new part: its file in <code>components/hifi/</code>, its states on the Components canvas, its row in Components above.</li>
+  </ul>
+</section>

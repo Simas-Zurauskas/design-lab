@@ -1,0 +1,12 @@
+<!-- wf tabbar — the app's top-level destinations, 83 tall (49 + 34 home indicator); last child of a .wf-frame--tabs.
+     The tabs are the PROJECT's: edit them here once and every screen follows. The current tab is a <span
+     aria-current="page"> (does nothing); the others are links.
+     Locals: current ("home" | "search" | "profile"), home / search / profile (hrefs; default "#"). -->
+<nav aria-label="Tabs" class="wf-tabbar">
+  <if condition="this.current === 'home'"><span aria-current="page" class="wf-tab"><i data-lucide="house" class="h-6 w-6"></i>Home</span></if>
+  <else><a href="{{ this.home || '#' }}" class="wf-tab"><i data-lucide="house" class="h-6 w-6"></i>Home</a></else>
+  <if condition="this.current === 'search'"><span aria-current="page" class="wf-tab"><i data-lucide="search" class="h-6 w-6"></i>Search</span></if>
+  <else><a href="{{ this.search || '#' }}" class="wf-tab"><i data-lucide="search" class="h-6 w-6"></i>Search</a></else>
+  <if condition="this.current === 'profile'"><span aria-current="page" class="wf-tab"><i data-lucide="circle-user-round" class="h-6 w-6"></i>Profile</span></if>
+  <else><a href="{{ this.profile || '#' }}" class="wf-tab"><i data-lucide="circle-user-round" class="h-6 w-6"></i>Profile</a></else>
+</nav>

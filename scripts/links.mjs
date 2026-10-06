@@ -4,15 +4,25 @@
 //   → goes to a screen       <a href="screen-05.html">
 //   ◦ changes the UI         <button aria-pressed> / role="radio" (see src/_lab/screen/interact.js)
 //   · does nothing yet       <a href="#"> (placeholder) / a plain <button> — not clickable in the lab
-// Read with posthtml-parser — the parser the build's <include> runs on — so comments, quoting and entities count
-// the way the build counts them. Fails (exit 1) on: links to pages that don't exist; links and controls with no
-// accessible name (CLAUDE.md rule 4); a caption or frame title out of step with the screen's <title> — on the
-// section's index (canvas or sheet) and on its round pages (round-*.html, Explorations).
+// Each screen is expanded by the build's own pipeline — posthtml + posthtml-include, options from .posthtmlrc —
+// so an <include>'s locals, {{ expressions }}, <if> / <each> resolve exactly as they do in dist/, and comments, quoting
+// and entities count the way the build counts them; the checks read the expanded page. Fails (exit 1) on: links to
+// pages that don't exist; links and controls with no accessible name (CLAUDE.md rule 4); a caption or frame title
+// out of step with the screen's <title> — on the section's index (canvas or sheet) and on its round pages
+// (round-*.html, Explorations); a screen the build can't expand (a throwing expression).
 // Also lists placeholders and screens nothing links to. Tests: test/links.test.mjs.
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname, resolve, relative, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
 import { parser } from 'posthtml-parser';
+
+// posthtml and its match() exactly as posthtml-include resolves them — the very modules the build runs
+const fromInclude = createRequire(createRequire(import.meta.url).resolve('posthtml-include'));
+const posthtml = fromInclude('posthtml');
+const { match } = fromInclude('posthtml/lib/api');
+const include = fromInclude('posthtml-include');
+const POSTHTMLRC = JSON.parse(readFileSync(new URL('../.posthtmlrc', import.meta.url), 'utf8'));
 
 const NAMED = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
 const decode = (s) =>
@@ -22,17 +32,30 @@ const decode = (s) =>
 const isElement = (n) => n !== null && typeof n === 'object';
 const isMarkup = (n) => typeof n === 'string' && n.startsWith('<!'); // a comment or the doctype — not text
 
-// <include src="…"> inlined the way posthtml-include does it (paths from src/); lab chrome is skipped — its links
-// (‹ Gallery …) aren't part of any design
-const parseFile = (file, src, depth = 0) => expand(parser(readFileSync(file, 'utf8')), src, depth);
-const expand = (nodes, src, depth) =>
-  nodes.flatMap((n) => {
-    if (!isElement(n)) return [n];
-    if (n.tag !== 'include') return [{ ...n, content: n.content && expand(n.content, src, depth) }];
-    const path = n.attrs?.src;
-    const file = path && join(src, path);
-    return !file || path.startsWith('_lab/') || depth > 8 || !existsSync(file) ? [] : parseFile(file, src, depth + 1);
-  });
+// <include src="…"> expanded by posthtml-include itself, with .posthtmlrc's options (`root` → `src`): locals
+// from the JSON body or `locals` attribute, posthtml-expressions with its defaults, nested includes. Two
+// departures, both in the include matcher, which every nested include inherits: lab chrome (`_lab/…`) is dropped —
+// its links (‹ Gallery …) aren't part of any design — and so is an include of a file that doesn't exist (the
+// build fails on that itself). The Lucide icon plugin is not run: an icon-only control is named by its data-lucide.
+const expander = (src) => {
+  const plugin = include({ ...POSTHTMLRC.plugins['posthtml-include'], root: src });
+  // one plugin, not two: posthtml re-attaches its own match() to the tree before each plugin runs
+  const designOnly = (tree) => {
+    tree.match = function (expression, cb) {
+      return match.call(this, expression, (node) => {
+        const path = node.attrs?.src;
+        const drop = expression?.tag === 'include' && (!path || path.startsWith('_lab/') || !existsSync(join(src, path)));
+        return drop ? { tag: false, content: [] } : cb(node);
+      });
+    };
+    return plugin(tree);
+  };
+  const pipeline = posthtml([designOnly]);
+  return (file) => flatten(pipeline.process(readFileSync(file, 'utf8'), { sync: true }).tree);
+};
+// an expanded <include> is a tag-less node around its content: lift the content into place
+const flatten = (nodes) =>
+  (nodes ?? []).flatMap((n) => (!isElement(n) ? [n] : n.tag === false ? flatten(n.content) : [{ ...n, content: n.content && flatten(n.content) }]));
 
 /** every element under `nodes`, with its ancestors */
 function* elements(nodes, ancestors = []) {
@@ -60,9 +83,16 @@ const nameOf = (n) => {
   return { label: icon ? `[icon ${icon}]` : '[no label]', named: false };
 };
 
-/** one screen: its title, links, controls (buttons, toggles, choices) and radio groups */
-export function readScreen(file, src) {
-  const all = [...elements(parseFile(file, src))];
+/** one screen, expanded the way the build expands it: its title, links, controls (buttons, toggles, choices) and
+ * radio groups — or, when the build couldn't expand it either (bad locals JSON, a throwing expression), `error` */
+export function readScreen(file, src, expand = expander(src)) {
+  let tree;
+  try {
+    tree = expand(file);
+  } catch (e) {
+    return { file: basename(file), title: basename(file), links: [], controls: [], groups: [], error: String(e?.message ?? e).split('\n')[0] };
+  }
+  const all = [...elements(tree)];
   const title = textOf(all.find(({ node }) => node.tag === 'title')?.node.content) || basename(file);
   const links = [];
   const controls = [];
@@ -100,6 +130,7 @@ export function readCanvas(file) {
 
 /** every section with screens under `src`: its screens with resolved links, orphans, and problems (each fails) */
 export function analyze(src) {
+  const expand = expander(src);
   return readdirSync(src)
     .filter((d) => !d.startsWith('_') && statSync(join(src, d)).isDirectory())
     .sort()
@@ -112,11 +143,12 @@ export function analyze(src) {
     }))
     .filter((sec) => sec.files.length)
     .map(({ name, dir, files }) => {
-      const screens = files.map((f) => readScreen(join(dir, f), src));
+      const screens = files.map((f) => readScreen(join(dir, f), src, expand));
       const byPath = new Map(screens.map((s) => [join(dir, s.file), s]));
       const incoming = new Map(screens.map((s) => [s, 0]));
       const problems = [];
       for (const s of screens) {
+        if (s.error) problems.push(`${s.title}: the build can't expand it — ${s.error}`);
         s.links = s.links.map((l) => {
           if (!l.href || l.href.startsWith('#')) return { ...l, to: 'placeholder' };
           if (/^[a-z][a-z0-9+.-]*:/i.test(l.href)) return { ...l, to: 'external' };

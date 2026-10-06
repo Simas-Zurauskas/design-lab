@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes · Sample — Design Lab</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-section="wireframes" class="lab-page">
+  <div class="lab-shell">
+    <include src="_lab/shell/sidebar.html"></include>
+    <main class="lab-main">
+      <header class="lab-header">
+        <div>
+          <h1>Wireframes</h1>
+          <include src="wireframes/parts/packages.html"></include>
+        </div>
+        <include src="_lab/shell/controls.html"></include>
+      </header>
+
+      <!-- LAB CHROME canvas: [data-canvas], [data-canvas-world] and every lab-* class are workbench components (_lab/canvas/).
+           The CONTENT here is only the arrangement — groups (a journey each) → rows → screens, each with its canvas note
+           (components/wf/note.html) under the phone; .wf-board for the words. -->
+      <div data-canvas class="lab-canvas" role="region" aria-label="Sample canvas">
+        <div data-canvas-world class="lab-canvas-world">
+        <div class="lab-row">
+          <div class="lab-board wf-board w-[820px]">
+            <h2>Sample</h2>
+            <p>A placeholder package: one journey in 4 frames, built only from the kit. Copy its shape for a real package, then delete it (its tab, this canvas, its overview board and its screens).</p>
+            <p><a href="index.html">← Overview</a> · <a href="round-kit.html">Kit</a></p>
+          </div>
+        </div>
+        <div class="lab-row">
+        <section class="lab-group">
+          <h2 class="lab-group-title">J1 · Sample flow</h2>
+          <div class="lab-row">
+            <figure class="lab-screen" id="frame-home">
+              <figcaption><a href="screen-home.html">Home</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+              <div class="phone-frame"><iframe src="screen-home.html" title="Home" class="phone-screen" loading="lazy"></iframe></div>
+              <include src="components/wf/note.html">{"slug": "home", "text": "The root screen: a filter row and the list. A row opens its item.", "rows": [["No items yet", "The list is replaced by the empty state with one action (New item)"], ["Loading", "Rows drawn as .wf-line skeletons; the filters stay"]]}</include>
+            </figure>
+            <figure class="lab-screen" id="frame-item">
+              <figcaption><a href="screen-item.html">Item</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+              <div class="phone-frame"><iframe src="screen-item.html" title="Item" class="phone-screen" loading="lazy"></iframe></div>
+              <include src="components/wf/note.html">{"slug": "item", "text": "One item: its picture, words, two in-place controls and the pinned act.", "rows": [["Continue unavailable", "The pinned button is disabled with a helper line saying why"]], "items": ["Details is not designed yet (#)."]}</include>
+            </figure>
+            <figure class="lab-screen" id="frame-item-remove-confirm">
+              <figcaption><a href="screen-item-remove-confirm.html">Remove item?</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+              <div class="phone-frame"><iframe src="screen-item-remove-confirm.html" title="Remove item?" class="phone-screen" loading="lazy"></iframe></div>
+              <include src="components/wf/note.html">{"slug": "item-remove-confirm", "text": "The confirmation over the item. Remove goes back to Home without the item; Cancel returns to it."}</include>
+            </figure>
+            <figure class="lab-screen" id="frame-done">
+              <figcaption><a href="screen-done.html">Done</a><button data-reset class="lab-btn" title="Reset this screen">↺</button></figcaption>
+              <div class="phone-frame"><iframe src="screen-done.html" title="Done" class="phone-screen" loading="lazy"></iframe></div>
+              <include src="components/wf/note.html">{"slug": "done", "text": "The outcome: what happened and the way back. Close and the button both return to Home."}</include>
+            </figure>
+          </div>
+        </section>
+        </div>
+        </div>
+        <include src="_lab/canvas/canvas.html"></include>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
